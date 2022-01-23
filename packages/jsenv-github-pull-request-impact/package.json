@@ -41,7 +41,7 @@
   "dependencies": {
     "@jsenv/filesystem": "2.7.1",
     "@jsenv/logger": "4.0.1",
-    "@jsenv/server": "12.4.0"
+    "@jsenv/server": "12.4.1"
   },
   "devDependencies": {
     "@jsenv/assert": "2.4.1",
