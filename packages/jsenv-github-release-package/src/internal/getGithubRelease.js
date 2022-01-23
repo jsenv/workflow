@@ -11,7 +11,7 @@ export const getGithubRelease = async ({
   const requestUrl = `https://api.github.com/repos/${githubRepositoryOwner}/${githubRepositoryName}/git/ref/tags/${githubReleaseName}`
   const response = await fetchUrl(requestUrl, {
     headers: {
-      authorization: `token ${githubToken}`,
+      authorization: tokenAsAuthorizationHeaderValue(githubToken),
     },
     method: "GET",
   })
@@ -30,6 +30,10 @@ export const getGithubRelease = async ({
   }
   const responseJson = await response.json()
   return responseJson
+}
+
+const tokenAsAuthorizationHeaderValue = (token) => {
+  return `token ${Buffer.from(token).toString("base64")}`
 }
 
 const writeUnexpectedResponseStatus = ({

@@ -16,7 +16,11 @@ export const fetchLatestInRegistry = async ({
       // "user-agent": "jsenv",
       accept:
         "application/vnd.npm.install-v1+json; q=1.0, application/json; q=0.8, */*",
-      ...(token ? { authorization: `token ${token}` } : {}),
+      ...(token
+        ? {
+            authorization: tokenAsAuthorizationHeaderValue(token),
+          }
+        : {}),
     },
   })
   const responseStatus = response.status
@@ -34,6 +38,10 @@ export const fetchLatestInRegistry = async ({
   }
   const packageObject = await response.json()
   return packageObject.versions[packageObject["dist-tags"].latest]
+}
+
+const tokenAsAuthorizationHeaderValue = (token) => {
+  return `token ${Buffer.from(token).toString("base64")}`
 }
 
 const writeUnexpectedResponseStatus = ({

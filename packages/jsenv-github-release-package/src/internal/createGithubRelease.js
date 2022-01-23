@@ -16,7 +16,7 @@ export const createGithubRelease = async ({
   })
   const response = await fetchUrl(requestUrl, {
     headers: {
-      "authorization": `token ${githubToken}`,
+      "authorization": tokenAsAuthorizationHeaderValue(githubToken),
       "content-length": Buffer.byteLength(body),
     },
     method: "POST",
@@ -34,6 +34,10 @@ export const createGithubRelease = async ({
   }
   const responseJson = await response.json()
   return responseJson
+}
+
+const tokenAsAuthorizationHeaderValue = (token) => {
+  return `token ${Buffer.from(token).toString("base64")}`
 }
 
 const writeUnexpectedResponseStatus = ({
