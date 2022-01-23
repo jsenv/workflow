@@ -1,4 +1,4 @@
-import { publishPackage } from "@jsenv/package-publish"
+import { publishPackage } from "@jsenv/workflow/packages/package-publish"
 
 const rootDirectoryUrl = new URL("../../../", import.meta.url)
 

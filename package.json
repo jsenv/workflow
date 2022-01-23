@@ -13,14 +13,12 @@
   ],
   "scripts": {
     "eslint": "npx eslint . --ext=.js,.mjs && npm run eslint --workspaces --if-present",
-    "importmap": "npm run importmap --workspaces --if-present",
+    "importmap": "node ./script/importmap/importmap.mjs",
     "test": "npm run test --workspaces --if-present",
     "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",
     "prettier": "prettier --write ."
   },
-  "dependencies": {
-    "@jsenv/package-publish": "*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "8.7.0",
     "prettier": "2.5.1",
