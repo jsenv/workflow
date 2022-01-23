@@ -16,6 +16,14 @@ const packageDirectoryUrls = await listFilesMatching({
   },
 })
 const workspacePackages = {}
+const rootPackageUrl = new URL("package.json", projectDirectoryUrl)
+const rootPackageObject = await readFile(rootPackageUrl, {
+  as: "json",
+})
+workspacePackages[rootPackageObject.name] = {
+  packageUrl: rootPackageUrl,
+  packageObject: rootPackageObject,
+}
 await Promise.all(
   packageDirectoryUrls.map(async (packageDirectoryUrl) => {
     const packageUrl = new URL("package.json", packageDirectoryUrl)
@@ -26,48 +34,41 @@ await Promise.all(
     }
   }),
 )
-const rootPackageUrl = new URL("package.json", projectDirectoryUrl)
-const rootPackageObject = await readFile(rootPackageUrl, {
-  as: "json",
-})
-workspacePackages[rootPackageObject.name] = {
-  packageUrl: rootPackageUrl,
-  packageObject: rootPackageObject,
-}
+await Object.keys(workspacePackages)
+  .sort()
+  .reduce(async (previous, packageName) => {
+    await previous
 
-await Object.keys(workspacePackages).reduce(async (previous, packageName) => {
-  await previous
+    const updates = []
+    const { packageObject, packageUrl } = workspacePackages[packageName]
+    const { dependencies = {} } = packageObject
+    Object.keys(dependencies).forEach((dependencyName) => {
+      const workspacePackage = workspacePackages[dependencyName]
+      if (!workspacePackage) return
+      const versionInPackage = dependencies[dependencyName]
+      const version = workspacePackage.packageObject.version
+      if (version === versionInPackage) return
+      dependencies[dependencyName] = version
+      updates.push(dependencyName)
+    })
+    const { devDependencies = {} } = packageObject
+    Object.keys(devDependencies).forEach((devDependencyName) => {
+      const workspacePackage = workspacePackages[devDependencyName]
+      if (!workspacePackage) return
+      const versionInPackage = devDependencies[devDependencyName]
+      const version = workspacePackage.packageObject.version
+      if (version === versionInPackage) return
+      devDependencies[devDependencyName] = version
+      updates.push(devDependencyName)
+    })
 
-  const updates = []
-  const packageObject = workspacePackages[packageName]
-  const { dependencies = {} } = packageObject
-  Object.keys(dependencies).forEach((dependencyName) => {
-    const workspacePackage = workspacePackages[dependencyName]
-    if (!workspacePackage) return
-    const versionInPackage = dependencies[dependencyName]
-    const version = workspacePackage.version
-    if (version === versionInPackage) return
-    dependencies[dependencyName] = version
-    updates.push(dependencyName)
-  })
-  const { devDependencies = {} } = packageObject
-  Object.keys(devDependencies).forEach((devDependencyName) => {
-    const workspacePackage = workspacePackages[devDependencyName]
-    if (!workspacePackage) return
-    const versionInPackage = dependencies[devDependencyName]
-    const version = workspacePackage.version
-    if (version === versionInPackage) return
-    devDependencies[devDependencyName] = version
-    updates.push(devDependencyName)
-  })
-  await writeFile(rootPackageUrl, JSON.stringify(rootPackageObject, null, "  "))
-
-  const updateCount = updates.length
-  if (updateCount === 0) {
-    console.log(`${UNICODE.OK} ${packageName} version are in sync`)
-  } else {
-    console.log(
-      `${UNICODE.INFO} ${updateCount} version(s) updated for ${packageName}`,
-    )
-  }
-}, Promise.resolve())
+    const updateCount = updates.length
+    if (updateCount === 0) {
+      console.log(`${UNICODE.OK} ${packageName} version are in sync`)
+    } else {
+      await writeFile(packageUrl, JSON.stringify(packageObject, null, "  "))
+      console.log(
+        `${UNICODE.INFO} ${updateCount} version(s) updated for ${packageName}`,
+      )
+    }
+  }, Promise.resolve())
