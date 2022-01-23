@@ -33,7 +33,7 @@
   "scripts": {
     "eslint": "npx eslint . --ext=.js,.mjs",
     "importmap": "node ./script/importmap/importmap.mjs",
-    "test": "node --experimental-json-modules ./script/test/test.mjs",
+    "test": "node ./script/test/test.mjs",
     "test-with-coverage": "npm run test -- --coverage",
     "prettier": "prettier --write ."
   },
