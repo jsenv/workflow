@@ -5,7 +5,7 @@
 <p>Impact on 3 metrics when merging <em>head</em> into <em>base</em>. Before drawing conclusion, keep in mind <a href="https://github.com/jsenv/performance-impact#performance-variability">performance variability</a>.</p>
 
 <details>
-  <summary>timeout (+1.33%)</summary>
+  <summary>timeout (+2%)</summary>
   <table>
     <thead>
       <th nowrap>Metric</th>

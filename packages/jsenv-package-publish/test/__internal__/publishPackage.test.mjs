@@ -22,7 +22,7 @@ const require = createRequire(import.meta.url)
 const { inc: incrementVersion } = require("semver")
 
 if (!process.env.CI) {
-  await loadEnvFile(resolveUrl("../../secrets.json", import.meta.url))
+  await loadEnvFile(resolveUrl("../../../../secrets.json", import.meta.url))
 }
 assertProcessEnvShape({
   GITHUB_TOKEN: true,
