@@ -46,6 +46,8 @@ jobs:
       - name: Run ESLint
         run: npm run eslint
       - name: Run tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.TEST_GITHUB_TOKEN }} # to test publish package on github registry
         run: npm run test-with-coverage
       - name: Upload coverage
         uses: codecov/codecov-action@v2
