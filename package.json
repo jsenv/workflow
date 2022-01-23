@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "eslint": "npx eslint . --ext=.js,.mjs && npm run eslint --workspaces --if-present",
-    "importmap": "node ./script/importmap/importmap.mjs",
+    "importmap": "npm run importmap --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",
     "prettier": "prettier --write ."
