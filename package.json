@@ -1,0 +1,29 @@
+{
+  "name": "@jsenv/workflow",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Scripts to use during automated workflows",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsenv/workflow"
+  },
+  "workspaces": [
+    "./packages/*"
+  ],
+  "scripts": {
+    "eslint": "npm run eslint --workspaces --if-present",
+    "importmap": "npm run importmap --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",
+    "prettier": "prettier --write ."
+  },
+  "dependencies": {
+    "@jsenv/package-publish": "*"
+  },
+  "devDependencies": {
+    "eslint": "8.7.0",
+    "prettier": "2.5.1",
+    "eslint-plugin-import": "2.25.4"
+  }
+}

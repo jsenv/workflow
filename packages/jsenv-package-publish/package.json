@@ -1,0 +1,57 @@
+{
+  "name": "@jsenv/package-publish",
+  "version": "1.7.0",
+  "description": "Publish package to one or many registry.",
+  "license": "MIT",
+  "author": {
+    "name": "dmail",
+    "email": "dmaillard06@gmail.com",
+    "url": "https://twitter.com/damienmaillard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsenv/workflow",
+    "directory": "packages/jsenv-package-publish"
+  },
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./main.js"
+    },
+    "./*": "./*"
+  },
+  "main": "./main.js",
+  "files": [
+    "/src/",
+    "/main.js"
+  ],
+  "scripts": {
+    "eslint": "node ./node_modules/eslint/bin/eslint.js . --ext=.js,.mjs",
+    "importmap": "node ./script/importmap/importmap.mjs",
+    "test": "node --experimental-json-modules ./script/test/test.mjs",
+    "test-with-coverage": "npm run test -- --coverage",
+    "prettier": "prettier --write ."
+  },
+  "dependencies": {
+    "@jsenv/filesystem": "2.7.1",
+    "@jsenv/logger": "4.0.1",
+    "@jsenv/server": "12.4.0",
+    "semver": "7.3.5"
+  },
+  "devDependencies": {
+    "@jsenv/assert": "2.4.1",
+    "@jsenv/core": "25.3.0",
+    "@jsenv/eslint-config": "16.0.9",
+    "@jsenv/importmap-eslint-resolver": "5.2.5",
+    "@jsenv/importmap-node-module": "5.1.0",
+    "eslint": "8.7.0",
+    "eslint-plugin-import": "2.25.4",
+    "prettier": "2.5.1"
+  }
+}
