@@ -41,7 +41,7 @@ export const fetchLatestInRegistry = async ({
 }
 
 const tokenAsAuthorizationHeaderValue = (token) => {
-  return `token ${Buffer.from(token).toString("base64")}`
+  return `token ${token}`
 }
 
 const writeUnexpectedResponseStatus = ({

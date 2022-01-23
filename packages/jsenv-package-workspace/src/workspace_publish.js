@@ -54,14 +54,17 @@ export const publishWorkspace = async ({ directoryUrl }) => {
   TODO: for each package that needs to be published, check which should be published first
   and construct an ordered list of actions that should be performed
 
-  - publish "foo@1.0.0"
-  - "bar" changes: 
-      - "foo" version: "0.1.0" -> "1.0.0"
-      - version: "4.5.0" -> "5.0.0"
-  - publish "bar@5.0.0"
+  - "foo" version needs to be published because ${reason}
+    -> "bar" would be updated to "5.0.0"
+    -> "toot" would be updated to "whatever"
+  - "urgl" version needs to be published because ${reason}
 
   Then ask if script can proceeed
-
   Then script would perform all actions in sequence
+
+  Of course depending on what has changed some operation should be merged
+  if 2 dependencies are updated, the one with biggest major/minor/patch update wins
+
+  I fear this might cause cascades of big versions number
   */
 }
