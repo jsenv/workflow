@@ -48,7 +48,6 @@
     "@jsenv/eslint-config": "16.0.9",
     "@jsenv/importmap-eslint-resolver": "5.2.5",
     "@jsenv/importmap-node-module": "5.1.2",
-    "@jsenv/performance-impact": "2.2.1",
     "eslint": "8.7.0",
     "eslint-plugin-import": "2.25.4",
     "prettier": "2.5.1"
