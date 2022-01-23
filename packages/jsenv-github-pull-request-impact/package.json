@@ -1,0 +1,56 @@
+{
+  "name": "@jsenv/github-pull-request-impact",
+  "version": "1.6.5",
+  "description": "Report pull request impact on something",
+  "license": "MIT",
+  "author": {
+    "name": "dmail",
+    "email": "dmaillard06@gmail.com",
+    "url": "https://twitter.com/damienmaillard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsenv/workflow",
+    "directory": "packages/jsenv-github-pull-request-impact"
+  },
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./main.js"
+    },
+    "./*": "./*"
+  },
+  "main": "./main.js",
+  "files": [
+    "/src/",
+    "/main.js"
+  ],
+  "scripts": {
+    "eslint": "npx eslint . --ext=.js,.mjs",
+    "importmap": "node ./script/importmap/importmap.mjs",
+    "test": "node --experimental-json-modules ./script/test/test.mjs",
+    "test-with-coverage": "npm run test -- --coverage",
+    "prettier": "prettier --write ."
+  },
+  "dependencies": {
+    "@jsenv/filesystem": "2.7.1",
+    "@jsenv/logger": "4.0.1",
+    "@jsenv/server": "12.4.0"
+  },
+  "devDependencies": {
+    "@jsenv/assert": "2.4.1",
+    "@jsenv/core": "25.3.0",
+    "@jsenv/eslint-config": "16.0.9",
+    "@jsenv/importmap-eslint-resolver": "5.2.5",
+    "@jsenv/importmap-node-module": "5.1.2",
+    "eslint": "8.7.0",
+    "eslint-plugin-import": "2.25.4",
+    "prettier": "2.5.1"
+  }
+}
