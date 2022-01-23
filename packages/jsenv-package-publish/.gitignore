@@ -5,3 +5,5 @@
 .DS_STORE
 /node_resolution.importmap
 /jsconfig.json
+/secrets.json
+/test/**/temp/
