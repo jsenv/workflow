@@ -51,7 +51,7 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./packages/jsenv-package-publish/coverage/coverage.json
+          files: ./packages/jsenv-github-release-package/coverage/coverage.json,./packages/jsenv-package-publish/coverage/coverage.json
           verbose: true
 
   release:
