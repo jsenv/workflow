@@ -19,10 +19,13 @@
     "importmap": "node ./script/importmap/importmap.mjs && npm run importmap --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",
+    "workspace-versions": "node ./script/dev/workspace_versions.mjs",
     "prettier": "prettier --write ."
   },
   "devDependencies": {
+    "@jsenv/filesystem": "2.7.1",
     "@jsenv/importmap-node-module": "5.1.2",
+    "@jsenv/log": "1.5.0",
     "eslint": "8.7.0",
     "eslint-plugin-import": "2.25.4",
     "prettier": "2.5.1"
