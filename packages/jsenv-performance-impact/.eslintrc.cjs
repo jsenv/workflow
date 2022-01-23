@@ -32,7 +32,13 @@ const eslintConfig = composeEslintConfig(
     plugins: ["import"],
     settings: {
       "import/resolver": {
-        node: {},
+        // Tell ESLint to use the importmap to resolve imports.
+        // Read more in https://github.com/jsenv/importmap-node-module#Configure-vscode-and-eslint-for-importmap
+        "@jsenv/importmap-eslint-resolver": {
+          projectDirectoryUrl: __dirname,
+          importMapFileRelativeUrl: "./node_resolution.importmap",
+          node: true,
+        },
       },
       "import/extensions": [".js", ".mjs"],
     },

@@ -1,4 +1,4 @@
-# Performance impact [![npm package](https://img.shields.io/npm/v/@jsenv/performance-impact.svg?logo=npm&label=package)](https://www.npmjs.com/package/@jsenv/performance-impact) [![github main](https://github.com/jsenv/performance-impact/workflows/main/badge.svg)](https://github.com/jsenv/performance-impact/actions?workflow=main) [![codecov coverage](https://codecov.io/gh/jsenv/performance-impact/branch/main/graph/badge.svg)](https://codecov.io/gh/jsenv/performance-impact)
+# Performance impact [![npm package](https://img.shields.io/npm/v/@jsenv/performance-impact.svg?logo=npm&label=package)](https://www.npmjs.com/package/@jsenv/performance-impact)
 
 `@jsenv/performance-impact` analyses a pull request impact on your performance metrics. This analysis is posted in a comment of the pull request on GitHub.
 

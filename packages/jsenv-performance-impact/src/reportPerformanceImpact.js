@@ -34,7 +34,10 @@ export const reportPerformanceImpact = async ({
     )
   }
   projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
-  const performanceReportUrl = resolveUrl(performanceReportPath, projectDirectoryUrl)
+  const performanceReportUrl = resolveUrl(
+    performanceReportPath,
+    projectDirectoryUrl,
+  )
 
   return commentGitHubPullRequestImpact({
     logLevel,
@@ -50,7 +53,9 @@ export const reportPerformanceImpact = async ({
 
     collectInfo: async ({ execCommandInProjectDirectory }) => {
       await execCommandInProjectDirectory(installCommand)
-      const performanceReport = await importOneExportFromFile(performanceReportUrl)
+      const performanceReport = await importOneExportFromFile(
+        performanceReportUrl,
+      )
       assertPerformanceReport(performanceReport)
       return { version: 1, data: performanceReport }
     },

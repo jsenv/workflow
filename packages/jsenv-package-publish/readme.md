@@ -1,4 +1,4 @@
-# Package publish [![npm package](https://img.shields.io/npm/v/@jsenv/package-publish.svg?logo=npm&label=package)](https://www.npmjs.com/package/@jsenv/package-publish) [![github main](https://github.com/jsenv/package-publish/workflows/main/badge.svg)](https://github.com/jsenv/package-publish/actions?workflow=main) [![codecov coverage](https://codecov.io/gh/jsenv/package-publish/branch/master/graph/badge.svg)](https://codecov.io/gh/jsenv/package-publish)
+# Package publish [![npm package](https://img.shields.io/npm/v/@jsenv/package-publish.svg?logo=npm&label=package)](https://www.npmjs.com/package/@jsenv/package-publish)
 
 Publish package to one or many registry.
 
