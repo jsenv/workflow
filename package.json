@@ -11,17 +11,20 @@
   "workspaces": [
     "./packages/*"
   ],
+  "exports": {
+    "./*": "./*"
+  },
   "scripts": {
     "eslint": "npx eslint . --ext=.js,.mjs && npm run eslint --workspaces --if-present",
-    "importmap": "npm run importmap --workspaces --if-present",
+    "importmap": "node ./script/importmap/importmap.mjs && npm run importmap --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",
     "prettier": "prettier --write ."
   },
-  "dependencies": {},
   "devDependencies": {
+    "@jsenv/importmap-node-module": "5.1.2",
     "eslint": "8.7.0",
-    "prettier": "2.5.1",
-    "eslint-plugin-import": "2.25.4"
+    "eslint-plugin-import": "2.25.4",
+    "prettier": "2.5.1"
   }
 }
