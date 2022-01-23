@@ -32,7 +32,7 @@
     "/main.js"
   ],
   "scripts": {
-    "eslint": "node ./node_modules/eslint/bin/eslint.js . --ext=.js,.mjs",
+    "eslint": "npx eslint . --ext=.js,.mjs",
     "importmap": "node ./script/importmap/importmap.mjs",
     "test": "node --experimental-json-modules ./script/test/test.mjs",
     "test-with-coverage": "npm run test -- --coverage",

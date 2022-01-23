@@ -12,7 +12,7 @@
     "./packages/*"
   ],
   "scripts": {
-    "eslint": "npm run eslint --workspaces --if-present",
+    "eslint": "npx eslint . --ext=.js,.mjs && npm run eslint --workspaces --if-present",
     "importmap": "npm run importmap --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",

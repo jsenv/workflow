@@ -1,3 +1,8 @@
+/*
+ * This file uses "@jsenv/eslint-config" to configure ESLint
+ * See https://github.com/jsenv/eslint-config#eslint-config----
+ */
+
 const {
   composeEslintConfig,
   eslintConfigBase,
@@ -27,6 +32,15 @@ const eslintConfig = composeEslintConfig(
     },
   },
 
+  // Reuse jsenv eslint rules
+  {
+    rules: {
+      ...jsenvEslintRules,
+      // Example of code changing the ESLint configuration to enable a rule:
+      // 'prefer-const':  ['error']
+    },
+  },
+
   // Enable import plugin
   {
     plugins: ["import"],
@@ -43,23 +57,6 @@ const eslintConfig = composeEslintConfig(
       "import/extensions": [".js", ".mjs"],
     },
     rules: jsenvEslintRulesForImport,
-  },
-
-  {
-    plugins: ["html"],
-    settings: {
-      extensions: [".html"],
-    },
-  },
-
-  // Reuse jsenv eslint rules
-  {
-    rules: {
-      ...jsenvEslintRules,
-      // Example of code changing the ESLint configuration to enable a rule:
-      "camelcase": ["off"],
-      "dot-notation": ["off"],
-    },
   },
 
   // package is "type": "module" so:
@@ -85,33 +82,12 @@ const eslintConfig = composeEslintConfig(
           require: true,
           exports: true,
         },
+
         // inside *.cjs files, use commonjs module resolution
         settings: {
           "import/resolver": {
             node: {},
           },
-        },
-      },
-    ],
-  },
-
-  // several files are written for browsers, not Node.js
-  {
-    overrides: [
-      {
-        files: [
-          "**/**/*.html",
-          "**/browser_runtime/**/*.js",
-          "**/browser_feature_detection/**/*.js",
-          "**/exploring/**/*.js",
-          "**/redirector/**/*.js",
-          "**/toolbar/**/*.js",
-          "**/browser_utils/**/*.js",
-          "**/browser_detection/**/*.js",
-        ],
-        env: {
-          browser: true,
-          node: false,
         },
       },
     ],
