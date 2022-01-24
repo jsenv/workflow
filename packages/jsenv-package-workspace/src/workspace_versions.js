@@ -1,4 +1,3 @@
-import { writeFile } from "@jsenv/filesystem"
 import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js"
 import { UNICODE } from "@jsenv/log"
 
@@ -59,16 +58,16 @@ export const updateWorkspaceVersions = async ({ directoryUrl }) => {
   })
   if (outdatedPackageNames.length) {
     console.warn(
-      `${UNICODE.WARNING} ${outdatedPackageNames.length} package(s) versions updated because they where outdated.
+      `${UNICODE.WARNING} ${outdatedPackageNames.length} packages updated because they where outdated.
 Use a tool like "git diff" to see the new versions and ensure this is what you want`,
     )
     return
   }
   if (toPublishPackageNames.length === 0) {
-    console.log(`${UNICODE.OK} package(s) version are published`)
+    console.log(`${UNICODE.OK} packages are published on registry`)
   } else {
     console.log(
-      `${UNICODE.INFO} ${toPublishPackageNames.length} package(s) version could be published`,
+      `${UNICODE.INFO} ${toPublishPackageNames.length} packages could be published`,
     )
   }
 
@@ -165,17 +164,12 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
   await Promise.all(
     Object.keys(packageFilesToUpdate).map(async (packageName) => {
       const workspacePackage = workspacePackages[packageName]
-      await writeFile(
-        workspacePackage.packageUrl,
-        JSON.stringify(workspacePackage.packageObject, null, "  "),
-      )
+      await workspacePackage.updateFile(workspacePackage.packageObject)
     }),
   )
   const updateCount = versionUpdates.length + dependencyUpdates.length
   if (updateCount === 0) {
-    console.log(
-      `${UNICODE.OK} versions in workspace package.json files are in sync`,
-    )
+    console.log(`${UNICODE.OK} all versions in package.json files are in sync`)
   } else {
     console.log(
       `${UNICODE.INFO} ${updateCount} versions updated in package.json files`,
