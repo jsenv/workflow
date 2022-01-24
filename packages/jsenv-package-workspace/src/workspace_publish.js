@@ -1,4 +1,5 @@
-import { publishPackage } from "@jsenv/package-publish"
+import { publish } from "@jsenv/package-publish/src/internal/publish.js"
+import { createLogger } from "@jsenv/logger"
 import { UNICODE } from "@jsenv/log"
 
 import { collectWorkspacePackages } from "./internal/collect_workspace_packages.js"
@@ -50,18 +51,16 @@ export const publishWorkspace = async ({ directoryUrl }) => {
   await toPublishPackageNames.reduce(
     async (previous, toPublishPackageName, index) => {
       await previous
-      await publishPackage({
+      await publish({
+        logger: createLogger({ logLevel: "info" }),
+        packageSlug: packageSlugs[index],
         projectDirectoryUrl: new URL(
           "./",
           workspacePackages[toPublishPackageName].packageUrl,
         ),
-        registriesConfig: {
-          "https://registry.npmjs.org": {
-            token: process.env.NPM_TOKEN,
-          },
-        },
+        registryUrl: "https://registry.npmjs.org",
+        token: process.env.NPM_TOKEN,
       })
-      console.log(`${UNICODE.OK} ${packageSlugs[index]} published`)
     },
     Promise.resolve(),
   )

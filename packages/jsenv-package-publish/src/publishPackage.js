@@ -138,29 +138,15 @@ ${actionReason.stack}`)
 
     const { success, reason } = await publish({
       logger,
+      packageSlug: `${packageName}@${packageVersion}`,
       logNpmPublishOutput,
       projectDirectoryUrl,
       registryUrl,
       ...registriesConfig[registryUrl],
     })
     registryReport.actionResult = { success, reason }
-    if (success) {
-      if (reason === "already-published") {
-        logger.info(
-          `${packageName}@${packageVersion} was already published on ${registryUrl}`,
-        )
-      } else {
-        logger.info(
-          `${packageName}@${packageVersion} published on ${registryUrl}`,
-        )
-      }
-    } else {
-      logger.error(`error when publishing ${packageName}@${packageVersion} in ${registryUrl}
---- error stack ---
-${reason.stack}`)
-      if (updateProcessExitCode) {
-        process.exitCode = 1
-      }
+    if (!success && updateProcessExitCode) {
+      process.exitCode = 1
     }
   }, Promise.resolve())
 

@@ -42,6 +42,7 @@
     "@jsenv/filesystem": "2.7.1",
     "@jsenv/logger": "4.0.1",
     "node-fetch": "2.6.7",
+    "@jsenv/log": "1.5.0",
     "semver": "7.3.5"
   },
   "devDependencies": {

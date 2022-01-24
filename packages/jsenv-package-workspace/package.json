@@ -1,7 +1,6 @@
 {
   "name": "@jsenv/package-workspace",
   "version": "0.0.1",
-  "private": true,
   "description": "TODO",
   "license": "MIT",
   "author": {
@@ -40,7 +39,8 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@jsenv/package-publish": "*"
+    "@jsenv/package-publish": "*",
+    "@jsenv/logger": "4.0.1"
   },
   "devDependencies": {
     "@jsenv/assert": "2.4.1",
