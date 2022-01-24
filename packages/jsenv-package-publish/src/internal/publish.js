@@ -4,6 +4,7 @@ import {
   urlToFileSystemPath,
   readFile,
   writeFile,
+  removeFileSystemNode,
 } from "@jsenv/filesystem"
 import { UNICODE } from "@jsenv/log"
 
@@ -46,18 +47,21 @@ export const publish = async ({
         "./.npmrc",
         projectDirectoryUrl,
       )
+      let restoreProjectNpmConfigFile
       let projectNpmConfigString
       try {
         projectNpmConfigString = await readFile(projectNpmConfigFileUrl)
+        restoreProjectNpmConfigFile = () =>
+          writeFile(projectNpmConfigFileUrl, projectNpmConfigString)
       } catch (e) {
         if (e.code === "ENOENT") {
+          restoreProjectNpmConfigFile = () =>
+            removeFileSystemNode(projectNpmConfigFileUrl)
           projectNpmConfigString = ""
         } else {
           throw e
         }
       }
-      const restoreProjectNpmConfigFile = () =>
-        writeFile(projectNpmConfigFileUrl, projectNpmConfigString)
       promises.push(
         writeFile(
           projectNpmConfigFileUrl,

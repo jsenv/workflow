@@ -174,7 +174,7 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
   } else {
     console.log(
       `${UNICODE.INFO} ${updateCount} versions updated in package.json files
-Use a tool like "git diff" to review these changes`,
+  Use a tool like "git diff" to review these changes`,
     )
   }
 }
