@@ -55,25 +55,3 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./packages/jsenv-github-pull-request-impact/coverage/coverage.json,./packages/jsenv-github-release-package/coverage/coverage.json,./packages/jsenv-package-publish/coverage/coverage.json
           verbose: true
-
-  release:
-    needs: [test]
-    if: success() && github.event_name == 'push'
-    runs-on: ubuntu-20.04
-    name: release
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "16.13.0"
-      - name: Install node modules
-        run: npm install
-      - name: Publish package
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: env.NPM_TOKEN != null
-        run: npm run workspace-publish
-      - name: Ensure GitHub release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node ./.github/workflows/main/github_release.mjs

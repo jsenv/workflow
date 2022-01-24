@@ -1,3 +1,7 @@
+/*
+ * Publish all package if needed (the local package version must not be published)
+ */
+
 import { readFile } from "@jsenv/filesystem"
 
 import { publishWorkspace } from "@jsenv/workflow/packages/jsenv-package-workspace/main.js"
