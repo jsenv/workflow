@@ -177,7 +177,7 @@ const commentPrImpact = async ({
 
   logger.debug(`searching comment in pull request ${pullRequestHtmlUrl}`)
   const pullRequestCommentApiUrl = pullRequest.comments_url
-  const comments = await pullApiUrl.GET({
+  const comments = await githubRESTAPI.GET({
     url: pullRequestCommentApiUrl,
     githubToken,
   })

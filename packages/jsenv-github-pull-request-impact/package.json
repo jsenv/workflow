@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/github-pull-request-impact",
-  "version": "1.6.8",
+  "version": "1.6.9",
   "description": "Report pull request impact on something",
   "license": "MIT",
   "author": {
