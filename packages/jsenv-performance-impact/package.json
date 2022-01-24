@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/performance-impact",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Report pull request impacts on performance metrics",
   "license": "MIT",
   "author": {
@@ -39,7 +39,7 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@jsenv/dynamic-import-worker": "1.0.0",
+    "@jsenv/dynamic-import-worker": "1.0.1",
     "@jsenv/filesystem": "2.7.1",
     "@jsenv/github-pull-request-impact": "1.6.6",
     "@jsenv/logger": "4.0.1",
