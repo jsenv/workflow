@@ -97,7 +97,7 @@ ${error.stack}`)
   }
 
   const { status } = response
-  const responseStatusHandler = responseStatusHandlers
+  const responseStatusHandler = responseStatusHandlers[status]
   if (responseStatusHandler) {
     return responseStatusHandler(response)
   }
