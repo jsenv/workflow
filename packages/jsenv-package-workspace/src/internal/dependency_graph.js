@@ -3,7 +3,6 @@ export const buildDependencyGraph = (workspacePackages) => {
   Object.keys(workspacePackages).forEach((packageName) => {
     dependencyGraph[packageName] = {
       dependencies: [],
-      // dependents: [],
     }
   })
   const findDependency = (packageName, dependencyName) => {
@@ -41,25 +40,28 @@ export const buildDependencyGraph = (workspacePackages) => {
     })
   })
   return dependencyGraph
-  // const visited = []
-  // const sorted = []
-  // const visit = (packageName, importerPackageName) => {
-  //   const isSorted = sorted.includes(packageName)
-  //   if (isSorted) return
-  //   const isVisited = visited.includes(packageName)
-  //   if (isVisited) {
-  //     throw new Error(
-  //       `Circular dependency between ${packageName} and ${importerPackageName}`,
-  //     )
-  //   }
-  //   visited.push(packageName)
-  //   dependencyGraph[packageName].dependencies.forEach((dependencyName) => {
-  //     visit(dependencyName, packageName)
-  //   })
-  //   sorted.push(packageName)
-  // }
-  // Object.keys(workspacePackages).forEach((packageName) => {
-  //   visit(packageName)
-  // })
-  // return sorted
+}
+
+export const orderByDependencies = (dependencyGraph) => {
+  const visited = []
+  const sorted = []
+  const visit = (packageName, importerPackageName) => {
+    const isSorted = sorted.includes(packageName)
+    if (isSorted) return
+    const isVisited = visited.includes(packageName)
+    if (isVisited) {
+      throw new Error(
+        `Circular dependency between ${packageName} and ${importerPackageName}`,
+      )
+    }
+    visited.push(packageName)
+    dependencyGraph[packageName].dependencies.forEach((dependencyName) => {
+      visit(dependencyName, packageName)
+    })
+    sorted.push(packageName)
+  }
+  Object.keys(dependencyGraph).forEach((packageName) => {
+    visit(packageName)
+  })
+  return sorted
 }

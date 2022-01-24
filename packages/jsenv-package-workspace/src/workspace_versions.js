@@ -3,7 +3,10 @@ import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetch
 import { UNICODE } from "@jsenv/log"
 
 import { collectWorkspacePackages } from "./internal/collect_workspace_packages.js"
-import { buildDependencyGraph } from "./internal/dependency_graph.js"
+import {
+  buildDependencyGraph,
+  orderByDependencies,
+} from "./internal/dependency_graph.js"
 import {
   compareTwoPackageVersions,
   VERSION_COMPARE_RESULTS,
@@ -47,7 +50,7 @@ export const updateWorkspaceVersions = async ({ directoryUrl }) => {
       return
     }
     if (
-      result === VERSION_COMPARE_RESULTS.BIGGER ||
+      result === VERSION_COMPARE_RESULTS.GREATER ||
       result === VERSION_COMPARE_RESULTS.DIFF_TAG
     ) {
       toPublishPackageNames.push(packageName)
@@ -76,59 +79,65 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
     packageName,
     dependencyType,
     dependencyName,
-    version,
+    from,
+    to,
   }) => {
-    const workspacePackage = workspacePackages[packageName]
-    const dependencyVersions = workspacePackage.packageObject[dependencyType]
+    const dependencyVersions =
+      workspacePackages[packageName].packageObject[dependencyType]
     dependencyUpdates.push({
       packageName,
       dependencyName,
-      from: dependencyVersions[dependencyName],
-      to: version,
+      from,
+      to,
     })
-    dependencyVersions[dependencyName] = version
+    dependencyVersions[dependencyName] = to
     packageFilesToUpdate[packageName] = true
   }
-  const updateVersion = ({ packageName, version }) => {
+  const updateVersion = ({ packageName, from, to }) => {
     const workspacePackage = workspacePackages[packageName]
     versionUpdates.push({
       packageName,
-      from: workspacePackage.packageObject.version,
-      to: version,
+      from,
+      to,
     })
-    workspacePackage.packageObject.version = version
+    workspacePackage.packageObject.version = to
     packageFilesToUpdate[packageName] = true
   }
 
-  const visitPackageThatShouldBePublished = (packageName) => {
-    dependencyGraph[packageName].dependents.forEach((dependentPackageName) => {
-      const version = workspacePackages[packageName].packageObject.version
-      const dependentPackageObject =
-        workspacePackages[dependentPackageName].packageObject
-      const versionInDependentPackage =
-        dependentPackageObject.dependencies[packageName].version
-      if (versionInDependentPackage !== version) {
-        updateDependencyVersion({
-          packageName: dependentPackageName,
-          dependencyType: "dependencies",
-          dependencyName: packageName,
-          version,
-        })
+  const packageNamesOrderedByDependency = orderByDependencies(dependencyGraph)
+  packageNamesOrderedByDependency.forEach((packageName) => {
+    const workspacePackage = workspacePackages[packageName]
+    const { dependencies = {} } = workspacePackage.packageObject
+    Object.keys(dependencies).forEach((dependencyName) => {
+      const dependencyAsWorkspacePackage = workspacePackages[dependencyName]
+      if (!dependencyAsWorkspacePackage) {
+        return
       }
-      if (!toPublishPackageNames.includes(dependentPackageName)) {
+      const versionInDependencies =
+        workspacePackage.packageObject.dependencies[dependencyName].version
+      const version = dependencyAsWorkspacePackage.packageObject.version
+      if (versionInDependencies === version) {
+        return
+      }
+      updateDependencyVersion({
+        packageName,
+        dependencyType: "dependencies",
+        dependencyName,
+        from: versionInDependencies,
+        to: version,
+      })
+      if (!toPublishPackageNames.includes(packageName)) {
         updateVersion({
-          packageName: dependentPackageName,
-          version: increaseVersion(version, "patch"),
+          packageName,
+          version: increaseVersion(
+            workspacePackage.packageObject.version,
+            "patch",
+          ),
         })
-        toPublishPackageNames.push(dependentPackageName)
-        visitPackageThatShouldBePublished(dependentPackageName)
+        toPublishPackageNames.push(packageName)
       }
     })
-  }
-  toPublishPackageNames.forEach((toPublishPackageName) => {
-    visitPackageThatShouldBePublished(toPublishPackageName)
   })
-
   Object.keys(workspacePackages).forEach((packageName) => {
     const workspacePackage = workspacePackages[packageName]
     const { devDependencies = {} } = workspacePackage.packageObject
@@ -138,22 +147,23 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
       if (!devDependencyAsWorkspacePackage) {
         return
       }
+      const versionInDevDependencies = devDependencies[devDependencyName]
       const version = devDependencyAsWorkspacePackage.packageObject.version
-      const versionInDependentPackage = workspacePackage.packageObject.version
-      if (versionInDependentPackage === version) {
+      if (versionInDevDependencies === version) {
         return
       }
       updateDependencyVersion({
         packageName,
         dependencyType: "devDependencies",
         dependencyName: devDependencyName,
-        version,
+        from: versionInDevDependencies,
+        to: version,
       })
     })
   })
 
   await Promise.all(
-    Object.keys(packageFilesToUpdate).keys.map(async (packageName) => {
+    Object.keys(packageFilesToUpdate).map(async (packageName) => {
       const workspacePackage = workspacePackages[packageName]
       await writeFile(
         workspacePackage.packageUrl,
