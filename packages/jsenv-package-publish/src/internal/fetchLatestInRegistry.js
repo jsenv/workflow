@@ -2,7 +2,7 @@
 // https://github.com/npm/registry-issue-archive/issues/34
 // https://stackoverflow.com/questions/53212849/querying-information-about-specific-version-of-scoped-npm-package
 
-import { fetchUrl } from "@jsenv/server"
+import nodeFetch from "node-fetch"
 
 export const fetchLatestInRegistry = async ({
   registryUrl,
@@ -10,7 +10,7 @@ export const fetchLatestInRegistry = async ({
   token,
 }) => {
   const requestUrl = `${registryUrl}/${packageName}`
-  const response = await fetchUrl(requestUrl, {
+  const response = await nodeFetch(requestUrl, {
     method: "GET",
     headers: {
       // "user-agent": "jsenv",

@@ -19,7 +19,7 @@
     "importmap": "node ./script/importmap/importmap.mjs && npm run importmap --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",
-    "workspace-versions": "node ./script/dev/workspace_versions.mjs",
+    "workspace-versions": "node ./script/publish/workspace_versions.mjs",
     "prettier": "prettier --write ."
   },
   "devDependencies": {

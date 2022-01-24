@@ -12,6 +12,11 @@ import { increaseVersion } from "./internal/increase_version.js"
 
 export const updateWorkspaceVersions = async ({ directoryUrl }) => {
   const workspacePackages = await collectWorkspacePackages({ directoryUrl })
+  Object.keys(workspacePackages).forEach((key) => {
+    if (workspacePackages[key].packageObject.private) {
+      delete workspacePackages[key]
+    }
+  })
   const dependencyGraph = buildDependencyGraph(workspacePackages)
   await Object.keys(workspacePackages).reduce(async (previous, packageName) => {
     await previous
@@ -23,7 +28,7 @@ export const updateWorkspaceVersions = async ({ directoryUrl }) => {
     const registryLatestVersion =
       latestPackageInRegistry === null ? null : latestPackageInRegistry.version
     workspacePackage.registryLatestVersion = registryLatestVersion
-  })
+  }, Promise.resolve())
 
   const outdatedPackageNames = []
   const toPublishPackageNames = []
