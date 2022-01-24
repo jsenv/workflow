@@ -1,4 +1,3 @@
-import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js"
 import { UNICODE } from "@jsenv/log"
 
 import { collectWorkspacePackages } from "./internal/collect_workspace_packages.js"
@@ -6,6 +5,7 @@ import {
   buildDependencyGraph,
   orderByDependencies,
 } from "./internal/dependency_graph.js"
+import { fetchWorkspaceLatests } from "./internal/fetch_workspace_latests.js"
 import {
   compareTwoPackageVersions,
   VERSION_COMPARE_RESULTS,
@@ -20,26 +20,16 @@ export const updateWorkspaceVersions = async ({ directoryUrl }) => {
     }
   })
   const dependencyGraph = buildDependencyGraph(workspacePackages)
-  await Object.keys(workspacePackages).reduce(async (previous, packageName) => {
-    await previous
-    const workspacePackage = workspacePackages[packageName]
-    const latestPackageInRegistry = await fetchLatestInRegistry({
-      registryUrl: "https://registry.npmjs.org",
-      packageName,
-    })
-    const registryLatestVersion =
-      latestPackageInRegistry === null ? null : latestPackageInRegistry.version
-    workspacePackage.registryLatestVersion = registryLatestVersion
-  }, Promise.resolve())
+  const registryLatestVersions = await fetchWorkspaceLatests(workspacePackages)
 
   const outdatedPackageNames = []
   const toPublishPackageNames = []
   Object.keys(workspacePackages).forEach((packageName) => {
     const workspacePackage = workspacePackages[packageName]
-    const { registryLatestVersion } = workspacePackage
+    const registryLatestVersion = registryLatestVersions[packageName]
     const result =
       registryLatestVersion === null
-        ? VERSION_COMPARE_RESULTS.BIGGER
+        ? VERSION_COMPARE_RESULTS.GREATER
         : compareTwoPackageVersions(
             workspacePackage.packageObject.version,
             registryLatestVersion,
@@ -57,6 +47,14 @@ export const updateWorkspaceVersions = async ({ directoryUrl }) => {
     }
   })
   if (outdatedPackageNames.length) {
+    await Promise.all(
+      outdatedPackageNames.map(async (outdatedPackageName) => {
+        const workspacePackage = workspacePackages[outdatedPackageName]
+        workspacePackage.packageObject.version =
+          registryLatestVersions[outdatedPackageName]
+        await workspacePackage.updateFile(workspacePackage.packageObject)
+      }),
+    )
     console.warn(
       `${UNICODE.WARNING} ${outdatedPackageNames.length} packages updated because they where outdated.
 Use a tool like "git diff" to see the new versions and ensure this is what you want`,
@@ -67,7 +65,13 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
     console.log(`${UNICODE.OK} packages are published on registry`)
   } else {
     console.log(
-      `${UNICODE.INFO} ${toPublishPackageNames.length} packages could be published`,
+      `${UNICODE.INFO} ${
+        toPublishPackageNames.length
+      } packages could be published
+  - ${toPublishPackageNames.map(
+    (name) => `${name}@${workspacePackages[name].packageObject.version}`,
+  ).join(`
+  - `)}`,
     )
   }
 
@@ -112,8 +116,7 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
       if (!dependencyAsWorkspacePackage) {
         return
       }
-      const versionInDependencies =
-        workspacePackage.packageObject.dependencies[dependencyName].version
+      const versionInDependencies = dependencies[dependencyName]
       const version = dependencyAsWorkspacePackage.packageObject.version
       if (versionInDependencies === version) {
         return

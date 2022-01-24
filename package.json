@@ -20,6 +20,7 @@
     "test": "npm run test --workspaces --if-present",
     "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",
     "workspace-versions": "node ./script/publish/workspace_versions.mjs",
+    "workspace-publish": "node ./script/publish/workspace_publish.mjs",
     "prettier": "prettier --write ."
   },
   "devDependencies": {
