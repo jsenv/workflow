@@ -54,16 +54,12 @@ export const PATCH = async ({ url, body, githubToken, headers }) => {
   })
 }
 
-export const tokenAsAuthorizationHeaderValue = (token) => {
-  return `token ${Buffer.from(token).toString("base64")}`
-}
-
 const tokenToHeaders = (token) => {
   if (!token) {
     throw new Error(`missing token, request will not be authorized.`)
   }
   return {
-    authorization: tokenAsAuthorizationHeaderValue(token),
+    authorization: `token ${token}`,
   }
 }
 
