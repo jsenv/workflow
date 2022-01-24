@@ -1,10 +1,14 @@
-import { fetchUrl } from "@jsenv/server"
+import nodeFetch from "node-fetch"
 
-export const GET = async (url, { githubToken } = {}) => {
-  return sendHttpRequest(url, {
+export const GET = async ({ url, githubToken, headers }) => {
+  return sendHttpRequest({
+    url,
     method: "GET",
-    headers: tokenToHeaders(githubToken),
-    responseStatusMap: {
+    headers: {
+      ...tokenToHeaders(githubToken),
+      headers,
+    },
+    responseStatusHandlers: {
       200: async (response) => {
         const json = await response.json()
         return json
@@ -14,12 +18,16 @@ export const GET = async (url, { githubToken } = {}) => {
   })
 }
 
-export const POST = (url, body, { githubToken } = {}) => {
-  return sendHttpRequest(url, {
+export const POST = ({ url, body, githubToken, headers }) => {
+  return sendHttpRequest({
+    url,
     method: "POST",
-    headers: tokenToHeaders(githubToken),
+    headers: {
+      ...tokenToHeaders(githubToken),
+      headers,
+    },
     body: JSON.stringify(body),
-    responseStatusMap: {
+    responseStatusHandlers: {
       201: async (response) => {
         const json = await response.json()
         return json
@@ -28,12 +36,16 @@ export const POST = (url, body, { githubToken } = {}) => {
   })
 }
 
-export const PATCH = async (url, body, { githubToken } = {}) => {
-  return sendHttpRequest(url, {
+export const PATCH = async ({ url, body, githubToken, headers }) => {
+  return sendHttpRequest({
+    url,
     method: "PATCH",
-    headers: tokenToHeaders(githubToken),
+    headers: {
+      ...tokenToHeaders(githubToken),
+      headers,
+    },
     body: JSON.stringify(body),
-    responseStatusMap: {
+    responseStatusHandlers: {
       200: async (response) => {
         const json = await response.json()
         return json
@@ -55,13 +67,16 @@ const tokenToHeaders = (token) => {
   }
 }
 
-const sendHttpRequest = async (
+const sendHttpRequest = async ({
   url,
-  { method, headers, body, responseStatusMap },
-) => {
+  method,
+  headers,
+  body,
+  responseStatusHandlers = {},
+}) => {
   let response
   try {
-    response = await fetchUrl(url, {
+    response = await nodeFetch(url, {
       method,
       headers: {
         ...(typeof body === "undefined"
@@ -82,16 +97,16 @@ ${error.stack}`)
   }
 
   const { status } = response
-  if (status in responseStatusMap) {
-    return responseStatusMap[response.status](response)
+  const responseStatusHandler = responseStatusHandlers
+  if (responseStatusHandler) {
+    return responseStatusHandler(response)
   }
-
   const responseBodyAsJson = await response.json()
   const error = new Error(`unexpected response status.
 --- response status ---
 ${response.status}
 --- expected response status ---
-${Object.keys(responseStatusMap).join(", ")}
+${Object.keys(responseStatusHandlers).join(", ")}
 --- request method ---
 ${method}
 --- request url ---

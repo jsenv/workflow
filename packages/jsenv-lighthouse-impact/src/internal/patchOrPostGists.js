@@ -1,10 +1,5 @@
-/* eslint-disable new-cap */
+import * as githubRESTAPI from "@jsenv/github-pull-request-impact/src/internal/github_rest_api.js"
 import { createDetailedMessage } from "@jsenv/logger"
-import {
-  GET,
-  POST,
-  PATCH,
-} from "@jsenv/github-pull-request-impact/src/internal/git_hub_api.js"
 
 // https://developer.github.com/v3/gists/#create-a-gist
 
@@ -44,12 +39,14 @@ export const patchOrPostGists = async ({
   logger.debug(`update or create both gists.`)
   let [beforeMergeGist, afterMergeGist] = await Promise.all([
     beforeMergeGistId
-      ? GET(`https://api.github.com/gists/${beforeMergeGistId}`, {
+      ? githubRESTAPI.GET({
+          url: `https://api.github.com/gists/${beforeMergeGistId}`,
           githubToken,
         })
       : null,
     afterMergeGistId
-      ? GET(`https://api.github.com/gists/${afterMergeGistId}`, {
+      ? githubRESTAPI.GET({
+          url: `https://api.github.com/gists/${afterMergeGistId}`,
           githubToken,
         })
       : null,
@@ -63,23 +60,19 @@ export const patchOrPostGists = async ({
   })
   if (beforeMergeGist) {
     logger.info(`updating base gist at ${gistIdToUrl(beforeMergeGist.id)}`)
-    beforeMergeGist = await PATCH(
-      `https://api.github.com/gists/${beforeMergeGist.id}`,
-      beforeMergeGistBody,
-      {
-        githubToken,
-      },
-    )
+    beforeMergeGist = await githubRESTAPI.PATCH({
+      url: `https://api.github.com/gists/${beforeMergeGist.id}`,
+      githubToken,
+      body: beforeMergeGistBody,
+    })
     logger.info(`base gist updated`)
   } else {
     logger.info(`creating base gist`)
-    beforeMergeGist = await POST(
-      `https://api.github.com/gists`,
-      beforeMergeGistBody,
-      {
-        githubToken,
-      },
-    )
+    beforeMergeGist = await githubRESTAPI.POST({
+      url: `https://api.github.com/gists`,
+      githubToken,
+      body: beforeMergeGistBody,
+    })
     logger.info(`base gist created at ${gistIdToUrl(beforeMergeGist.id)}`)
   }
 
@@ -93,23 +86,19 @@ export const patchOrPostGists = async ({
     logger.info(
       `updating after merge gist at ${gistIdToUrl(afterMergeGist.id)}`,
     )
-    afterMergeGist = await PATCH(
-      `https://api.github.com/gists/${afterMergeGist.id}`,
-      afterMergeGistBody,
-      {
-        githubToken,
-      },
-    )
+    afterMergeGist = await githubRESTAPI.PATCH({
+      url: `https://api.github.com/gists/${afterMergeGist.id}`,
+      githubToken,
+      body: afterMergeGistBody,
+    })
     logger.info(`after merge gist updated`)
   } else {
     logger.info(`creating after merge gist`)
-    afterMergeGist = await POST(
-      `https://api.github.com/gists`,
-      afterMergeGistBody,
-      {
-        githubToken,
-      },
-    )
+    afterMergeGist = await githubRESTAPI.POST({
+      url: `https://api.github.com/gists`,
+      githubToken,
+      body: afterMergeGistBody,
+    })
     logger.info(`after merge gist created at ${gistIdToUrl(afterMergeGist.id)}`)
   }
 

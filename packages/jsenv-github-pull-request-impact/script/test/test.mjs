@@ -16,10 +16,12 @@ await executeTestPlan({
       },
     },
   },
+  completedExecutionLogAbbreviation: true,
   coverage: process.argv.includes("--coverage"),
   coverageJsonFileRelativeUrl: "coverage/coverage.json",
   coverageConfig: {
     "./main.js": true,
     "./src/**/*.js": true,
   },
+  coverageTextLog: false,
 })

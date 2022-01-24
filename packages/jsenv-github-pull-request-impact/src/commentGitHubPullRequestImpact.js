@@ -4,14 +4,14 @@
  * @jsenv/file-size-impact, @jsenv/performance-impact and @jsenv/lighthouse-score-impact
  */
 
-import { createLogger } from "@jsenv/logger"
 import {
   assertAndNormalizeDirectoryUrl,
   urlToFileSystemPath,
 } from "@jsenv/filesystem"
+import { createLogger } from "@jsenv/logger"
 
+import * as githubRESTAPI from "./internal/github_rest_api.js"
 import { exec } from "./internal/exec.js"
-import { GET, POST, PATCH } from "./internal/git_hub_api.js"
 import { renderGeneratedByText } from "./internal/renderGeneratedByText.js"
 import { createGitHubPullRequestCommentText } from "./internal/createGitHubPullRequestCommentText.js"
 
@@ -146,7 +146,8 @@ const commentPrImpact = async ({
   const pullApiUrl = `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/pulls/${pullRequestNumber}`
   // https://developer.github.com/v3/pulls/#get-a-pull-request
   logger.debug(`get pull request ${pullApiUrl}`)
-  const pullRequest = await GET(pullApiUrl, {
+  const pullRequest = await githubRESTAPI.GET({
+    url: pullApiUrl,
     githubToken,
   })
   const pullRequestHtmlUrl = pullRequest.html_url
@@ -176,7 +177,8 @@ const commentPrImpact = async ({
 
   logger.debug(`searching comment in pull request ${pullRequestHtmlUrl}`)
   const pullRequestCommentApiUrl = pullRequest.comments_url
-  const comments = await GET(pullRequestCommentApiUrl, {
+  const comments = await pullApiUrl.GET({
+    url: pullRequestCommentApiUrl,
     githubToken,
   })
   const existingComment = comments.find(({ body }) =>
@@ -214,21 +216,21 @@ const commentPrImpact = async ({
         return existingComment
       }
       logger.info(`updating comment at ${existingComment.html_url}`)
-      const comment = await PATCH(
-        `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/issues/comments/${existingComment.id}`,
-        { body: commentBody },
-        { githubToken },
-      )
+      const comment = await githubRESTAPI.PATCH({
+        url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/issues/comments/${existingComment.id}`,
+        githubToken,
+        body: { body: commentBody },
+      })
       logger.info("comment updated")
       return comment
     }
 
     logger.info(`creating comment`)
-    const comment = await POST(
-      `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/issues/${pullRequestNumber}/comments`,
-      { body: commentBody },
-      { githubToken },
-    )
+    const comment = await githubRESTAPI.POST({
+      url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/issues/${pullRequestNumber}/comments`,
+      githubToken,
+      body: { body: commentBody },
+    })
     logger.info(`comment created at ${comment.html_url}`)
     return comment
   }
