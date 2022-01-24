@@ -1,4 +1,3 @@
-import { createDetailedMessage, createLogger } from "@jsenv/logger"
 import {
   assertAndNormalizeDirectoryUrl,
   bufferToEtag,
@@ -6,6 +5,7 @@ import {
   readFile,
   urlToFileSystemPath,
 } from "@jsenv/filesystem"
+import { createDetailedMessage, createLogger } from "@jsenv/logger"
 
 import { transform as rawTransform } from "./rawTransformation.js"
 import { jsenvTrackingConfig } from "./jsenvTrackingConfig.js"
@@ -47,12 +47,15 @@ export const generateFileSizeReport = async ({
   await Promise.all(
     groupNames.map(async (groupName) => {
       const groupTrackingResult = groupTrackingResults[groupName]
-      const groupReport = await groupTrackingResultToGroupReport(groupTrackingResult, {
-        logger,
-        projectDirectoryUrl,
-        tracking: trackingConfig[groupName],
-        transformations,
-      })
+      const groupReport = await groupTrackingResultToGroupReport(
+        groupTrackingResult,
+        {
+          logger,
+          projectDirectoryUrl,
+          tracking: trackingConfig[groupName],
+          transformations,
+        },
+      )
       groups[groupName] = groupReport
     }),
   )
@@ -78,18 +81,26 @@ const groupTrackingResultToGroupReport = async (
   const manifestRelativeUrls = Object.keys(manifestMetaMap)
   await Promise.all(
     manifestRelativeUrls.map(async (manifestRelativeUrl) => {
-      const manifestFileUrl = resolveUrl(manifestRelativeUrl, projectDirectoryUrl)
-      const manifestFileContent = await readFile(manifestFileUrl, { as: "string" })
+      const manifestFileUrl = resolveUrl(
+        manifestRelativeUrl,
+        projectDirectoryUrl,
+      )
+      const manifestFileContent = await readFile(manifestFileUrl, {
+        as: "string",
+      })
       let manifest
       try {
         manifest = JSON.parse(manifestFileContent)
       } catch (e) {
         if (e.name === "SyntaxError") {
           logger.error(
-            createDetailedMessage(`JSON.parse error while trying to parse a manifest file`, {
-              "error stack": e.stack,
-              "manifest file": urlToFileSystemPath(manifestFileUrl),
-            }),
+            createDetailedMessage(
+              `JSON.parse error while trying to parse a manifest file`,
+              {
+                "error stack": e.stack,
+                "manifest file": urlToFileSystemPath(manifestFileUrl),
+              },
+            ),
           )
           return
         }
@@ -109,7 +120,11 @@ const groupTrackingResultToGroupReport = async (
     const fileUrl = resolveUrl(fileRelativeUrl, projectDirectoryUrl)
     const fileContent = await readFile(fileUrl)
     const fileBuffer = Buffer.from(fileContent)
-    const sizeMap = await getFileSizeMap(fileBuffer, { transformations, logger, fileUrl })
+    const sizeMap = await getFileSizeMap(fileBuffer, {
+      transformations,
+      logger,
+      fileUrl,
+    })
     const hash = bufferToEtag(fileBuffer)
     fileMap[fileRelativeUrl] = {
       sizeMap,
@@ -125,7 +140,10 @@ const groupTrackingResultToGroupReport = async (
   }
 }
 
-const getFileSizeMap = async (fileBuffer, { transformations, logger, fileUrl }) => {
+const getFileSizeMap = async (
+  fileBuffer,
+  { transformations, logger, fileUrl },
+) => {
   const sizeMap = {}
   await Object.keys(transformations).reduce(async (previous, sizeName) => {
     await previous
@@ -135,9 +153,12 @@ const getFileSizeMap = async (fileBuffer, { transformations, logger, fileUrl }) 
       sizeMap[sizeName] = Buffer.from(transformResult).length
     } catch (e) {
       logger.error(
-        createDetailedMessage(`error while transforming ${fileUrl} with ${sizeName}`, {
-          "error stack": e.stack,
-        }),
+        createDetailedMessage(
+          `error while transforming ${fileUrl} with ${sizeName}`,
+          {
+            "error stack": e.stack,
+          },
+        ),
       )
       sizeMap[sizeName] = "error"
     }

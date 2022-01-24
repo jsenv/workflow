@@ -1,9 +1,8 @@
+import * as githubRESTAPI from "@jsenv/github-pull-request-impact/src/internal/github_rest_api.js"
 import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
 import { createLogger } from "@jsenv/logger"
 
 import { readProjectPackage } from "./internal/readProjectPackage.js"
-import { getGithubRelease } from "./internal/getGithubRelease.js"
-import { createGithubRelease } from "./internal/createGithubRelease.js"
 
 export const ensureGithubReleaseForPackage = async ({
   logLevel,
@@ -35,11 +34,10 @@ export const ensureGithubReleaseForPackage = async ({
 
   logger.debug(`search release for ${packageVersion} on github`)
   const githubReleaseName = `v${packageVersion}`
-  const existingRelease = await getGithubRelease({
+  // https://developer.github.com/v3/git/refs/#get-a-single-reference
+  const existingRelease = await githubRESTAPI.GET({
+    url: `https://api.github.com/repos/${githubRepositoryOwner}/${githubRepositoryName}/git/ref/tags/${githubReleaseName}`,
     githubToken,
-    githubRepositoryOwner,
-    githubRepositoryName,
-    githubReleaseName,
   })
   if (existingRelease) {
     logger.info(
@@ -53,12 +51,14 @@ export const ensureGithubReleaseForPackage = async ({
   }
 
   logger.info(`creating release for ${packageVersion}`)
-  await createGithubRelease({
+  // https://developer.github.com/v3/git/tags/
+  await githubRESTAPI.POST({
+    url: `https://api.github.com/repos/${githubRepositoryOwner}/${githubRepositoryName}/git/refs`,
     githubToken,
-    githubRepositoryOwner,
-    githubRepositoryName,
-    githubSha,
-    githubReleaseName,
+    body: {
+      ref: `refs/tags/${githubReleaseName}`,
+      sha: githubSha,
+    },
   })
   logger.info(
     `release created at ${generateReleaseUrl({

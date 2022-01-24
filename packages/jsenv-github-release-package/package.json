@@ -40,7 +40,7 @@
   "dependencies": {
     "@jsenv/filesystem": "2.7.1",
     "@jsenv/logger": "4.0.1",
-    "@jsenv/server": "12.4.1"
+    "@jsenv/github-pull-request-impact": "1.6.5"
   },
   "devDependencies": {
     "@jsenv/assert": "2.4.1",
