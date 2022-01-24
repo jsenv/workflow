@@ -1,1 +1,1 @@
-export { publishWorkspace } from "./src/workspace_publish.js"
+export { updateWorkspaceVersions } from "./src/workspace_versions.js"

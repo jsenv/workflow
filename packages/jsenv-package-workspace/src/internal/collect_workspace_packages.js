@@ -8,7 +8,6 @@ export const collectWorkspacePackages = async ({ directoryUrl }) => {
       "./packages/*/package.json": true,
     },
   })
-
   const rootPackageUrl = new URL("package.json", directoryUrl)
   const rootPackageObject = await readFile(rootPackageUrl, {
     as: "json",
