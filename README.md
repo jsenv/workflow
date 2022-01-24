@@ -1,6 +1,6 @@
 # Jsenv workflow
 
-Regroups npm packages to use in automated workflows.
+Automate workflows in projects using JavaScript.
 
 Main workflow status: [![github main](https://github.com/jsenv/workflow/workflows/main/badge.svg)](https://github.com/jsenv/workflow/actions?workflow=main)
 

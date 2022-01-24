@@ -2,7 +2,7 @@
   "name": "@jsenv/workflow",
   "version": "0.0.1",
   "private": true,
-  "description": "Scripts to use during automated workflows",
+  "description": "Automate workflows in projects using JavaScript",
   "license": "MIT",
   "repository": {
     "type": "git",
