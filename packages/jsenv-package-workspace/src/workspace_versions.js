@@ -131,10 +131,8 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
       if (!toPublishPackageNames.includes(packageName)) {
         updateVersion({
           packageName,
-          version: increaseVersion(
-            workspacePackage.packageObject.version,
-            "patch",
-          ),
+          from: workspacePackage.packageObject.version,
+          to: increaseVersion(workspacePackage.packageObject.version, "patch"),
         })
         toPublishPackageNames.push(packageName)
       }
@@ -175,7 +173,8 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
     console.log(`${UNICODE.OK} all versions in package.json files are in sync`)
   } else {
     console.log(
-      `${UNICODE.INFO} ${updateCount} versions updated in package.json files`,
+      `${UNICODE.INFO} ${updateCount} versions updated in package.json files
+Use a tool like "git diff" to review these changes`,
     )
   }
 }

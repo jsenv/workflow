@@ -72,7 +72,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         if: env.NPM_TOKEN != null
-        run: node ./.github/workflows/main/publish_package.mjs
+        run: npm run workspace-publish
       - name: Ensure GitHub release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
