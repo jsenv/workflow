@@ -109,7 +109,7 @@ export const reportFileSizeImpact = async ({
       })
     },
     generatedByLink: {
-      url: "https://github.com/jsenv/file-size-impact",
+      url: "https://github.com/jsenv/workflow/tree/main/packages/jsenv-file-size-impact",
       text: "@jsenv/file-size-impact",
     },
     runLink,

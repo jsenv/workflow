@@ -97,7 +97,7 @@ _report_file_size_impact.mjs_
  * This file is executed by file_size_impact.yml GitHub workflow.
  * - it generates file size report before and after merging a pull request
  * - Then, it creates or updates a comment in the pull request
- * See https://github.com/jsenv/file-size-impact#how-it-works
+ * See https://github.com/jsenv/workflow/tree/main/packages/jsenv-file-size-impact#how-it-works
  */
 
 import {
@@ -194,7 +194,7 @@ const fileSizeReport = await generateFileSizeReport({
 _trackingConfig_ parameter is an object used to configure group of files you want to track. This parameter is optional with a default value exported in [src/jsenvTrackingConfig.js](./src/jsenvTrackingConfig.js)
 
 _trackingConfig_ keys are group names that will appear in the generated comment.
-_trackingConfig_ values are objects associating a pattern to a value. This object is refered as _metaValueMap_ in [@jsenv/url-meta#structuredMetaMap](https://github.com/jsenv/jsenv-url-meta#structuredmetamap).
+_trackingConfig_ values are objects associating a pattern to a value. This object is refered as _metaValueMap_ in [@jsenv/url-meta#structuredMetaMap](https://github.com/jsenv/url-meta#structuredmetamap).
 
 For example you can create two groups named _"critical files"_ and _"remaining files"_ like this:
 
@@ -407,13 +407,13 @@ _gitHubWorkflowEnv_ object looks like this:
 
 ```js
 const gitHubWorkflowEnv = {
-  projectDirectoryUrl: "/home/runner/work/repo-name/repo-name",
+  projectDirectoryUrl: "/home/runner/work/repository-name",
   githubToken: "xxx",
   repositoryOwner: "jsenv",
-  repositoryName: "file-size-impact",
+  repositoryName: "repository-name",
   pullRequestNumber: 10,
   runLink: {
-    url: "https://github.com/jsenv/file-size-impact/actions/runs/34",
+    url: "https://github.com/jsenv/repository-name/actions/runs/34",
     text: "workflow-name#34",
   },
 }

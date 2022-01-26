@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/performance-impact",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "Report pull request impacts on performance metrics",
   "license": "MIT",
   "author": {
@@ -34,6 +34,7 @@
   "scripts": {
     "eslint": "npx eslint . --ext=.js,.mjs",
     "importmap": "node ./script/importmap/importmap.mjs",
+    "snapshot": "node ./test/comment_snapshot/generate_comment_snapshot_file.mjs",
     "test": "node ./script/test/test.mjs",
     "test-with-coverage": "npm run test -- --coverage",
     "prettier": "prettier --write ."

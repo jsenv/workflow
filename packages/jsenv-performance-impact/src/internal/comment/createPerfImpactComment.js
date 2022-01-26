@@ -71,7 +71,7 @@ export const createPerfImpactComment = ({
 
   const body = `<h4 id="perf-impact">Performance impact</h4>
 
-<p>Impact on ${metricCount} metrics when merging <em>${pullRequestHead}</em> into <em>${pullRequestBase}</em>. Before drawing conclusion, keep in mind <a href="https://github.com/jsenv/performance-impact#performance-variability">performance variability</a>.</p>
+<p>Impact on ${metricCount} metrics when merging <em>${pullRequestHead}</em> into <em>${pullRequestBase}</em>. Before drawing conclusion, keep in mind <a href="https://github.com/jsenv/workflow/tree/main/packages/jsenv-performance-impact#performance-variability">performance variability</a>.</p>
 
 ${groups.join(`
 
@@ -80,7 +80,11 @@ ${groups.join(`
   return { warnings, body }
 }
 
-const getBigImpacts = ({ afterMergeMetrics, beforeMergeMetrics, isPerformanceImpactBig }) => {
+const getBigImpacts = ({
+  afterMergeMetrics,
+  beforeMergeMetrics,
+  isPerformanceImpactBig,
+}) => {
   const bigImpacts = {}
 
   Object.keys(afterMergeMetrics).forEach((metricName) => {

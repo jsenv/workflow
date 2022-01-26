@@ -111,7 +111,7 @@ export const reportLighthouseImpact = async ({
       }
     },
     generatedByLink: {
-      url: "https://github.com/jsenv/lighthouse-impact",
+      url: "https://github.com/jsenv/workflow/tree/main/packages/jsenv-lighthouse-impact",
       text: "@jsenv/lighthouse-impact",
     },
     runLink,

@@ -33,7 +33,7 @@ export const commentGitHubPullRequestImpact = async ({
   createCommentForVersionMismatch = jsenvCreateCommentForVersionMismatch,
   createCommentForComparison = jsenvCreateCommentForComparison,
   generatedByLink = {
-    url: "https://github.com/jsenv/github-pull-request-impact",
+    url: "https://github.com/jsenv/workflow/tree/main/packages/jsenv-github-pull-request-impact",
     text: "@jsenv/github-pull-request-impact",
   },
   runLink,

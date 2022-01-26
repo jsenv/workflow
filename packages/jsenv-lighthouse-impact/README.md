@@ -115,7 +115,7 @@ _report_lighthouse_impact.mjs_
  * This file is executed by lighthouse_impact.yml GitHub workflow.
  * - it generates lighthouse report before and after merging a pull request
  * - Then, it creates or updates a comment in the pull request
- * See https://github.com/jsenv/lighthouse-impact#how-it-works
+ * See https://github.com/jsenv/workflow/tree/main/packages/jsenv-performance-impact
  */
 
 import {
