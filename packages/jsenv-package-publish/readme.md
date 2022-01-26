@@ -13,8 +13,6 @@ Screenshot taken inside a github workflow when the package.json version is alrea
 
 Screenshot taken inside a github workflow when the package.json version is not published: ![publishing github workflow screenshot](./docs/publishing-github-workflow-screenshot.png)
 
-This package is using itself to be published on NPM. It is done during ["publish package" step](https://github.com/jsenv/package-publish/blob/0170a5c859c4732203ff2f3e70b85e705396ccc7/.github/workflows/main.yml#L70-L74) in GitHub worflow.
-
 # Installation
 
 ```console

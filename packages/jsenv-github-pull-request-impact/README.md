@@ -10,4 +10,4 @@ This repository publishes `@jsenv/github-pull-request-impact` on NPM. This packa
 
 - [@jsenv/performance-impact](../jsenv-performance-impact)
 - [@jsenv/file-size-impact](../jsenv-file-size-impact)
-- [@jsenv/lighthouse-score-impact](../jsenv-performance-impact)
+- [@jsenv/lighthouse-impact](../jsenv-lighthouse-impact)
