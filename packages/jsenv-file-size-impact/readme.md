@@ -435,8 +435,8 @@ Read more in [manifestConfig](#manifestConfig) parameter
 
 # See also
 
-- [@jsenv/performance-impact](https://github.com/jsenv/performance-impact): Monitor pull requests impacts but on performance metrics
-- [@jsenv/lighthouse-impact](https://github.com/jsenv/lighthouse-impact): Monitor pull requests impacts but on lighthouse score
+- [@jsenv/performance-impact](../jsenv-performance-impact): Monitor pull requests impacts but on performance metrics
+- [@jsenv/lighthouse-impact](../jsenv-lighthouse-impact): Monitor pull requests impacts but on lighthouse score
 
 # Note about GitHub workflow paths
 
