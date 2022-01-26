@@ -53,5 +53,6 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./packages/jsenv-github-pull-request-impact/coverage/coverage.json,./packages/jsenv-github-release-package/coverage/coverage.json,./packages/jsenv-package-publish/coverage/coverage.json
+          # all files needs to be specified for now, see https://github.com/codecov/uploader/issues/591
+          files: ./packages/jsenv-dynamic-import-worker/coverage/coverage.json,./packages/jsenv-file-size-impact/coverage/coverage.json,./packages/jsenv-github-pull-request-impact/coverage/coverage.json,./packages/jsenv-github-release-package/coverage/coverage.json,./packages/jsenv-lighthouse-impact/coverage/coverage.json,./packages/jsenv-package-publish/coverage/coverage.json
           verbose: true
