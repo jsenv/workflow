@@ -1,4 +1,4 @@
-# File size impact [![npm package](https://img.shields.io/npm/v/@jsenv/file-size-impact.svg?logo=npm&label=package)](https://www.npmjs.com/package/@jsenv/file-size-impact) [![workflow status](https://github.com/jsenv/file-size-impact/workflows/main/badge.svg)](https://github.com/jsenv/file-size-impact/actions?workflow=main) [![codecov](https://codecov.io/gh/jsenv/file-size-impact/branch/master/graph/badge.svg)](https://codecov.io/gh/jsenv/file-size-impact)
+# File size impact [![npm package](https://img.shields.io/npm/v/@jsenv/file-size-impact.svg?logo=npm&label=package)](https://www.npmjs.com/package/@jsenv/file-size-impact)
 
 `@jsenv/file-size-impact` analyses a pull request impact on specific files size. This analysis is posted in a comment of the pull request on GitHub.
 
@@ -9,29 +9,16 @@
 
 # Pull request comment
 
-This section shows pull request comment and how to read it.
+Screenshot + explanation on pull request comment.
 
 ![legend of pull request comment](./docs/comment_legend.png)
 
-## group summary
-
-"_remaining files (+4.71%)_" is a group summary, it translates into the following sentence:
-
-> "There is a group of files named **remaining files** and pull request has an overall impact of +4.71% on these files."
-
-## size impact
-
-"_21.6 kB (+4.11 kB / +23.55%)_" is a size impact, it translates into the following sentence:
-
-> "The size after merge is **21.6 kB**. Pull request adds **4.11 kB** representing an increase of **23.55%** of the size before merge."
-
-## Unmodified row
-
-Unmodified row is the sum of all files in a group that are not impacted by changes in the pull request.
-
-## Total row
-
-Total row is the sum of all files in a group.
+| Text                           | How to read it                                                                                                                |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| "remaining files (+4.71%)"     | There is a group of files named "remaining files" and pull request has an overall impact of _+4.71%_ on these files.          |
+| "21.6 kB (+4.11 kB / +23.55%)" | The size after merge is _21.6 kB_. Pull request adds _4.11 kB_ representing an increase of _23.55%_ of the size before merge. |
+| "_Unmodified (4)_"             | Sum files in "remaining files" group not impacted by the pull request.                                                        |
+| _Total (5)_                    | Sum files in "remaining files" group.                                                                                         |
 
 # Installation
 
@@ -113,7 +100,10 @@ _report_file_size_impact.mjs_
  * See https://github.com/jsenv/file-size-impact#how-it-works
  */
 
-import { reportFileSizeImpact, readGitHubWorkflowEnv } from "@jsenv/file-size-impact"
+import {
+  reportFileSizeImpact,
+  readGitHubWorkflowEnv,
+} from "@jsenv/file-size-impact"
 
 await reportFileSizeImpact({
   ...readGitHubWorkflowEnv(),
@@ -234,7 +224,12 @@ _transformations_ parameter is an object used to transform files content before 
 You can use this parameter to track file size after gzip compression.
 
 ```js
-import { generateFileSizeReport, raw, gzip, brotli } from "@jsenv/file-size-impact"
+import {
+  generateFileSizeReport,
+  raw,
+  gzip,
+  brotli,
+} from "@jsenv/file-size-impact"
 
 await generateFileSizeReport({
   transformations: { raw, gzip, brotli },
@@ -262,7 +257,12 @@ await generateFileSizeReport({
 Finally _transformations_ can be used to add custom _transformations_.
 
 ```js
-import { generateFileSizeReport, raw, gzip, brotli } from "@jsenv/file-size-impact"
+import {
+  generateFileSizeReport,
+  raw,
+  gzip,
+  brotli,
+} from "@jsenv/file-size-impact"
 
 await generateFileSizeReport({
   transformations: {
@@ -389,7 +389,10 @@ _commitInGeneratedByInfo_ parameter is a boolean controlling if a link to the co
 _readGitHubWorkflowEnv_ is a function meant to be runned inside a GitHub workflow. It returns an object meant to be forwarded to [reportFileSizeImpact](#reportFileSizeImpact).
 
 ```js
-import { reportFileSizeImpact, readGitHubWorkflowEnv } from "@jsenv/file-size-impact"
+import {
+  reportFileSizeImpact,
+  readGitHubWorkflowEnv,
+} from "@jsenv/file-size-impact"
 
 const gitHubWorkflowEnv = readGitHubWorkflowEnv()
 
