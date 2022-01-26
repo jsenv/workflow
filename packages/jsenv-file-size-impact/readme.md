@@ -33,7 +33,7 @@ _generate_file_size_report.mjs_
 ```js
 import { generateFileSizeReport } from "@jsenv/file-size-impact"
 
-export const filesizeReport = await generateFileSizeReport({
+export const fileSizeReport = await generateFileSizeReport({
   log: process.argv.includes("--log"),
   projectDirectoryUrl: new URL("./", import.meta.url),
   trackingConfig: {
@@ -108,9 +108,11 @@ import {
 await reportFileSizeImpact({
   ...readGitHubWorkflowEnv(),
   buildCommand: "npm run dist",
-  fileSizeModulePath: "./generate_file_size_report.mjs",
+  fileSizeReportModulePath: "./generate_file_size_report.mjs#fileSizeReport",
 })
 ```
+
+where `fileSizeReport` is the name of the export from _generate_file_size_report.mjs_.
 
 ## Other tools
 
@@ -320,7 +322,7 @@ await reportFileSizeImpact({
 
   installCommand: "npm install",
   buildCommand: "npm run build",
-  fileSizeModulePath: "./generate_file_size_report.mjs",
+  fileSizeReportModulePath: "./generate_file_size_report.mjs#fileSizeReport",
 
   filesOrdering: "size_impact",
 })
