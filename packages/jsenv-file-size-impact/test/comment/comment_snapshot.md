@@ -2,7 +2,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (+12.5%)</summary>
   <table>
@@ -39,7 +39,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (+12.5%)</summary>
   <table>
@@ -84,7 +84,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (no impact)</summary>
   <table>
@@ -116,7 +116,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (no impact)</summary>
   <p>No file in dist group (see config below).</p>
@@ -133,7 +133,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (no impact)</summary>
   <table>
@@ -170,7 +170,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>critical files (+5.65%)</summary>
   <table>
@@ -247,7 +247,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist/commonjs (+11.98%)</summary>
   <table>
@@ -346,7 +346,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (+0.54%)</summary>
   <table>
@@ -383,7 +383,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (+1%)</summary>
   <table>
@@ -415,7 +415,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (+7.46%)</summary>
   <table>
@@ -452,7 +452,7 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (+13.86%)</summary>
   <table>
@@ -490,13 +490,13 @@
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 
 # lot of files
 
 <h4 id="file-size-impact">File size impact</h4>
 
-<p>Merging <em>head</em> into <em>base</em> impact files as follow:</p>
+<p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
   <summary>dist (+0.35%)</summary>
   <table>

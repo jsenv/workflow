@@ -90,11 +90,12 @@ const renderCommentBody = ({
         : "none"
       const meta = event === "deleted" ? beforeMerge.meta : afterMerge.meta
 
-      const { sizeMapBeforeMerge, sizeMapAfterMerge, sizeImpactMap } = getSizeMapsOneFile({
-        sizeNames: transformationKeys,
-        beforeMerge,
-        afterMerge,
-      })
+      const { sizeMapBeforeMerge, sizeMapAfterMerge, sizeImpactMap } =
+        getSizeMapsOneFile({
+          sizeNames: transformationKeys,
+          beforeMerge,
+          afterMerge,
+        })
       const { showSizeImpact, formatFileRelativeUrl } = metaToData(meta, {
         fileRelativeUrl,
         sizeBeforeMerge: sizeMapBeforeMerge[0],
@@ -103,9 +104,13 @@ const renderCommentBody = ({
       })
       fileByFileImpact[fileRelativeUrl] = {
         event,
-        manifestKeyBeforeMerge: beforeMerge ? beforeMerge.manifestKey : undefined,
+        manifestKeyBeforeMerge: beforeMerge
+          ? beforeMerge.manifestKey
+          : undefined,
         manifestKeyAfterMerge: afterMerge ? afterMerge.manifestKey : undefined,
-        relativeUrlBeforeMerge: beforeMerge ? beforeMerge.relativeUrl : undefined,
+        relativeUrlBeforeMerge: beforeMerge
+          ? beforeMerge.relativeUrl
+          : undefined,
         relativeUrlAfterMerge: afterMerge ? afterMerge.relativeUrl : undefined,
         sizeMapBeforeMerge,
         sizeMapAfterMerge,
@@ -186,10 +191,13 @@ ${JSON.stringify(groupConfig, null, "  ")}
 }
 
 const formulateMergeImpact = ({ pullRequestBase, pullRequestHead }) => {
-  return `<p>Merging <em>${pullRequestHead}</em> into <em>${pullRequestBase}</em> impact files as follow:</p>`
+  return `<p>Impact on file sizes when merging <em>${pullRequestHead}</em> into <em>${pullRequestBase}</em>.</p>`
 }
 
-const metaToData = (meta, { fileRelativeUrl, sizeBeforeMerge, sizeAfterMerge, sizeImpactMap }) => {
+const metaToData = (
+  meta,
+  { fileRelativeUrl, sizeBeforeMerge, sizeAfterMerge, sizeImpactMap },
+) => {
   if (typeof meta === "boolean") {
     return {
       showSizeImpact: true,
@@ -210,7 +218,9 @@ const metaToData = (meta, { fileRelativeUrl, sizeBeforeMerge, sizeAfterMerge, si
     }
   }
 
-  console.warn(`meta must be a boolean or an object, received ${meta} for ${fileRelativeUrl}`)
+  console.warn(
+    `meta must be a boolean or an object, received ${meta} for ${fileRelativeUrl}`,
+  )
   return {
     showSizeImpact: Boolean(meta),
   }
