@@ -11,11 +11,11 @@ export const exec = (
         cwd,
         stdio: "silent",
       },
-      (error) => {
+      (error, out) => {
         if (error) {
           reject(error)
         } else {
-          resolve()
+          resolve(out)
         }
       },
     )

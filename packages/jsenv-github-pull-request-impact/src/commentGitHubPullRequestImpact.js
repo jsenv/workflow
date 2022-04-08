@@ -305,9 +305,14 @@ const commentPrImpact = async ({
       valueIfMissing: "Your Name",
       execCommandInProjectDirectory,
     })
-    await execCommandInProjectDirectory(
-      `git merge FETCH_HEAD --allow-unrelated-histories`,
-    )
+    // could we use https://stackoverflow.com/a/6283843 ?
+    try {
+      await execCommandInProjectDirectory(
+        `git merge FETCH_HEAD --allow-unrelated-histories --no-ff --no-commit`,
+      )
+    } catch (e) {
+      throw new Error(`git merge command failed (is there a merge conflict?)`)
+    }
     await restoreGitUserEmail()
     await restoreGitUserName()
     afterMergeInfo = await collectInfo({
