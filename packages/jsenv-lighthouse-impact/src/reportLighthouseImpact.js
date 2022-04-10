@@ -9,7 +9,7 @@ export const reportLighthouseImpact = async ({
   logLevel,
   commandLogs = false,
   cancelOnSIGINT,
-  projectDirectoryUrl,
+  rootDirectoryUrl,
 
   githubToken,
   repositoryOwner,
@@ -23,17 +23,14 @@ export const reportLighthouseImpact = async ({
   catchError,
   skipGistWarning = false,
 }) => {
-  projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
   if (typeof lighthouseReportPath !== "string") {
     throw new TypeError(
       `lighthouseReportPath must be a string but received ${lighthouseReportPath}`,
     )
   }
-  projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
-  const lighthouseReportUrl = resolveUrl(
-    lighthouseReportPath,
-    projectDirectoryUrl,
-  )
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
+  const lighthouseReportUrl = resolveUrl(lighthouseReportPath, rootDirectoryUrl)
 
   return commentGitHubPullRequestImpact({
     logLevel,
@@ -41,7 +38,7 @@ export const reportLighthouseImpact = async ({
     // lighthouse report are super verbose, do not log them
     infoLogs: false,
     cancelOnSIGINT,
-    projectDirectoryUrl,
+    rootDirectoryUrl,
 
     githubToken,
     repositoryOwner,

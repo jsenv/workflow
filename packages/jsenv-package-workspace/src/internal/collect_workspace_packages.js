@@ -31,7 +31,7 @@ export const collectWorkspacePackages = async ({ directoryUrl }) => {
 }
 
 const readPackageFile = async (url) => {
-  const fileContent = await readFile(url)
+  const fileContent = await readFile(url, { as: "string" })
   const hasFinalNewLine = fileContent[fileContent.length - 1] === "\n"
   return {
     object: JSON.parse(fileContent),

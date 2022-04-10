@@ -1,8 +1,4 @@
-import { createRequire } from "node:module"
-
-const require = createRequire(import.meta.url)
-
-const bytes = require("pretty-bytes")
+import bytes from "pretty-bytes"
 
 export const formatSize = (sizeNumber, { diff = false } = {}) => {
   const sizeNumberAbsolute = Math.abs(sizeNumber)

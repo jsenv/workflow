@@ -3,7 +3,7 @@ import { execute, nodeRuntime } from "@jsenv/core"
 import { measureMultipleTimes } from "@jsenv/performance-impact/src/internal/measureMultipleTimes.js"
 import { computeMetricsMedian } from "@jsenv/performance-impact/src/internal/computeMetricsMedian.js"
 
-const projectDirectoryUrl = new URL("./", import.meta.url)
+const rootDirectoryUrl = new URL("./", import.meta.url)
 
 const measureFilePerformance = async (params) => {
   const executionResult = await execute({
@@ -23,7 +23,7 @@ const measureFilePerformance = async (params) => {
 
 const metrics = await measureMultipleTimes(() => {
   return measureFilePerformance({
-    projectDirectoryUrl,
+    rootDirectoryUrl,
     fileRelativeUrl: "file.mjs",
   })
 })

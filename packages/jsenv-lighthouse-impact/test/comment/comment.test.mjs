@@ -18,7 +18,7 @@ const commentSnapshotFileUrl = resolveUrl(
   import.meta.url,
 )
 const readCommentSnapshotFile = async () => {
-  const fileContent = await readFile(commentSnapshotFileUrl)
+  const fileContent = await readFile(commentSnapshotFileUrl, { as: "string" })
   return fileContent
 }
 

@@ -1,8 +1,3 @@
-/*
- * This file uses "@jsenv/eslint-config" to configure ESLint
- * See https://github.com/jsenv/eslint-config#eslint-config----
- */
-
 const {
   composeEslintConfig,
   eslintConfigBase,
@@ -32,31 +27,37 @@ const eslintConfig = composeEslintConfig(
     },
   },
 
-  // Reuse jsenv eslint rules
-  {
-    rules: {
-      ...jsenvEslintRules,
-      // Example of code changing the ESLint configuration to enable a rule:
-      // 'prefer-const':  ['error']
-    },
-  },
-
   // Enable import plugin
   {
     plugins: ["import"],
     settings: {
       "import/resolver": {
-        // Tell ESLint to use the importmap to resolve imports.
-        // Read more in https://github.com/jsenv/importmap-node-module#Configure-vscode-and-eslint-for-importmap
-        "@jsenv/importmap-eslint-resolver": {
+        "@jsenv/eslint-import-resolver": {
           projectDirectoryUrl: __dirname,
-          importMapFileRelativeUrl: "./node_resolution.importmap",
-          node: true,
+          // logLevel: "debug",
+          packageConditions: ["node", "import"],
         },
       },
       "import/extensions": [".js", ".mjs"],
     },
     rules: jsenvEslintRulesForImport,
+  },
+
+  {
+    plugins: ["html"],
+    settings: {
+      extensions: [".html"],
+    },
+  },
+
+  // Reuse jsenv eslint rules
+  {
+    rules: {
+      ...jsenvEslintRules,
+      // Example of code changing the ESLint configuration to enable a rule:
+      "camelcase": ["off"],
+      "dot-notation": ["off"],
+    },
   },
 
   // package is "type": "module" so:
@@ -81,13 +82,6 @@ const eslintConfig = composeEslintConfig(
           __dirname: true,
           require: true,
           exports: true,
-        },
-
-        // inside *.cjs files, use commonjs module resolution
-        settings: {
-          "import/resolver": {
-            node: {},
-          },
         },
       },
     ],

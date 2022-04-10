@@ -10,7 +10,7 @@ export const reportPerformanceImpact = async ({
   logLevel,
   commandLogs,
   cancelOnSIGINT,
-  projectDirectoryUrl,
+  rootDirectoryUrl,
 
   githubToken,
   repositoryOwner,
@@ -26,23 +26,23 @@ export const reportPerformanceImpact = async ({
   runLink,
   commitInGeneratedByInfo,
 }) => {
-  projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
   if (typeof performanceReportPath !== "string") {
     throw new TypeError(
       `performanceReportPath must be a string but received ${performanceReportPath}`,
     )
   }
-  projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
   const performanceReportUrl = resolveUrl(
     performanceReportPath,
-    projectDirectoryUrl,
+    rootDirectoryUrl,
   )
 
   return commentGitHubPullRequestImpact({
     logLevel,
     commandLogs,
     cancelOnSIGINT,
-    projectDirectoryUrl,
+    rootDirectoryUrl,
 
     githubToken,
     repositoryOwner,

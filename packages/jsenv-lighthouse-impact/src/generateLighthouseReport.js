@@ -31,7 +31,7 @@ export const generateLighthouseReport = async (
     runCount = 1,
     delayBetweenEachRunInSeconds = 1,
 
-    projectDirectoryUrl, // required only when jsonFile or htmlFile is passed
+    rootDirectoryUrl, // required only when jsonFile or htmlFile is passed
     log = false,
     jsonFile = false,
     jsonFileRelativeUrl = "./lighthouse/lighthouse_report.json",
@@ -118,17 +118,14 @@ export const generateLighthouseReport = async (
     await chrome.kill()
 
     if (jsonFile || htmlFile) {
-      projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
+      rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
     }
 
     const promises = []
     if (jsonFile) {
       promises.push(
         (async () => {
-          const jsonFileUrl = resolveUrl(
-            jsonFileRelativeUrl,
-            projectDirectoryUrl,
-          )
+          const jsonFileUrl = resolveUrl(jsonFileRelativeUrl, rootDirectoryUrl)
           const json = JSON.stringify(lighthouseReport, null, "  ")
           await writeFile(jsonFileUrl, json)
           if (jsonFileLog) {
@@ -140,10 +137,7 @@ export const generateLighthouseReport = async (
     if (htmlFile) {
       promises.push(
         (async () => {
-          const htmlFileUrl = resolveUrl(
-            htmlFileRelativeUrl,
-            projectDirectoryUrl,
-          )
+          const htmlFileUrl = resolveUrl(htmlFileRelativeUrl, rootDirectoryUrl)
           const html = ReportGenerator.generateReportHtml(lighthouseReport)
           await writeFile(htmlFileUrl, html)
           if (htmlFileLog) {

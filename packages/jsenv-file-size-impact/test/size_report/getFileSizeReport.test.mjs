@@ -26,7 +26,7 @@ const test = (params) => {
 
   const actual = await test({
     logLevel: "warn",
-    projectDirectoryUrl: tempDirectoryUrl,
+    rootDirectoryUrl: tempDirectoryUrl,
     trackingConfig: {
       dist: {
         "./dist/**/*.js": true,
@@ -68,7 +68,7 @@ const test = (params) => {
   }
   const actual = await test({
     logLevel: "warn",
-    projectDirectoryUrl: tempDirectoryUrl,
+    rootDirectoryUrl: tempDirectoryUrl,
     trackingConfig: {
       dist: {
         "./dist/**/*": meta,
@@ -112,7 +112,7 @@ const test = (params) => {
 
   const actual = await test({
     logLevel: "warn",
-    projectDirectoryUrl: tempDirectoryUrl,
+    rootDirectoryUrl: tempDirectoryUrl,
     trackingConfig: {
       dist: {
         "./dist/**/*.js": true,

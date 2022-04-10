@@ -4,7 +4,7 @@ import {
   urlToFileSystemPath,
   readFile,
   writeFile,
-  removeFileSystemNode,
+  removeEntry,
 } from "@jsenv/filesystem"
 import { UNICODE } from "@jsenv/log"
 
@@ -14,7 +14,7 @@ export const publish = async ({
   logger,
   packageSlug,
   logNpmPublishOutput,
-  projectDirectoryUrl,
+  rootDirectoryUrl,
   registryUrl,
   token,
 }) => {
@@ -26,37 +26,29 @@ export const publish = async ({
         process.env.NODE_AUTH_TOKEN = previousValue
       }
       process.env.NODE_AUTH_TOKEN = token
-      const projectPackageFileUrl = resolveUrl(
-        "./package.json",
-        projectDirectoryUrl,
-      )
-      const projectPackageString = await readFile(projectPackageFileUrl)
-      const restoreProjectPackageFile = () =>
-        writeFile(projectPackageFileUrl, projectPackageString)
-      const projectPackageObject = JSON.parse(projectPackageString)
-      projectPackageObject.publishConfig =
-        projectPackageObject.publishConfig || {}
-      projectPackageObject.publishConfig.registry = registryUrl
+      const rootPackageFileUrl = resolveUrl("./package.json", rootDirectoryUrl)
+      const rootPackageString = await readFile(rootPackageFileUrl)
+      const restorePackageFile = () =>
+        writeFile(rootPackageFileUrl, rootPackageString)
+      const packageObject = JSON.parse(rootPackageString)
+      packageObject.publishConfig = packageObject.publishConfig || {}
+      packageObject.publishConfig.registry = registryUrl
       promises.push(
         writeFile(
-          projectPackageFileUrl,
-          JSON.stringify(projectPackageObject, null, "  "),
+          rootPackageFileUrl,
+          JSON.stringify(packageObject, null, "  "),
         ),
       )
-      const projectNpmConfigFileUrl = resolveUrl(
-        "./.npmrc",
-        projectDirectoryUrl,
-      )
-      let restoreProjectNpmConfigFile
+      const npmConfigFileUrl = resolveUrl("./.npmrc", rootDirectoryUrl)
+      let restoreNpmConfigFile
       let projectNpmConfigString
       try {
-        projectNpmConfigString = await readFile(projectNpmConfigFileUrl)
-        restoreProjectNpmConfigFile = () =>
-          writeFile(projectNpmConfigFileUrl, projectNpmConfigString)
+        projectNpmConfigString = await readFile(npmConfigFileUrl)
+        restoreNpmConfigFile = () =>
+          writeFile(npmConfigFileUrl, projectNpmConfigString)
       } catch (e) {
         if (e.code === "ENOENT") {
-          restoreProjectNpmConfigFile = () =>
-            removeFileSystemNode(projectNpmConfigFileUrl)
+          restoreNpmConfigFile = () => removeEntry(npmConfigFileUrl)
           projectNpmConfigString = ""
         } else {
           throw e
@@ -64,10 +56,10 @@ export const publish = async ({
       }
       promises.push(
         writeFile(
-          projectNpmConfigFileUrl,
+          npmConfigFileUrl,
           setNpmConfig(projectNpmConfigString, {
             [computeRegistryTokenKey(registryUrl)]: token,
-            [computeRegistryKey(projectPackageObject.name)]: registryUrl,
+            [computeRegistryKey(packageObject.name)]: registryUrl,
           }),
         ),
       )
@@ -77,7 +69,7 @@ export const publish = async ({
           const command = exec(
             "npm publish",
             {
-              cwd: urlToFileSystemPath(projectDirectoryUrl),
+              cwd: urlToFileSystemPath(rootDirectoryUrl),
               stdio: "silent",
             },
             (error) => {
@@ -150,8 +142,8 @@ export const publish = async ({
       } finally {
         await Promise.all([
           restoreProcessEnv(),
-          restoreProjectPackageFile(),
-          restoreProjectNpmConfigFile(),
+          restorePackageFile(),
+          restoreNpmConfigFile(),
         ])
       }
     } catch (e) {

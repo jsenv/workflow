@@ -19,7 +19,7 @@ export const commentGitHubPullRequestImpact = async ({
   logLevel,
   commandLogs = false,
   infoLogs = true,
-  projectDirectoryUrl,
+  rootDirectoryUrl,
 
   githubToken,
   repositoryOwner,
@@ -41,7 +41,7 @@ export const commentGitHubPullRequestImpact = async ({
 
   catchError = false,
 }) => {
-  projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
   if (typeof collectInfo !== "function") {
     throw new TypeError(
       `collectInfo must be a function but received ${collectInfo}`,
@@ -83,7 +83,7 @@ export const commentGitHubPullRequestImpact = async ({
       logger,
       commandLogs,
       infoLogs,
-      projectDirectoryUrl,
+      rootDirectoryUrl,
 
       githubToken,
       repositoryOwner,
@@ -111,7 +111,7 @@ const commentPrImpact = async ({
   logger,
   infoLogs,
   commandLogs,
-  projectDirectoryUrl,
+  rootDirectoryUrl,
 
   githubToken,
   repositoryOwner,
@@ -130,10 +130,10 @@ const commentPrImpact = async ({
 
   catchError,
 }) => {
-  const execCommandInProjectDirectory = (command) => {
+  const execCommandInRootDirectory = (command) => {
     logger.info(`> ${command}`)
     return exec(command, {
-      cwd: urlToFileSystemPath(projectDirectoryUrl),
+      cwd: urlToFileSystemPath(rootDirectoryUrl),
       onLog: (string) => {
         if (commandLogs) {
           logger.info(string)
@@ -254,15 +254,15 @@ const commentPrImpact = async ({
   let beforeMergeInfo
   try {
     // cannot use depth=1 arg otherwise git merge might have merge conflicts
-    await execCommandInProjectDirectory(
+    await execCommandInRootDirectory(
       `git fetch --no-tags --prune origin ${pullRequestBase}`,
     )
-    await execCommandInProjectDirectory(
+    await execCommandInRootDirectory(
       `git reset --hard origin/${pullRequestBase}`,
     )
     beforeMergeInfo = await collectInfo({
       beforeMerge: true,
-      execCommandInProjectDirectory,
+      execCommandInRootDirectory,
     })
     if (infoLogs) {
       logger.debug(debugBeforeMergeInfo(beforeMergeInfo))
@@ -285,13 +285,13 @@ const commentPrImpact = async ({
   try {
     // buildCommand might generate files that could conflict when doing the merge
     // reset to avoid potential merge conflicts
-    await execCommandInProjectDirectory(
+    await execCommandInRootDirectory(
       `git reset --hard origin/${pullRequestBase}`,
     )
     // Avoid "The following untracked working tree files would be overwritten by merge" error
-    await execCommandInProjectDirectory(`git clean -d -f .`)
+    await execCommandInRootDirectory(`git clean -d -f .`)
     // cannot use depth=1 arg otherwise git merge might have merge conflicts
-    await execCommandInProjectDirectory(
+    await execCommandInRootDirectory(
       `git fetch --no-tags --prune origin ${headRef}`,
     )
     // ensure there is user.email + user.name required to perform git merge command
@@ -299,15 +299,15 @@ const commentPrImpact = async ({
 
     const restoreGitUserEmail = await ensureGitConfig("user.email", {
       valueIfMissing: "you@example.com",
-      execCommandInProjectDirectory,
+      execCommandInRootDirectory,
     })
     const restoreGitUserName = await ensureGitConfig("user.name", {
       valueIfMissing: "Your Name",
-      execCommandInProjectDirectory,
+      execCommandInRootDirectory,
     })
     // could we use https://stackoverflow.com/a/6283843 ?
     try {
-      await execCommandInProjectDirectory(
+      await execCommandInRootDirectory(
         `git merge FETCH_HEAD --allow-unrelated-histories --no-ff --no-commit`,
       )
     } catch (e) {
@@ -317,7 +317,7 @@ const commentPrImpact = async ({
     await restoreGitUserName()
     afterMergeInfo = await collectInfo({
       afterMerge: true,
-      execCommandInProjectDirectory,
+      execCommandInRootDirectory,
     })
     if (infoLogs) {
       logger.debug(debugAfterMergeInfo(afterMergeInfo))
@@ -364,17 +364,17 @@ const commentPrImpact = async ({
 
 const ensureGitConfig = async (
   name,
-  { execCommandInProjectDirectory, valueIfMissing },
+  { execCommandInRootDirectory, valueIfMissing },
 ) => {
   try {
-    await execCommandInProjectDirectory(`git config ${name}`)
+    await execCommandInRootDirectory(`git config ${name}`)
     return () => {}
   } catch (e) {
-    await execCommandInProjectDirectory(
+    await execCommandInRootDirectory(
       `git config ${name} "${valueIfMissing}"`,
     )
     return async () => {
-      await execCommandInProjectDirectory(`git config --unset ${name}`)
+      await execCommandInRootDirectory(`git config --unset ${name}`)
     }
   }
 }

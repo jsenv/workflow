@@ -35,7 +35,7 @@ import { generateFileSizeReport } from "@jsenv/file-size-impact"
 
 export const fileSizeReport = await generateFileSizeReport({
   log: process.argv.includes("--log"),
-  projectDirectoryUrl: new URL("./", import.meta.url),
+  rootDirectoryUrl: new URL("./", import.meta.url),
   trackingConfig: {
     dist: {
       "./dist/**/*": true,
@@ -145,7 +145,7 @@ When outside a GitHub workflow, you cannot use _readGitHubWorkflowEnv()_. It mea
 
 reportFileSizeImpact({
 - ...readGitHubWorkflowEnv(),
-+ projectDirectoryUrl: process.env.TRAVIS_BUILD_DIR,
++ rootDirectoryUrl: process.env.TRAVIS_BUILD_DIR,
 + repositoryOwner: process.env.TRAVIS_REPO_SLUG.split("/")[0],
 + repositoryName: process.env.TRAVIS_REPO_SLUG.split("/")[1],
 + pullRequestNumber: process.env.TRAVIS_PULL_REQUEST,
@@ -179,7 +179,7 @@ _generateFileSizeReport_ is an async function scanning filesystem to compute a l
 import { generateFileSizeReport, raw, gzip } from "@jsenv/file-size-impact"
 
 const fileSizeReport = await generateFileSizeReport({
-  projectDirectoryUrl: new URL("./", import.meta.url),
+  rootDirectoryUrl: new URL("./", import.meta.url),
   trackingConfig: {
     dist: {
       "./dist/**/*.js": true,
@@ -314,7 +314,7 @@ import { reportFileSizeImpact, raw } from "@jsenv/file-size-impact"
 await reportFileSizeImpact({
   logLevel: "info",
 
-  projectDirectoryUrl: "file:///directory",
+  rootDirectoryUrl: "file:///directory",
   githubToken: "xxx",
   repositoryOwner: "jsenv",
   repositoryName: "file-size-impact",
@@ -334,9 +334,9 @@ _logLevel_ parameter controls verbosity of logs during the function execution. T
 
 You likely don't need to modify this parameter except to get verbose logs using `"debug"`. The list of available values for _logLevel_ can be found on [@jsenv/logger documentation](https://github.com/jsenv/jsenv-logger#loglevel).
 
-## projectDirectoryUrl
+## rootDirectoryUrl
 
-_projectDirectoryUrl_ parameter is a string leading to your project root directory. This parameter is **required**.
+_rootDirectoryUrl_ parameter is a string leading to your project root directory. This parameter is **required**.
 
 ## installCommand
 
@@ -348,7 +348,7 @@ _buildCommand_ parameter is a string representing the command to run in order to
 
 ## fileSizeModulePath
 
-_fileSizeModulePath_ is a string parameter representing an url relative to [projectDirectoryUrl](#projectDirectoryUrl) leading a module file. This file must contain a _generateFileSizeReport_ export.
+_fileSizeModulePath_ is a string parameter representing an url relative to [rootDirectoryUrl](#rootDirectoryUrl) leading a module file. This file must contain a _generateFileSizeReport_ export.
 
 ## filesOrdering
 
@@ -407,7 +407,7 @@ _gitHubWorkflowEnv_ object looks like this:
 
 ```js
 const gitHubWorkflowEnv = {
-  projectDirectoryUrl: "/home/runner/work/repository-name",
+  rootDirectoryUrl: "/home/runner/work/repository-name",
   githubToken: "xxx",
   repositoryOwner: "jsenv",
   repositoryName: "repository-name",

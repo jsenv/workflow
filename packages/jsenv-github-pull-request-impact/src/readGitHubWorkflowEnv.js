@@ -28,7 +28,7 @@ export const readGitHubWorkflowEnv = () => {
       }
     : undefined
   return {
-    projectDirectoryUrl: process.env.GITHUB_WORKSPACE,
+    rootDirectoryUrl: process.env.GITHUB_WORKSPACE,
     githubToken,
     repositoryOwner,
     repositoryName,

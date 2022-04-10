@@ -6,18 +6,18 @@ import { readProjectPackage } from "./internal/readProjectPackage.js"
 
 export const ensureGithubReleaseForPackage = async ({
   logLevel,
-  projectDirectoryUrl,
+  rootDirectoryUrl,
 }) => {
   const logger = createLogger({ logLevel })
   logger.debug(
     `autoReleaseOnGithub(${JSON.stringify(
-      { projectDirectoryUrl, logLevel },
+      { rootDirectoryUrl, logLevel },
       null,
       "  ",
     )})`,
   )
 
-  projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
 
   const {
     githubToken,
@@ -28,7 +28,7 @@ export const ensureGithubReleaseForPackage = async ({
 
   logger.debug(`reading project package.json`)
   const { packageVersion } = await getOptionsFromProjectPackage({
-    projectDirectoryUrl,
+    rootDirectoryUrl,
   })
   logger.debug(`${packageVersion} found in package.json`)
 
@@ -111,8 +111,8 @@ const getOptionsFromGithubAction = () => {
   }
 }
 
-const getOptionsFromProjectPackage = async ({ projectDirectoryUrl }) => {
-  const projectPackage = await readProjectPackage({ projectDirectoryUrl })
+const getOptionsFromProjectPackage = async ({ rootDirectoryUrl }) => {
+  const projectPackage = await readProjectPackage({ rootDirectoryUrl })
   return {
     packageVersion: projectPackage.version,
   }

@@ -1,10 +1,10 @@
 import { resolveUrl, urlToFileSystemPath, readFile } from "@jsenv/filesystem"
 
-export const readProjectPackage = async ({ projectDirectoryUrl }) => {
-  const packageFileUrl = resolveUrl("./package.json", projectDirectoryUrl)
+export const readProjectPackage = async ({ rootDirectoryUrl }) => {
+  const packageFileUrl = resolveUrl("./package.json", rootDirectoryUrl)
   let packageObject
   try {
-    const packageString = await readFile(packageFileUrl)
+    const packageString = await readFile(packageFileUrl, { as: "string" })
     try {
       packageObject = JSON.parse(packageString)
     } catch (e) {

@@ -11,7 +11,7 @@ if (process.platform !== "win32") {
   const server = await startServer({
     logLevel: "warn",
     requestToResponse: async () => {
-      const htmlFileContent = await readFile(htmlFileUrl)
+      const htmlFileContent = await readFile(htmlFileUrl, { as: "string" })
       return {
         status: 200,
         headers: {

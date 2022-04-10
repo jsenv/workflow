@@ -5,7 +5,7 @@ import {
 
 export const applyTrackingConfig = async (
   trackingConfig,
-  { projectDirectoryUrl, manifestConfig },
+  { rootDirectoryUrl, manifestConfig },
 ) => {
   const result = {}
   const trackingNames = Object.keys(trackingConfig)
@@ -17,7 +17,7 @@ export const applyTrackingConfig = async (
     trackingNames.map(async (trackingName) => {
       const tracking = trackingConfig[trackingName]
       const groupTrackingResult = await applyTracking(tracking, {
-        projectDirectoryUrl,
+        rootDirectoryUrl,
         manifestConfig,
       })
       result[trackingName] = groupTrackingResult
@@ -28,7 +28,7 @@ export const applyTrackingConfig = async (
 
 const applyTracking = async (
   tracking,
-  { projectDirectoryUrl, manifestConfig },
+  { rootDirectoryUrl, manifestConfig },
 ) => {
   const structuredMetaMap = {
     track: tracking,
@@ -39,12 +39,12 @@ const applyTracking = async (
 
   try {
     directoryMatchReport = await collectDirectoryMatchReport({
-      directoryUrl: projectDirectoryUrl,
+      directoryUrl: rootDirectoryUrl,
       structuredMetaMap,
       predicate: (meta) => Boolean(meta.track) || Boolean(meta.manifest),
     })
   } catch (e) {
-    const directoryPath = urlToFileSystemPath(projectDirectoryUrl)
+    const directoryPath = urlToFileSystemPath(rootDirectoryUrl)
     if (e.code === "ENOENT" && e.path === directoryPath) {
       console.warn(`${directoryPath} does not exists`)
       return []

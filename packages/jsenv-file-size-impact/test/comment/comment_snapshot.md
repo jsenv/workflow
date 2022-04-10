@@ -4,7 +4,7 @@
 
 <p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
-  <summary>dist (+12.5%)</summary>
+  <summary>dist (+13%)</summary>
   <table>
     <thead>
       <tr>
@@ -28,7 +28,7 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (2)</strong></td>
-        <td nowrap>225 B (+25 B / +12.5%)</td>
+        <td nowrap>225 B (+25 B / +13%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -41,7 +41,7 @@
 
 <p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
-  <summary>dist (+12.5%)</summary>
+  <summary>dist (+13%)</summary>
   <table>
     <thead>
       <tr>
@@ -57,23 +57,23 @@
         <td nowrap>dist/foo.js</td>
         <td nowrap>115 B (+15 B / +15%)</td>
         <td nowrap>24 B (+4 B / +20%)</td>
-        <td nowrap>21 B (+3 B / +16.67%)</td>
+        <td nowrap>21 B (+3 B / +17%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
       <tr>
         <td nowrap>dist/bar.js</td>
         <td nowrap>110 B (+10 B / +10%)</td>
         <td nowrap>22 B (+2 B / +10%)</td>
-        <td nowrap>19 B (+1 B / +5.56%)</td>
+        <td nowrap>19 B (+1 B / +6%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
         <td nowrap><strong>Total (2)</strong></td>
-        <td nowrap>225 B (+25 B / +12.5%)</td>
+        <td nowrap>225 B (+25 B / +13%)</td>
         <td nowrap>46 B (+6 B / +15%)</td>
-        <td nowrap>40 B (+4 B / +11.11%)</td>
+        <td nowrap>40 B (+4 B / +11%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -152,7 +152,7 @@
       </tr>
       <tr>
         <td nowrap>dist/file-b.js</td>
-        <td nowrap>10 B (-5 B / -33.33%)</td>
+        <td nowrap>10 B (-5 B / -33%)</td>
         <td>:arrow_lower_right:</td>
       </tr>
     </tbody>
@@ -172,7 +172,7 @@
 
 <p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
-  <summary>critical files (+5.65%)</summary>
+  <summary>critical files (+6%)</summary>
   <table>
     <thead>
       <tr>
@@ -185,8 +185,8 @@
     <tbody>
       <tr>
         <td nowrap>dist/foo.js</td>
-        <td nowrap>85.5 kB (+7 kB / +8.92%)</td>
-        <td nowrap>36.6 kB (+4 kB / +12.28%)</td>
+        <td nowrap>85.5 kB (+7 kB / +9%)</td>
+        <td nowrap>36.6 kB (+4 kB / +12%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
       <tr>
@@ -199,8 +199,8 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (2)</strong></td>
-        <td nowrap>131 kB (+7 kB / +5.65%)</td>
-        <td nowrap>60.1 kB (+4 kB / +7.13%)</td>
+        <td nowrap>131 kB (+7 kB / +6%)</td>
+        <td nowrap>60.1 kB (+4 kB / +7%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -208,7 +208,7 @@
 </details>
 
 <details>
-  <summary>remaining files (+4.71%)</summary>
+  <summary>remaining files (+5%)</summary>
   <table>
     <thead>
       <tr>
@@ -221,8 +221,8 @@
     <tbody>
       <tr>
         <td nowrap>dist/feature.js</td>
-        <td nowrap>21.6 kB (+4.11 kB / +23.55%)</td>
-        <td nowrap>12.5 kB (+2.94 kB / +30.84%)</td>
+        <td nowrap>21.6 kB (+4.11 kB / +24%)</td>
+        <td nowrap>12.5 kB (+2.94 kB / +31%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
       <tr>
@@ -235,8 +235,8 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (5)</strong></td>
-        <td nowrap>91.4 kB (+4.11 kB / +4.71%)</td>
-        <td nowrap>50.6 kB (+2.94 kB / +6.17%)</td>
+        <td nowrap>91.4 kB (+4.11 kB / +5%)</td>
+        <td nowrap>50.6 kB (+2.94 kB / +6%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -249,7 +249,7 @@
 
 <p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
-  <summary>dist/commonjs (+11.98%)</summary>
+  <summary>dist/commonjs (+12%)</summary>
   <table>
     <thead>
       <tr>
@@ -263,9 +263,9 @@
     <tbody>
       <tr>
         <td nowrap>dist/commonjs/hello.js</td>
-        <td nowrap>187 kB (+20 kB / +11.98%)</td>
-        <td nowrap>1.8 kB (+200 B / +12.5%)</td>
-        <td nowrap>1.7 kB (+200 B / +13.33%)</td>
+        <td nowrap>187 kB (+20 kB / +12%)</td>
+        <td nowrap>1.8 kB (+200 B / +13%)</td>
+        <td nowrap>1.7 kB (+200 B / +13%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
       <tr>
@@ -286,9 +286,9 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (3)</strong></td>
-        <td nowrap>187 kB (+20 kB / +11.98%)</td>
-        <td nowrap>1.81 kB (+202 B / +12.55%)</td>
-        <td nowrap>1.71 kB (+202 B / +13.39%)</td>
+        <td nowrap>187 kB (+20 kB / +12%)</td>
+        <td nowrap>1.81 kB (+202 B / +13%)</td>
+        <td nowrap>1.71 kB (+202 B / +13%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -296,7 +296,7 @@
 </details>
 
 <details>
-  <summary>dist/systemjs (+11.98%)</summary>
+  <summary>dist/systemjs (+12%)</summary>
   <table>
     <thead>
       <tr>
@@ -310,9 +310,9 @@
     <tbody>
       <tr>
         <td nowrap>dist/systemjs/hello.js</td>
-        <td nowrap>187 kB (+20 kB / +11.98%)</td>
-        <td nowrap>1.8 kB (+200 B / +12.5%)</td>
-        <td nowrap>1.7 kB (+200 B / +13.33%)</td>
+        <td nowrap>187 kB (+20 kB / +12%)</td>
+        <td nowrap>1.8 kB (+200 B / +13%)</td>
+        <td nowrap>1.7 kB (+200 B / +13%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
       <tr>
@@ -333,9 +333,9 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (3)</strong></td>
-        <td nowrap>187 kB (+20 kB / +11.98%)</td>
-        <td nowrap>1.81 kB (+202 B / +12.55%)</td>
-        <td nowrap>1.71 kB (+202 B / +13.39%)</td>
+        <td nowrap>187 kB (+20 kB / +12%)</td>
+        <td nowrap>1.81 kB (+202 B / +13%)</td>
+        <td nowrap>1.71 kB (+202 B / +13%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -348,7 +348,7 @@
 
 <p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
-  <summary>dist (+0.54%)</summary>
+  <summary>dist (+0.5%)</summary>
   <table>
     <thead>
       <tr>
@@ -372,7 +372,7 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (2)</strong></td>
-        <td nowrap>2.81 kB (+15 B / +0.54%)</td>
+        <td nowrap>2.81 kB (+15 B / +0.5%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -417,7 +417,7 @@
 
 <p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
-  <summary>dist (+7.46%)</summary>
+  <summary>dist (+7%)</summary>
   <table>
     <thead>
       <tr>
@@ -429,7 +429,7 @@
     <tbody>
       <tr>
         <td nowrap>dist/foo.js</td>
-        <td nowrap>115 B (+14 B / +13.86%)</td>
+        <td nowrap>115 B (+14 B / +14%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
       <tr>
@@ -441,7 +441,7 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (2)</strong></td>
-        <td nowrap>216 B (+15 B / +7.46%)</td>
+        <td nowrap>216 B (+15 B / +7%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -454,7 +454,7 @@
 
 <p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
-  <summary>dist (+13.86%)</summary>
+  <summary>dist (+14%)</summary>
   <table>
     <thead>
       <tr>
@@ -466,14 +466,14 @@
     <tbody>
       <tr>
         <td nowrap>foo.js</td>
-        <td nowrap>115 B (+14 B / +13.86%)</td>
+        <td nowrap>115 B (+14 B / +14%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
         <td nowrap><strong>Total (1)</strong></td>
-        <td nowrap>115 B (+14 B / +13.86%)</td>
+        <td nowrap>115 B (+14 B / +14%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -498,7 +498,7 @@
 
 <p>Impact on file sizes when merging <em>head</em> into <em>base</em>.</p>
 <details>
-  <summary>dist (+0.35%)</summary>
+  <summary>dist (+0.3%)</summary>
   <table>
     <thead>
       <tr>
@@ -537,8 +537,8 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (100)</strong></td>
-        <td nowrap>497 kB (+1.72 kB / +0.35%)</td>
-        <td nowrap>99.2 kB (+150 B / +0.15%)</td>
+        <td nowrap>497 kB (+1.72 kB / +0.3%)</td>
+        <td nowrap>99.2 kB (+150 B / +0.2%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>

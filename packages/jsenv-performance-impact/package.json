@@ -33,7 +33,6 @@
   ],
   "scripts": {
     "eslint": "npx eslint . --ext=.js,.mjs",
-    "importmap": "node ./script/importmap/importmap.mjs",
     "snapshot": "node ./test/comment_snapshot/generate_comment_snapshot_file.mjs",
     "test": "node ./script/test/test.mjs",
     "test-with-coverage": "npm run test -- --coverage",
@@ -41,20 +40,10 @@
   },
   "dependencies": {
     "@jsenv/dynamic-import-worker": "1.0.1",
-    "@jsenv/filesystem": "2.7.1",
+    "@jsenv/filesystem": "3.1.0",
     "@jsenv/github-pull-request-impact": "1.6.10",
     "@jsenv/logger": "4.0.1",
     "bytes": "3.1.1",
     "humanize-duration": "3.27.1"
-  },
-  "devDependencies": {
-    "@jsenv/assert": "2.4.1",
-    "@jsenv/core": "25.3.0",
-    "@jsenv/eslint-config": "16.0.9",
-    "@jsenv/importmap-eslint-resolver": "5.2.5",
-    "@jsenv/importmap-node-module": "5.1.3",
-    "eslint": "8.7.0",
-    "eslint-plugin-import": "2.25.4",
-    "prettier": "2.5.1"
   }
 }

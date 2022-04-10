@@ -1,0 +1,7 @@
+.jsenv/
+.coverage/
+dist/
+node_modules/
+
+!/.github/
+!.eslintrc.js

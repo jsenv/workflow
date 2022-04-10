@@ -15,7 +15,7 @@ import {
 
 export const publishPackage = async ({
   logLevel,
-  projectDirectoryUrl,
+  rootDirectoryUrl,
   registriesConfig,
   logNpmPublishOutput = true,
   updateProcessExitCode = true,
@@ -23,17 +23,17 @@ export const publishPackage = async ({
   const logger = createLogger({ logLevel })
   logger.debug(
     `publishPackage(${JSON.stringify(
-      { projectDirectoryUrl, logLevel, registriesConfig },
+      { rootDirectoryUrl, logLevel, registriesConfig },
       null,
       "  ",
     )})`,
   )
-  projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
   assertRegistriesConfig(registriesConfig)
 
   logger.debug(`reading project package.json`)
   const packageInProject = await readProjectPackage({
-    projectDirectoryUrl,
+    rootDirectoryUrl,
   })
 
   const { name: packageName, version: packageVersion } = packageInProject
@@ -140,7 +140,7 @@ ${actionReason.stack}`)
       logger,
       packageSlug: `${packageName}@${packageVersion}`,
       logNpmPublishOutput,
-      projectDirectoryUrl,
+      rootDirectoryUrl,
       registryUrl,
       ...registriesConfig[registryUrl],
     })
