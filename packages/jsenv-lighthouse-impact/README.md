@@ -162,7 +162,7 @@ The example below assume code is executed by Travis.
 
 reportLighthouseImpact({
 -  ...readGitHubWorkflowEnv(),
-+  projectDirectoryUrl: process.env.TRAVIS_BUILD_DIR,
++  rootDirectoryUrl: process.env.TRAVIS_BUILD_DIR,
 +  repositoryOwner: process.env.TRAVIS_REPO_SLUG.split("/")[0],
 +  repositoryName: process.env.TRAVIS_REPO_SLUG.split("/")[1],
 +  pullRequestNumber: process.env.TRAVIS_PULL_REQUEST,

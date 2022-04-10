@@ -4,13 +4,13 @@ import { ensureGithubReleaseForPackage } from "@jsenv/github-release-package"
 
 // Object.assign(process.env, secrets)
 
-const projectDirectoryUrl = resolveUrl("../", import.meta.url)
+const rootDirectoryUrl = resolveUrl("../", import.meta.url)
 
 process.env.GITHUB_EVENT_NAME = "push"
 process.env.GITHUB_REPOSITORY = "jsenv/jsenv-auto-publish"
 process.env.GITHUB_SHA = "b1bd0020316c53b5837110fb9eb1139b6e495408"
 
 ensureGithubReleaseForPackage({
-  projectDirectoryUrl,
+  rootDirectoryUrl,
   logLevel: "debug",
 })

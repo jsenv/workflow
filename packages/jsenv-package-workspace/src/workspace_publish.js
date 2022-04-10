@@ -1,7 +1,7 @@
-import { publish } from "@jsenv/package-publish/src/internal/publish.js"
 import { createLogger } from "@jsenv/logger"
 import { UNICODE } from "@jsenv/log"
 
+import { publish } from "@jsenv/package-publish/src/internal/publish.js"
 import { collectWorkspacePackages } from "./internal/collect_workspace_packages.js"
 import { fetchWorkspaceLatests } from "./internal/fetch_workspace_latests.js"
 import {
@@ -54,7 +54,7 @@ export const publishWorkspace = async ({ directoryUrl }) => {
       await publish({
         logger: createLogger({ logLevel: "info" }),
         packageSlug: packageSlugs[index],
-        projectDirectoryUrl: new URL(
+        rootDirectoryUrl: new URL(
           "./",
           workspacePackages[toPublishPackageName].packageUrl,
         ),

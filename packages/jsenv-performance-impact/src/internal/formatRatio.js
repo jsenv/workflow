@@ -1,12 +1,6 @@
-export const formatRatioAsPercentage = (ratio) => {
-  const asPercentage = ratio * 100
-  const asPercentageFormatted = `${ratio < 0 ? `-` : "+"}${Math.abs(
-    limitDecimals(asPercentage, 2),
-  )}%`
-  return asPercentageFormatted
-}
+import { formatPercentage } from "./format_percentage.js"
 
-const limitDecimals = (number, decimalCount = 2) => {
-  const multiplier = Math.pow(10, decimalCount)
-  return Math.round(number * multiplier) / multiplier
+export const formatRatioAsPercentage = (ratio) => {
+  const asPercentageFormatted = formatPercentage(ratio * 100)
+  return asPercentageFormatted
 }

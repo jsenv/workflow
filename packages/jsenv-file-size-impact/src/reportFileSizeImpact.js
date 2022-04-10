@@ -1,7 +1,7 @@
 import { commentGitHubPullRequestImpact } from "@jsenv/github-pull-request-impact"
 import { assertAndNormalizeDirectoryUrl, resolveUrl } from "@jsenv/filesystem"
-import { importOneExportFromFile } from "@jsenv/dynamic-import-worker"
 
+import { importOneExportFromFile } from "@jsenv/dynamic-import-worker"
 import { formatComment } from "./internal/formatComment.js"
 import { jsenvCommentParameters } from "./internal/jsenvCommentParameters.js"
 
@@ -10,7 +10,7 @@ export const reportFileSizeImpact = async ({
   commandLogs,
   cancellationToken,
   cancelOnSIGINT,
-  projectDirectoryUrl,
+  rootDirectoryUrl,
 
   githubToken,
   repositoryOwner,
@@ -57,10 +57,10 @@ export const reportFileSizeImpact = async ({
       `fileSizeReportModulePath must be a string but received ${fileSizeReportModulePath}`,
     )
   }
-  projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
   const fileSizeReportModuleUrl = resolveUrl(
     fileSizeReportModulePath,
-    projectDirectoryUrl,
+    rootDirectoryUrl,
   )
 
   return commentGitHubPullRequestImpact({
@@ -68,7 +68,7 @@ export const reportFileSizeImpact = async ({
     commandLogs,
     cancellationToken,
     cancelOnSIGINT,
-    projectDirectoryUrl,
+    rootDirectoryUrl,
 
     githubToken,
     repositoryOwner,

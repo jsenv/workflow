@@ -13,9 +13,12 @@ before commiting it.
 import { readFile, resolveUrl } from "@jsenv/filesystem"
 import { assert } from "@jsenv/assert"
 
-const commentSnapshotFileUrl = resolveUrl("./comment_snapshot.md", import.meta.url)
+const commentSnapshotFileUrl = resolveUrl(
+  "./comment_snapshot.md",
+  import.meta.url,
+)
 const readCommentSnapshotFile = async () => {
-  const fileContent = await readFile(commentSnapshotFileUrl)
+  const fileContent = await readFile(commentSnapshotFileUrl, { as: "string" })
   return fileContent
 }
 

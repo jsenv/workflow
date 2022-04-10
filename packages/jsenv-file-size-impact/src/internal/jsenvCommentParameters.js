@@ -1,3 +1,4 @@
+import { formatPercentage } from "./format_percentage.js"
 import { formatSize } from "./formatSize.js"
 
 const jsenvFormatGroupSummary = ({
@@ -116,13 +117,6 @@ const formatSizeImpactAsPercentage = ({ sizeBeforeMerge, sizeAfterMerge }) => {
       ? -1
       : sizeDiff / sizeBeforeMerge
   const sizeDiffAsPercentage = sizeDiffRatio * 100
-  const sizeDiffAsPercentageFormatted = `${sizeDiffAsPercentage < 0 ? `-` : "+"}${Math.abs(
-    limitDecimals(sizeDiffAsPercentage, 2),
-  )}%`
+  const sizeDiffAsPercentageFormatted = formatPercentage(sizeDiffAsPercentage)
   return sizeDiffAsPercentageFormatted
-}
-
-const limitDecimals = (number, decimalCount = 2) => {
-  const multiplier = Math.pow(10, decimalCount)
-  return Math.round(number * multiplier) / multiplier
 }

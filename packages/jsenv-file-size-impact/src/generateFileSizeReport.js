@@ -16,14 +16,14 @@ export const generateFileSizeReport = async ({
   cancellationToken,
   log,
   logLevel,
-  projectDirectoryUrl,
+  rootDirectoryUrl,
   trackingConfig = jsenvTrackingConfig,
   manifestConfig = {
     "./dist/**/manifest.json": true,
   },
   transformations = { raw: rawTransform },
 }) => {
-  projectDirectoryUrl = assertAndNormalizeDirectoryUrl(projectDirectoryUrl)
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
 
   const logger = createLogger({ logLevel })
 
@@ -34,7 +34,7 @@ export const generateFileSizeReport = async ({
 
   const groupTrackingResults = await applyTrackingConfig(trackingConfig, {
     cancellationToken,
-    projectDirectoryUrl,
+    rootDirectoryUrl,
     manifestConfig,
   })
   const groupNames = Object.keys(groupTrackingResults)
@@ -51,7 +51,7 @@ export const generateFileSizeReport = async ({
         groupTrackingResult,
         {
           logger,
-          projectDirectoryUrl,
+          rootDirectoryUrl,
           tracking: trackingConfig[groupName],
           transformations,
         },
@@ -74,17 +74,14 @@ export const generateFileSizeReport = async ({
 
 const groupTrackingResultToGroupReport = async (
   groupTrackingResult,
-  { logger, projectDirectoryUrl, tracking, transformations },
+  { logger, rootDirectoryUrl, tracking, transformations },
 ) => {
   const manifestMap = {}
   const { manifestMetaMap } = groupTrackingResult
   const manifestRelativeUrls = Object.keys(manifestMetaMap)
   await Promise.all(
     manifestRelativeUrls.map(async (manifestRelativeUrl) => {
-      const manifestFileUrl = resolveUrl(
-        manifestRelativeUrl,
-        projectDirectoryUrl,
-      )
+      const manifestFileUrl = resolveUrl(manifestRelativeUrl, rootDirectoryUrl)
       const manifestFileContent = await readFile(manifestFileUrl, {
         as: "string",
       })
@@ -117,9 +114,8 @@ const groupTrackingResultToGroupReport = async (
   // so we won't benefit from concurrency (it might even make things worse)
   await trackedRelativeUrls.reduce(async (previous, fileRelativeUrl) => {
     await previous
-    const fileUrl = resolveUrl(fileRelativeUrl, projectDirectoryUrl)
-    const fileContent = await readFile(fileUrl)
-    const fileBuffer = Buffer.from(fileContent)
+    const fileUrl = resolveUrl(fileRelativeUrl, rootDirectoryUrl)
+    const fileBuffer = await readFile(fileUrl, { as: "buffer" })
     const sizeMap = await getFileSizeMap(fileBuffer, {
       transformations,
       logger,

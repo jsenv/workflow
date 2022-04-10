@@ -29,7 +29,7 @@ _publishPackage_ is an async function publishing a package on one or many regist
 import { publishPackage } from "@jsenv/package-publish"
 
 const publishReport = await publishPackage({
-  projectDirectoryUrl: new URL('./', import.meta.url)
+  rootDirectoryUrl: new URL('./', import.meta.url)
   registriesConfig: {
     "https://registry.npmjs.org": {
       token: process.env.NPM_TOKEN,
@@ -41,9 +41,9 @@ const publishReport = await publishPackage({
 })
 ```
 
-## projectDirectoryUrl
+## rootDirectoryUrl
 
-_projectDirectoryUrl_ parameter is a string leading to a directory containing the package.json.
+_rootDirectoryUrl_ parameter is a string leading to a directory containing the package.json.
 
 This parameter is **required**.
 
