@@ -132,7 +132,7 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
         updateVersion({
           packageName,
           from: workspacePackage.packageObject.version,
-          to: increaseVersion(workspacePackage.packageObject.version, "patch"),
+          to: increaseVersion(workspacePackage.packageObject.version),
         })
         toPublishPackageNames.push(packageName)
       }
