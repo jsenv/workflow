@@ -61,7 +61,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
   )
 
   const actual = await publishPackage({
-    projectDirectoryUrl: tempDirectoryUrl,
+    rootDirectoryUrl: tempDirectoryUrl,
     logLevel: "debug",
     registriesConfig: {
       "https://npm.pkg.github.com": {
@@ -108,7 +108,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
   const actual = await publishPackage({
     logLevel: "debug",
     logNpmPublishOutput: false,
-    projectDirectoryUrl: tempDirectoryUrl,
+    rootDirectoryUrl: tempDirectoryUrl,
     registriesConfig: {
       "https://npm.pkg.github.com": {
         token: process.env.GITHUB_TOKEN,
