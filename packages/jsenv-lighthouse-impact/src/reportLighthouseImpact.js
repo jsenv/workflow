@@ -45,8 +45,8 @@ export const reportLighthouseImpact = async ({
     repositoryName,
     pullRequestNumber,
 
-    collectInfo: async ({ execCommandInProjectDirectory }) => {
-      await execCommandInProjectDirectory(installCommand)
+    collectInfo: async ({ execCommandInRootDirectory }) => {
+      await execCommandInRootDirectory(installCommand)
       const lighthouseReport = await importOneExportFromFile(
         lighthouseReportUrl,
       )

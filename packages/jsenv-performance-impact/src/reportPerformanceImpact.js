@@ -49,8 +49,8 @@ export const reportPerformanceImpact = async ({
     repositoryName,
     pullRequestNumber,
 
-    collectInfo: async ({ execCommandInProjectDirectory }) => {
-      await execCommandInProjectDirectory(installCommand)
+    collectInfo: async ({ execCommandInRootDirectory }) => {
+      await execCommandInRootDirectory(installCommand)
       const performanceReport = await importOneExportFromFile(
         performanceReportUrl,
       )

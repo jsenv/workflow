@@ -75,9 +75,9 @@ export const reportFileSizeImpact = async ({
     repositoryName,
     pullRequestNumber,
 
-    collectInfo: async ({ execCommandInProjectDirectory }) => {
-      if (installCommand) await execCommandInProjectDirectory(installCommand)
-      if (buildCommand) await execCommandInProjectDirectory(buildCommand)
+    collectInfo: async ({ execCommandInRootDirectory }) => {
+      if (installCommand) await execCommandInRootDirectory(installCommand)
+      if (buildCommand) await execCommandInRootDirectory(buildCommand)
       const fileSizeReport = await importOneExportFromFile(
         fileSizeReportModuleUrl,
       )
