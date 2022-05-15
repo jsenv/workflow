@@ -1,6 +1,6 @@
-import * as githubRESTAPI from "@jsenv/github-pull-request-impact/src/internal/github_rest_api.js"
 import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
 import { createLogger } from "@jsenv/logger"
+import * as githubRESTAPI from "@jsenv/github-pull-request-impact/src/internal/github_rest_api.js"
 
 import { readProjectPackage } from "./internal/readProjectPackage.js"
 
@@ -31,6 +31,16 @@ export const ensureGithubReleaseForPackage = async ({
     rootDirectoryUrl,
   })
   logger.debug(`${packageVersion} found in package.json`)
+  if (
+    packageVersion.includes("alpha") ||
+    packageVersion.includes("beta") ||
+    packageVersion.includes("prerelease")
+  ) {
+    logger.info(
+      `skip because package version ("${packageVersion}") is a prerelease`,
+    )
+    return
+  }
 
   logger.debug(`search release for ${packageVersion} on github`)
   const githubReleaseName = `v${packageVersion}`
