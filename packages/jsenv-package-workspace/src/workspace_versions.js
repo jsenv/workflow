@@ -26,12 +26,13 @@ export const updateWorkspaceVersions = async ({ directoryUrl }) => {
   const toPublishPackageNames = []
   Object.keys(workspacePackages).forEach((packageName) => {
     const workspacePackage = workspacePackages[packageName]
+    const workspacePackageVersion = workspacePackage.packageObject.version
     const registryLatestVersion = registryLatestVersions[packageName]
     const result =
       registryLatestVersion === null
         ? VERSION_COMPARE_RESULTS.GREATER
         : compareTwoPackageVersions(
-            workspacePackage.packageObject.version,
+            workspacePackageVersion,
             registryLatestVersion,
           )
     if (result === VERSION_COMPARE_RESULTS.SMALLER) {
@@ -85,15 +86,22 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
     from,
     to,
   }) => {
-    const dependencyVersions =
-      workspacePackages[packageName].packageObject[dependencyType]
+    const version = workspacePackages[packageName].packageObject[dependencyType]
+    // ignore local deps
+    if (
+      version.startsWith("./") ||
+      version.startsWith("../") ||
+      version.startsWith("file:")
+    ) {
+      return
+    }
     dependencyUpdates.push({
       packageName,
       dependencyName,
       from,
       to,
     })
-    dependencyVersions[dependencyName] = to
+    workspacePackages[packageName].packageObject[dependencyType] = to
     packageFilesToUpdate[packageName] = true
   }
   const updateVersion = ({ packageName, from, to }) => {
