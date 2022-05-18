@@ -86,7 +86,9 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
     from,
     to,
   }) => {
-    const version = workspacePackages[packageName].packageObject[dependencyType]
+    const packageDeps =
+      workspacePackages[packageName].packageObject[dependencyType]
+    const version = packageDeps[dependencyName]
     // ignore local deps
     if (
       version.startsWith("./") ||
@@ -101,7 +103,7 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
       from,
       to,
     })
-    workspacePackages[packageName].packageObject[dependencyType] = to
+    packageDeps[dependencyName] = to
     packageFilesToUpdate[packageName] = true
   }
   const updateVersion = ({ packageName, from, to }) => {
