@@ -67,7 +67,7 @@ export const publish = async ({
       try {
         return await new Promise((resolve, reject) => {
           const command = exec(
-            "npm publish",
+            "npm publish --no-workspaces",
             {
               cwd: urlToFileSystemPath(rootDirectoryUrl),
               stdio: "silent",
