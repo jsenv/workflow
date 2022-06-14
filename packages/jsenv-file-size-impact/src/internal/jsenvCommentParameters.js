@@ -96,7 +96,7 @@ export const jsenvFormatEmojiCell = ({ sizeBeforeMerge, sizeAfterMerge }) => {
 export const jsenvCommentParameters = {
   filesOrdering: "size_impact",
   maxFilesPerGroup: 600,
-  fileRelativeUrlMaxLength: 100,
+  fileRelativeUrlMaxLength: 50,
   formatGroupSummary: jsenvFormatGroupSummary,
   formatFileRelativeUrl: jsenvFormatFileRelativeUrl,
 
