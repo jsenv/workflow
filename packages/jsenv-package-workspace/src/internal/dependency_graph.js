@@ -10,9 +10,7 @@ export const buildDependencyGraph = (workspacePackages) => {
     const visit = (name) => {
       if (name === dependencyName) return true
       trace.push(name)
-      return dependencyGraph[packageName].dependencies.some((name) =>
-        visit(name),
-      )
+      return dependencyGraph[name].dependencies.some((name) => visit(name))
     }
     const found = dependencyGraph[packageName].dependencies.some((name) => {
       return visit(name)
