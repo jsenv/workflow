@@ -14,11 +14,6 @@ import { increaseVersion } from "./internal/increase_version.js"
 
 export const updateWorkspaceVersions = async ({ directoryUrl }) => {
   const workspacePackages = await collectWorkspacePackages({ directoryUrl })
-  Object.keys(workspacePackages).forEach((key) => {
-    if (workspacePackages[key].packageObject.private) {
-      delete workspacePackages[key]
-    }
-  })
   const dependencyGraph = buildDependencyGraph(workspacePackages)
   const registryLatestVersions = await fetchWorkspaceLatests(workspacePackages)
 
@@ -138,7 +133,10 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
         from: versionInDependencies,
         to: version,
       })
-      if (!toPublishPackageNames.includes(packageName)) {
+      if (
+        !toPublishPackageNames.includes(packageName) &&
+        !workspacePackage.packageObject.private
+      ) {
         updateVersion({
           packageName,
           from: workspacePackage.packageObject.version,

@@ -1,21 +1,36 @@
-import { readFile, listFilesMatching, writeFile } from "@jsenv/filesystem"
+import {
+  readFile,
+  listFilesMatching,
+  writeFile,
+  urlToRelativeUrl,
+} from "@jsenv/filesystem"
 
 export const collectWorkspacePackages = async ({ directoryUrl }) => {
   const workspacePackages = {}
-  const packageDirectoryUrls = await listFilesMatching({
-    directoryUrl,
-    patterns: {
-      "./packages/*/package.json": true,
-    },
-  })
   const rootPackageUrl = new URL("package.json", directoryUrl)
   const rootPackageFileInfo = await readPackageFile(rootPackageUrl)
-  workspacePackages[rootPackageFileInfo.object.name] = {
+  const rootPackage = {
     isRoot: true,
     packageUrl: rootPackageUrl,
     packageObject: rootPackageFileInfo.object,
     updateFile: rootPackageFileInfo.updateFile,
   }
+  workspacePackages[rootPackageFileInfo.object.name] = rootPackage
+
+  const patterns = {}
+  const { workspaces = [] } = rootPackage.packageObject
+  workspaces.forEach((workspace) => {
+    const workspaceUrl = new URL(workspace, rootPackageUrl).href
+    const workspaceRelativeUrl = urlToRelativeUrl(workspaceUrl, rootPackageUrl)
+    const pattern = `${workspaceRelativeUrl}/package.json`
+    patterns[pattern] = true
+  })
+
+  const packageDirectoryUrls = await listFilesMatching({
+    directoryUrl,
+    patterns,
+  })
+
   await Promise.all(
     packageDirectoryUrls.map(async (packageDirectoryUrl) => {
       const packageUrl = new URL("package.json", packageDirectoryUrl)

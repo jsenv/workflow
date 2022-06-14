@@ -11,11 +11,6 @@ import {
 
 export const publishWorkspace = async ({ directoryUrl }) => {
   const workspacePackages = await collectWorkspacePackages({ directoryUrl })
-  Object.keys(workspacePackages).forEach((key) => {
-    if (workspacePackages[key].packageObject.private) {
-      delete workspacePackages[key]
-    }
-  })
   const registryLatestVersions = await fetchWorkspaceLatests(workspacePackages)
   const toPublishPackageNames = Object.keys(workspacePackages).filter(
     (packageName) => {
