@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/package-workspace",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "TODO",
   "license": "MIT",
   "author": {
@@ -40,7 +40,7 @@
   "dependencies": {
     "@jsenv/urls": "1.1.0",
     "@jsenv/filesystem": "4.0.0",
-    "@jsenv/package-publish": "1.7.4",
+    "@jsenv/package-publish": "1.7.5",
     "@jsenv/logger": "4.0.1",
     "@jsenv/log": "1.6.3"
   }
