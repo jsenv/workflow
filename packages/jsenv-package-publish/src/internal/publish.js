@@ -1,11 +1,6 @@
 import { exec } from "node:child_process"
-import {
-  resolveUrl,
-  urlToFileSystemPath,
-  readFile,
-  writeFile,
-  removeEntry,
-} from "@jsenv/filesystem"
+import { readFile, writeFile, removeEntry } from "@jsenv/filesystem"
+import { resolveUrl, urlToFileSystemPath } from "@jsenv/urls"
 import { UNICODE } from "@jsenv/log"
 
 import { setNpmConfig } from "./setNpmConfig.js"

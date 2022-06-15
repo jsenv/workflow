@@ -1,9 +1,5 @@
-import {
-  readFile,
-  listFilesMatching,
-  writeFile,
-  urlToRelativeUrl,
-} from "@jsenv/filesystem"
+import { urlToRelativeUrl } from "@jsenv/urls"
+import { readFile, listFilesMatching, writeFile } from "@jsenv/filesystem"
 
 export const collectWorkspacePackages = async ({ directoryUrl }) => {
   const workspacePackages = {}

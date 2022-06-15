@@ -12,7 +12,7 @@
 import { createRequire } from "node:module"
 
 import { assert } from "@jsenv/assert"
-import { ensureEmptyDirectory, resolveUrl, writeFile } from "@jsenv/filesystem"
+import { ensureEmptyDirectory, writeFile } from "@jsenv/filesystem"
 
 import { publishPackage } from "@jsenv/package-publish"
 import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js"
@@ -22,13 +22,13 @@ const require = createRequire(import.meta.url)
 const { inc: incrementVersion } = require("semver")
 
 if (!process.env.CI) {
-  await loadEnvFile(resolveUrl("../../../../secrets.json", import.meta.url))
+  await loadEnvFile(new URL("../../../../secrets.json", import.meta.url).href)
 }
 assertProcessEnvShape({
   GITHUB_TOKEN: true,
 })
 
-const tempDirectoryUrl = resolveUrl("./temp/", import.meta.url)
+const tempDirectoryUrl = new URL("./temp/", import.meta.url).href
 const packageName = "@jsenv/package-publish-test"
 const fetchLatestVersionOnGithub = async () => {
   const { version } = await fetchLatestInRegistry({
@@ -43,7 +43,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
 // try to publish existing version on github
 {
   await ensureEmptyDirectory(tempDirectoryUrl)
-  const packageFileUrl = resolveUrl("package.json", tempDirectoryUrl)
+  const packageFileUrl = new URL("package.json", tempDirectoryUrl).href
   const packageVersion = latestVersionOnGithub
   await writeFile(
     packageFileUrl,
@@ -88,7 +88,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
 // publish new minor on github
 {
   await ensureEmptyDirectory(tempDirectoryUrl)
-  const packageFileUrl = resolveUrl("package.json", tempDirectoryUrl)
+  const packageFileUrl = new URL("package.json", tempDirectoryUrl).href
   const packageVersion = incrementVersion(latestVersionOnGithub, "patch")
   await writeFile(
     packageFileUrl,

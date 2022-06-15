@@ -1,5 +1,3 @@
-import { urlToFileSystemPath } from "@jsenv/filesystem"
-
 export const loadEnvFile = async (url) => {
   try {
     const data = await import(url)
@@ -13,7 +11,7 @@ export const loadEnvFile = async (url) => {
       // to trigger module not found error as node 13.6 does
       e.code === "ENOENT"
     ) {
-      throw new Error(`missing env file at ${urlToFileSystemPath(url)}`)
+      throw new Error(`missing env file at ${url}`)
     }
 
     if (e.code === "ERR_UNKNOWN_FILE_EXTENSION" && url.endsWith(".json")) {

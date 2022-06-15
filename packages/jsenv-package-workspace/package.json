@@ -38,7 +38,10 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
+    "@jsenv/urls": "1.1.0",
+    "@jsenv/filesystem": "4.0.0",
     "@jsenv/package-publish": "1.7.4",
-    "@jsenv/logger": "4.0.1"
+    "@jsenv/logger": "4.0.1",
+    "@jsenv/log": "1.6.3"
   }
 }

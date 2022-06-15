@@ -1,14 +1,12 @@
-import { resolveUrl } from "@jsenv/filesystem"
-
 import { publishPackage } from "@jsenv/package-publish"
 import { loadEnvFile } from "./testHelper.js"
 
 const run = async () => {
   if (!process.env.CI) {
-    await loadEnvFile(resolveUrl("../secrets.json", import.meta.url))
+    await loadEnvFile(new URL("../secrets.json", import.meta.url).href)
   }
 
-  const projectDirectoryUrl = resolveUrl("../", import.meta.url)
+  const projectDirectoryUrl = new URL("../", import.meta.url).href
 
   const report = await publishPackage({
     projectDirectoryUrl,

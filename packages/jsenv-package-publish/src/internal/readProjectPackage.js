@@ -1,4 +1,5 @@
-import { resolveUrl, urlToFileSystemPath, readFile } from "@jsenv/filesystem"
+import { resolveUrl, urlToFileSystemPath } from "@jsenv/urls"
+import { readFile } from "@jsenv/filesystem"
 
 export const readProjectPackage = async ({ rootDirectoryUrl }) => {
   const packageFileUrl = resolveUrl("./package.json", rootDirectoryUrl)
