@@ -1,4 +1,4 @@
-import { resolveUrl, assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
+import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
 import { commentGitHubPullRequestImpact } from "@jsenv/github-pull-request-impact"
 import { importOneExportFromFile } from "@jsenv/dynamic-import-worker"
 
@@ -27,16 +27,16 @@ export const reportPerformanceImpact = async ({
   commitInGeneratedByInfo,
 }) => {
   rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
-  if (typeof performanceReportPath !== "string") {
+  let performanceReportUrl
+  if (performanceReportPath === "string") {
+    performanceReportUrl = new URL(performanceReportPath, rootDirectoryUrl).href
+  } else if (performanceReportPath instanceof URL) {
+    performanceReportUrl = performanceReportPath.href
+  } else {
     throw new TypeError(
-      `performanceReportPath must be a string but received ${performanceReportPath}`,
+      `performanceReportPath must be a string or an url but received ${performanceReportPath}`,
     )
   }
-  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
-  const performanceReportUrl = resolveUrl(
-    performanceReportPath,
-    rootDirectoryUrl,
-  )
 
   return commentGitHubPullRequestImpact({
     logLevel,

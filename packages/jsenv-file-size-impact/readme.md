@@ -28,7 +28,7 @@ The first thing you need is a script capable to generate a file size report.
 npm install --save-dev @jsenv/file-size-impact
 ```
 
-_generate_file_size_report.mjs_
+_file_size.mjs_
 
 ```js
 import { generateFileSizeReport } from "@jsenv/file-size-impact"
@@ -48,7 +48,7 @@ export const fileSizeReport = await generateFileSizeReport({
 At this stage, you could generate a file size report on your machine with the following command.
 
 ```console
-node ./generate_file_size_report.mjs --log
+node ./_file_size.mjs --log
 ```
 
 Now it's time to configure a workflow to compare file size reports before and after merging a pull request.
@@ -85,7 +85,7 @@ jobs:
       - name: Setup npm
         run: npm install
       - name: Report file size impact
-        run: node ./report_file_size_impact.mjs
+        run: node ./file_size.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -108,11 +108,16 @@ import {
 await reportFileSizeImpact({
   ...readGitHubWorkflowEnv(),
   buildCommand: "npm run dist",
-  fileSizeReportModulePath: "./generate_file_size_report.mjs#fileSizeReport",
+  fileSizeReportModulePath: new URL(
+    "./file_size.mjs#fileSizeReport",
+    import.meta.url,
+  ),
 })
 ```
 
-where `fileSizeReport` is the name of the export from _generate_file_size_report.mjs_.
+**Notes**:
+
+- "#fileSizeReport" is the name of the export from _file_size.mjs_.
 
 ## Other tools
 
@@ -322,8 +327,10 @@ await reportFileSizeImpact({
 
   installCommand: "npm install",
   buildCommand: "npm run build",
-  fileSizeReportModulePath: "./generate_file_size_report.mjs#fileSizeReport",
-
+  fileSizeReportModulePath: new URL(
+    "./file_size.mjs#fileSizeReport",
+    import.meta.url,
+  ),
   filesOrdering: "size_impact",
 })
 ```

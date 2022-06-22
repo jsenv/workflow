@@ -69,7 +69,7 @@ _index.html_
 </html>
 ```
 
-At this stage, you could generate a lighthouse report on your machine. For an example, see [package.json#L37](./package.json#L37) and [script/lighthouse/lighthouse.mjs#L19](./script/lighthouse/lighthouse.mjs#L19).
+At this stage, you could generate a lighthouse report on your machine.
 
 Now it's time to configure a workflow to compare lighthouse reports before and after merging a pull request.
 
@@ -125,7 +125,10 @@ import {
 
 await reportLighthouseImpact({
   ...readGitHubWorkflowEnv(),
-  lighthouseReportPath: "./lighthouse.mjs#lighthouseReport",
+  lighthouseReportPath: new URL(
+    "./lighthouse.mjs#lighthouseReport",
+    import.meta.url,
+  ),
 })
 ```
 
@@ -186,7 +189,7 @@ The pull request comment can contain links to see lighthouse reports in [Lightho
 To unlock this you need a GitHub token with the right to create gists.
 Every github workflow has access to a magic token `secrets.GITHUB_TOKEN`.
 But this token is not allowed to create gists.
-We need to update the worflow file like [lighthouse-score-impact.yml#L21](./.github/workflows/lighthouse_impact.yml#L21) to use an other token that will have the rights to create gists.
+We need to update the worflow file to use an other token that will have the rights to create gists.
 
 ```diff
 - GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

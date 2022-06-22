@@ -1,4 +1,4 @@
-import { assertAndNormalizeDirectoryUrl, resolveUrl } from "@jsenv/filesystem"
+import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
 import { commentGitHubPullRequestImpact } from "@jsenv/github-pull-request-impact"
 import { importOneExportFromFile } from "@jsenv/dynamic-import-worker"
 
@@ -24,13 +24,16 @@ export const reportLighthouseImpact = async ({
   skipGistWarning = false,
 }) => {
   rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
-  if (typeof lighthouseReportPath !== "string") {
+  let lighthouseReportUrl
+  if (lighthouseReportPath === "string") {
+    lighthouseReportUrl = new URL(lighthouseReportPath, rootDirectoryUrl).href
+  } else if (lighthouseReportPath instanceof URL) {
+    lighthouseReportUrl = lighthouseReportPath.href
+  } else {
     throw new TypeError(
-      `lighthouseReportPath must be a string but received ${lighthouseReportPath}`,
+      `lighthouseReportPath must be a string or an url but received ${lighthouseReportPath}`,
     )
   }
-  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
-  const lighthouseReportUrl = resolveUrl(lighthouseReportPath, rootDirectoryUrl)
 
   return commentGitHubPullRequestImpact({
     logLevel,

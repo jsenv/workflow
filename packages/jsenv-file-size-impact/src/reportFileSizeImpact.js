@@ -1,5 +1,5 @@
 import { commentGitHubPullRequestImpact } from "@jsenv/github-pull-request-impact"
-import { assertAndNormalizeDirectoryUrl, resolveUrl } from "@jsenv/filesystem"
+import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
 
 import { importOneExportFromFile } from "@jsenv/dynamic-import-worker"
 import { formatComment } from "./internal/formatComment.js"
@@ -36,6 +36,21 @@ export const reportFileSizeImpact = async ({
   runLink,
   commitInGeneratedByInfo,
 }) => {
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
+  let fileSizeReportModuleUrl
+  if (fileSizeReportModulePath === "string") {
+    fileSizeReportModuleUrl = new URL(
+      fileSizeReportModulePath,
+      rootDirectoryUrl,
+    ).href
+  } else if (fileSizeReportModulePath instanceof URL) {
+    fileSizeReportModuleUrl = fileSizeReportModulePath.href
+  } else {
+    throw new TypeError(
+      `fileSizeReportModulePath must be a string or an url but received ${fileSizeReportModulePath}`,
+    )
+  }
+
   if (installCommand === null) {
     // a null installCommand means there is no need to install anything
   } else if (typeof installCommand !== "string") {
@@ -51,17 +66,6 @@ export const reportFileSizeImpact = async ({
       `buildCommand must be a string but received ${buildCommand}`,
     )
   }
-
-  if (typeof fileSizeReportModulePath !== "string") {
-    throw new TypeError(
-      `fileSizeReportModulePath must be a string but received ${fileSizeReportModulePath}`,
-    )
-  }
-  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
-  const fileSizeReportModuleUrl = resolveUrl(
-    fileSizeReportModulePath,
-    rootDirectoryUrl,
-  )
 
   return commentGitHubPullRequestImpact({
     logLevel,
