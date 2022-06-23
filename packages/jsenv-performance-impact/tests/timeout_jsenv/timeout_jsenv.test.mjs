@@ -23,7 +23,7 @@ const measureFilePerformance = async (params) => {
 
 const metrics = await measureMultipleTimes(() => {
   return measureFilePerformance({
-    projectDirectoryUrl: rootDirectoryUrl,
+    rootDirectoryUrl,
     fileRelativeUrl: "file.mjs",
   })
 })
