@@ -4,7 +4,11 @@ import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-i
 import { jsenvCommentParameters } from "@jsenv/file-size-impact/src/internal/jsenvCommentParameters.js"
 import { formatComment } from "@jsenv/file-size-impact/src/internal/formatComment.js"
 
-const generateComment = ({ beforeMergeFileSizeReport, afterMergeFileSizeReport, ...rest }) => {
+const generateComment = ({
+  beforeMergeFileSizeReport,
+  afterMergeFileSizeReport,
+  ...rest
+}) => {
   const formatCommentParams = {
     pullRequestBase: "base",
     pullRequestHead: "head",
@@ -496,7 +500,8 @@ const examples = {
               hash: "b",
               sizeMap: { raw: 101 },
               meta: {
-                showSizeImpact: ({ sizeImpactMap }) => Math.abs(sizeImpactMap.raw) > 10,
+                showSizeImpact: ({ sizeImpactMap }) =>
+                  Math.abs(sizeImpactMap.raw) > 10,
               },
             },
           },
@@ -531,7 +536,8 @@ const examples = {
               hash: "b",
               sizeMap: { raw: 101 },
               meta: {
-                showSizeImpact: ({ sizeImpactMap }) => Math.abs(sizeImpactMap.raw) > 10,
+                showSizeImpact: ({ sizeImpactMap }) =>
+                  Math.abs(sizeImpactMap.raw) > 10,
               },
             },
             "dist/foo.js": {
@@ -566,7 +572,8 @@ const examples = {
               hash: "b",
               sizeMap: { raw: 115 },
               meta: {
-                formatFileRelativeUrl: (relativeUrl) => relativeUrl.slice("dist/".length),
+                formatFileRelativeUrl: (relativeUrl) =>
+                  relativeUrl.slice("dist/".length),
               },
             },
           },

@@ -36,7 +36,14 @@ export const createGitHubPullRequestCommentText = ({
   })
 }
 
-const truncateComment = ({ commentLength, maxLength, header, warnings, body, footer }) => {
+const truncateComment = ({
+  commentLength,
+  maxLength,
+  header,
+  warnings,
+  body,
+  footer,
+}) => {
   const warningsWithTruncateWarning = [
     ...warnings,
     `**Warning:** The comment body was truncated to fit GitHub limit on comment length.
@@ -69,7 +76,9 @@ For the record the full comment length was ${commentLength} bytes.`,
 
 const composeCommentText = ({ header, warnings, body, footer }) => {
   const warningsAsText = composeWarningsText(warnings)
-  const parts = [header, warningsAsText, body, footer].filter((string) => string.length > 0)
+  const parts = [header, warningsAsText, body, footer].filter(
+    (string) => string.length > 0,
+  )
 
   return parts.join(`
 

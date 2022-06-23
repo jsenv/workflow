@@ -2,7 +2,9 @@ import { createDetailedMessage } from "@jsenv/logger"
 
 export const assertPerformanceReport = (performanceReport) => {
   if (typeof performanceReport !== "object" || performanceReport === null) {
-    throw new TypeError(`performanceReport must be an object, received ${performanceReport}.`)
+    throw new TypeError(
+      `performanceReport must be an object, received ${performanceReport}.`,
+    )
   }
 
   Object.keys(performanceReport).forEach((groupName) => {
@@ -23,12 +25,16 @@ export const assertMetrics = (metrics, metricsTrace) => {
   Object.keys(metrics).forEach((metricName) => {
     const metric = metrics[metricName]
     if (typeof metric !== "object") {
-      throw new TypeError(`metric must be an object, got ${metric} for ${metricName}`)
+      throw new TypeError(
+        `metric must be an object, got ${metric} for ${metricName}`,
+      )
     }
 
     const { value } = metric
     if (typeof value !== "number") {
-      throw new TypeError(`metric value must be a number, got ${value} for ${metricName}`)
+      throw new TypeError(
+        `metric value must be a number, got ${value} for ${metricName}`,
+      )
     }
 
     const { unit } = metric

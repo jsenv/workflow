@@ -265,7 +265,8 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
           },
           manifestMap: {
             "dist/cdn/manifest.json": {
-              "svg_critical.js": "/player/neondmp.svg_critical.2202bba64ea46ecc7424.js",
+              "svg_critical.js":
+                "/player/neondmp.svg_critical.2202bba64ea46ecc7424.js",
             },
           },
           fileMap: {

@@ -4,7 +4,9 @@ import { computeMetricsMedian } from "@jsenv/performance-impact/src/internal/com
 export const generatePerformanceReport = async () => {
   const oneTimeout = await measureOneTimeout()
 
-  const twoTimeouts = computeMetricsMedian(await measureMultipleTimes(measureTwoTimeouts, 5))
+  const twoTimeouts = computeMetricsMedian(
+    await measureMultipleTimes(measureTwoTimeouts, 5),
+  )
 
   return {
     groups: {

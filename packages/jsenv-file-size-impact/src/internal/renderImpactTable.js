@@ -48,7 +48,10 @@ const renderSizeImpactTableHeader = (transformationKeys) => {
   const headerLine = [
     `<th nowrap>Files</th>`,
     ...transformationKeys.map(
-      (sizeName) => `<th nowrap>${sizeName === "raw" ? `new size` : `new ${sizeName} size`}</th>`,
+      (sizeName) =>
+        `<th nowrap>${
+          sizeName === "raw" ? `new size` : `new ${sizeName} size`
+        }</th>`,
     ),
     `<th></th>`,
   ]
@@ -88,15 +91,17 @@ const renderSizeImpactTableBody = ({
     }
 
     remainingFilesToDisplay--
-    const fileAbstractRelativeUrl = fileAbstractRelativeUrlFromFileImpact(fileImpact)
-    const fileRelativeUrlFormatted = (fileImpact.formatFileRelativeUrl || formatFileRelativeUrl)(
-      fileAbstractRelativeUrl,
-    )
+    const fileAbstractRelativeUrl =
+      fileAbstractRelativeUrlFromFileImpact(fileImpact)
+    const fileRelativeUrlFormatted = (
+      fileImpact.formatFileRelativeUrl || formatFileRelativeUrl
+    )(fileAbstractRelativeUrl)
     const fileRelativeUrlDisplayed = truncateFileRelativeUrl(
       fileRelativeUrlFormatted,
       fileRelativeUrlMaxLength,
     )
-    const { sizeMapBeforeMerge, sizeMapAfterMerge } = fileByFileImpact[fileRelativeUrl]
+    const { sizeMapBeforeMerge, sizeMapAfterMerge } =
+      fileByFileImpact[fileRelativeUrl]
     const fileCellFormatted = formatFileCell({
       fileRelativeUrl,
       fileRelativeUrlDisplayed,

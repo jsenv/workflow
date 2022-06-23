@@ -11,14 +11,18 @@ export const measureMultipleTimes = async (
     throw new TypeError(`measure must be a function, received ${measure}`)
   }
   if (typeof iterationCount !== "number") {
-    throw new TypeError(`iterationCount must be a number, received ${iterationCount}`)
+    throw new TypeError(
+      `iterationCount must be a number, received ${iterationCount}`,
+    )
   }
 
   const firstIterationMetrics = await measure()
   assertMetrics(firstIterationMetrics)
   const firstIterationMetricNames = Object.keys(firstIterationMetrics)
   if (firstIterationMetricNames.length === 0) {
-    throw new Error(`measure must return a non empty object, received an object without key`)
+    throw new Error(
+      `measure must return a non empty object, received an object without key`,
+    )
   }
 
   const metricsWithIteration = {}
@@ -41,14 +45,20 @@ export const measureMultipleTimes = async (
     const currentMetrics = await measure()
     assertMetrics(currentMetrics)
     const currentIterationMetricNames = Object.keys(currentMetrics)
-    const missingMetricNamesInCurrentIteration = firstIterationMetricNames.filter(
-      (firstIterationMetricName) => !currentIterationMetricNames.includes(firstIterationMetricName),
-    )
-    const extraMetricNamesInCurrentIteration = currentIterationMetricNames.filter(
-      (currentIterationMetricName) =>
-        !firstIterationMetricNames.includes(currentIterationMetricName),
-    )
-    if (missingMetricNamesInCurrentIteration.length || extraMetricNamesInCurrentIteration.length) {
+    const missingMetricNamesInCurrentIteration =
+      firstIterationMetricNames.filter(
+        (firstIterationMetricName) =>
+          !currentIterationMetricNames.includes(firstIterationMetricName),
+      )
+    const extraMetricNamesInCurrentIteration =
+      currentIterationMetricNames.filter(
+        (currentIterationMetricName) =>
+          !firstIterationMetricNames.includes(currentIterationMetricName),
+      )
+    if (
+      missingMetricNamesInCurrentIteration.length ||
+      extraMetricNamesInCurrentIteration.length
+    ) {
       throw new Error(
         createVariableMetricNamesErrorMessage({
           missingMetricNamesInCurrentIteration,
@@ -63,11 +73,14 @@ export const measureMultipleTimes = async (
       const currentMetric = currentMetrics[metricName]
       if (currentMetric.unit !== metricWithIteration.unit) {
         throw new Error(
-          createDetailedMessage(`A metric unit has changed between iterations.`, {
-            "metric unit on first iteration": metricWithIteration.unit,
-            [`metric unit on iteration ${index + 1}`]: currentMetric.unit,
-            "metric name": metricName,
-          }),
+          createDetailedMessage(
+            `A metric unit has changed between iterations.`,
+            {
+              "metric unit on first iteration": metricWithIteration.unit,
+              [`metric unit on iteration ${index + 1}`]: currentMetric.unit,
+              "metric name": metricName,
+            },
+          ),
         )
       }
       metricWithIteration.values.push(currentMetric.value)

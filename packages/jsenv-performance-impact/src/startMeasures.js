@@ -34,7 +34,8 @@ export const startMeasures = ({
     const beforeRessourceUsage = resourceUsage()
     measures.push(() => {
       const afterRessourceUsage = resourceUsage()
-      const fileSystemReadOperationCount = afterRessourceUsage.fsRead - beforeRessourceUsage.fsRead
+      const fileSystemReadOperationCount =
+        afterRessourceUsage.fsRead - beforeRessourceUsage.fsRead
       const fileSystemWriteOperationCount =
         afterRessourceUsage.fsWrite - beforeRessourceUsage.fsWrite
       return {

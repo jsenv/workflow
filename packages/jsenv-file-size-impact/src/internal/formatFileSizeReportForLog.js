@@ -9,7 +9,8 @@ export const formatFileSizeReportForLog = (fileSizeReport) => {
 
     const mappings = manifestToMappings(manifestMap)
     const fileMessages = Object.keys(fileMap).map((fileRelativeUrl) => {
-      const fileDisplayed = manifestKeyFromRelativeUrl(fileRelativeUrl, mappings) || fileRelativeUrl
+      const fileDisplayed =
+        manifestKeyFromRelativeUrl(fileRelativeUrl, mappings) || fileRelativeUrl
       const file = fileMap[fileRelativeUrl]
       const { sizeMap } = file
       const sizeNames = Object.keys(sizeMap)

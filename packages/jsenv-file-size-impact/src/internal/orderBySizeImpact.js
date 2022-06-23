@@ -3,8 +3,10 @@ export const orderBySizeImpact = (fileByFileImpact, sizeNames) => {
   const files = Object.keys(fileByFileImpact)
   const firstSizeName = sizeNames[0]
   files.sort((leftFile, rightFile) => {
-    const leftFileSizeImpact = fileByFileImpact[leftFile].sizeImpactMap[firstSizeName]
-    const rightFileSizeImpact = fileByFileImpact[rightFile].sizeImpactMap[firstSizeName]
+    const leftFileSizeImpact =
+      fileByFileImpact[leftFile].sizeImpactMap[firstSizeName]
+    const rightFileSizeImpact =
+      fileByFileImpact[rightFile].sizeImpactMap[firstSizeName]
     if (leftFileSizeImpact === 0) {
       return 1
     }

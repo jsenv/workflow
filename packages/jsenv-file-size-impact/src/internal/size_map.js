@@ -15,7 +15,8 @@ export const getSizeMapsOneFile = ({ sizeNames, beforeMerge, afterMerge }) => {
     } else {
       sizeMapBeforeMerge[sizeName] = beforeMerge.sizeMap[sizeName]
       sizeMapAfterMerge[sizeName] = afterMerge.sizeMap[sizeName]
-      sizeImpactMap[sizeName] = afterMerge.sizeMap[sizeName] - beforeMerge.sizeMap[sizeName]
+      sizeImpactMap[sizeName] =
+        afterMerge.sizeMap[sizeName] - beforeMerge.sizeMap[sizeName]
     }
   })
 
@@ -26,7 +27,11 @@ export const getSizeMapsOneFile = ({ sizeNames, beforeMerge, afterMerge }) => {
   }
 }
 
-export const getSizeMapsForManyFiles = ({ sizeNames, fileByFileImpact, files }) => {
+export const getSizeMapsForManyFiles = ({
+  sizeNames,
+  fileByFileImpact,
+  files,
+}) => {
   const sizeMapBeforeMerge = {}
   const sizeMapAfterMerge = {}
 
@@ -34,7 +39,8 @@ export const getSizeMapsForManyFiles = ({ sizeNames, fileByFileImpact, files }) 
     let sizeBeforeMerge = 0
     let sizeAfterMerge = 0
     files.forEach((fileRelativeUrl) => {
-      const { sizeMapBeforeMerge, sizeMapAfterMerge } = fileByFileImpact[fileRelativeUrl]
+      const { sizeMapBeforeMerge, sizeMapAfterMerge } =
+        fileByFileImpact[fileRelativeUrl]
       sizeBeforeMerge += sizeMapBeforeMerge[sizeName] || 0
       sizeAfterMerge += sizeMapAfterMerge[sizeName] || 0
     })

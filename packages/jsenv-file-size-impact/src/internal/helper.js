@@ -5,7 +5,8 @@ export const anchor = (text, id) => {
 
 export const isAdded = ({ beforeMerge }) => !beforeMerge
 
-export const isDeleted = ({ beforeMerge, afterMerge }) => beforeMerge && !afterMerge
+export const isDeleted = ({ beforeMerge, afterMerge }) =>
+  beforeMerge && !afterMerge
 
 export const isModified = ({ beforeMerge, afterMerge }) =>
   beforeMerge && afterMerge && beforeMerge.hash !== afterMerge.hash

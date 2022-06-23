@@ -1,7 +1,11 @@
 import { formatMetricValue } from "../formatMetricValue.js"
 import { formatRatioAsPercentage } from "../formatRatio.js"
 
-export const formatImpact = ({ metricValueBeforeMerge, metricValueAfterMerge, metricUnit }) => {
+export const formatImpact = ({
+  metricValueBeforeMerge,
+  metricValueAfterMerge,
+  metricUnit,
+}) => {
   const diff = metricValueAfterMerge - metricValueBeforeMerge
 
   if (diff === 0) {
@@ -16,7 +20,10 @@ export const formatImpact = ({ metricValueBeforeMerge, metricValueAfterMerge, me
   return diffFormatted
 }
 
-export const formatImpactAsPercentage = ({ metricValueBeforeMerge, metricValueAfterMerge }) => {
+export const formatImpactAsPercentage = ({
+  metricValueBeforeMerge,
+  metricValueAfterMerge,
+}) => {
   const diff = metricValueAfterMerge - metricValueBeforeMerge
   const diffRatio =
     metricValueBeforeMerge === 0
