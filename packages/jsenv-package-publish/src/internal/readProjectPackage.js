@@ -1,8 +1,8 @@
-import { resolveUrl, urlToFileSystemPath } from "@jsenv/urls"
+import { fileURLToPath } from "node:url"
 import { readFile } from "@jsenv/filesystem"
 
 export const readProjectPackage = async ({ rootDirectoryUrl }) => {
-  const packageFileUrl = resolveUrl("./package.json", rootDirectoryUrl)
+  const packageFileUrl = new URL("./package.json", rootDirectoryUrl).href
   let packageObject
   try {
     const packageString = await readFile(packageFileUrl, { as: "string" })
@@ -14,7 +14,7 @@ export const readProjectPackage = async ({ rootDirectoryUrl }) => {
 --- syntax error stack ---
 ${e.stack}
 --- package.json path ---
-${urlToFileSystemPath(packageFileUrl)}`)
+${fileURLToPath(packageFileUrl)}`)
       }
       throw e
     }
@@ -23,7 +23,7 @@ ${urlToFileSystemPath(packageFileUrl)}`)
       throw new Error(
         `cannot find project package.json
 --- package.json path ---
-${urlToFileSystemPath(packageFileUrl)}`,
+${fileURLToPath(packageFileUrl)}`,
       )
     }
     throw e

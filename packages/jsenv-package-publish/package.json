@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/package-publish",
-  "version": "1.7.5",
+  "version": "1.8.0",
   "description": "Publish package to one or many registry.",
   "license": "MIT",
   "author": {
@@ -36,11 +36,9 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@jsenv/filesystem": "4.0.0",
-    "@jsenv/urls": "1.1.0",
-    "@jsenv/logger": "4.0.1",
-    "node-fetch": "2.6.7",
-    "@jsenv/log": "1.6.3",
-    "semver": "7.3.5"
+    "@jsenv/fetch": "1.1.2",
+    "@jsenv/filesystem": "4.1.0",
+    "@jsenv/log": "2.0.1",
+    "semver": "7.3.7"
   }
 }

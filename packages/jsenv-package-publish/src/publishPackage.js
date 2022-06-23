@@ -1,5 +1,5 @@
 import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
-import { createLogger } from "@jsenv/logger"
+import { createLogger } from "@jsenv/log"
 
 import { fetchLatestInRegistry } from "./internal/fetchLatestInRegistry.js"
 import { publish } from "./internal/publish.js"

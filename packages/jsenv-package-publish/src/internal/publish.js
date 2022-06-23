@@ -1,6 +1,6 @@
+import { fileURLToPath } from "node:url"
 import { exec } from "node:child_process"
 import { readFile, writeFile, removeEntry } from "@jsenv/filesystem"
-import { resolveUrl, urlToFileSystemPath } from "@jsenv/urls"
 import { UNICODE } from "@jsenv/log"
 
 import { setNpmConfig } from "./setNpmConfig.js"
@@ -21,7 +21,8 @@ export const publish = async ({
         process.env.NODE_AUTH_TOKEN = previousValue
       }
       process.env.NODE_AUTH_TOKEN = token
-      const rootPackageFileUrl = resolveUrl("./package.json", rootDirectoryUrl)
+      const rootPackageFileUrl = new URL("./package.json", rootDirectoryUrl)
+        .href
       const rootPackageString = await readFile(rootPackageFileUrl)
       const restorePackageFile = () =>
         writeFile(rootPackageFileUrl, rootPackageString)
@@ -34,7 +35,7 @@ export const publish = async ({
           JSON.stringify(packageObject, null, "  "),
         ),
       )
-      const npmConfigFileUrl = resolveUrl("./.npmrc", rootDirectoryUrl)
+      const npmConfigFileUrl = new URL("./.npmrc", rootDirectoryUrl).href
       let restoreNpmConfigFile
       let projectNpmConfigString
       try {
@@ -64,7 +65,7 @@ export const publish = async ({
           const command = exec(
             "npm publish --no-workspaces",
             {
-              cwd: urlToFileSystemPath(rootDirectoryUrl),
+              cwd: fileURLToPath(rootDirectoryUrl),
               stdio: "silent",
             },
             (error) => {
