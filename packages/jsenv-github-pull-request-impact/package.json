@@ -36,6 +36,6 @@
   "dependencies": {
     "@jsenv/fetch": "1.1.2",
     "@jsenv/filesystem": "4.1.0",
-    "@jsenv/log": "2.0.1"
+    "@jsenv/log": "2.1.0"
   }
 }

@@ -125,7 +125,7 @@ import {
 
 await reportLighthouseImpact({
   ...readGitHubWorkflowEnv(),
-  lighthouseReportPath: new URL(
+  lighthouseReportUrl: new URL(
     "./lighthouse.mjs#lighthouseReport",
     import.meta.url,
   ),
@@ -170,7 +170,7 @@ reportLighthouseImpact({
 +  repositoryName: process.env.TRAVIS_REPO_SLUG.split("/")[1],
 +  pullRequestNumber: process.env.TRAVIS_PULL_REQUEST,
 +  githubToken: process.env.GITHUB_TOKEN, // see next step
-   lighthouseReportPath: "./lighthouse.mjs#lighthouseReport",
+   lighthouseReportUrl: "./lighthouse.mjs#lighthouseReport",
 })
 ```
 

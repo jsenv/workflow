@@ -1,13 +1,8 @@
 // https://github.com/GoogleChrome/lighthouse/blob/5a14deb5c4e0ec4e8e58f50ff72b53851b021bcf/docs/readme.md#using-programmatically
 
 import { createRequire } from "node:module"
-
-import {
-  writeFile,
-  resolveUrl,
-  assertAndNormalizeDirectoryUrl,
-} from "@jsenv/filesystem"
-import { createLogger } from "@jsenv/logger"
+import { writeFile, assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
+import { createLogger } from "@jsenv/log"
 import { Abort, raceProcessTeardownEvents } from "@jsenv/abort"
 
 import { formatLighthouseReportForLog } from "./internal/formatLighthouseReportForLog.js"
@@ -34,10 +29,10 @@ export const generateLighthouseReport = async (
     rootDirectoryUrl, // required only when jsonFile or htmlFile is passed
     log = false,
     jsonFile = false,
-    jsonFileRelativeUrl = "./lighthouse/lighthouse_report.json",
+    jsonFileUrl = "./lighthouse/lighthouse_report.json",
     jsonFileLog = true,
     htmlFile = false,
-    htmlFileRelativeUrl = "./lighthouse/lighthouse_report.html",
+    htmlFileUrl = "./lighthouse/lighthouse_report.html",
     htmlFileLog = true,
   } = {},
 ) => {
@@ -125,7 +120,7 @@ export const generateLighthouseReport = async (
     if (jsonFile) {
       promises.push(
         (async () => {
-          const jsonFileUrl = resolveUrl(jsonFileRelativeUrl, rootDirectoryUrl)
+          jsonFileUrl = new URL(jsonFileUrl, rootDirectoryUrl).href
           const json = JSON.stringify(lighthouseReport, null, "  ")
           await writeFile(jsonFileUrl, json)
           if (jsonFileLog) {
@@ -137,7 +132,7 @@ export const generateLighthouseReport = async (
     if (htmlFile) {
       promises.push(
         (async () => {
-          const htmlFileUrl = resolveUrl(htmlFileRelativeUrl, rootDirectoryUrl)
+          htmlFileUrl = new URL(htmlFileUrl, rootDirectoryUrl).href
           const html = ReportGenerator.generateReportHtml(lighthouseReport)
           await writeFile(htmlFileUrl, html)
           if (htmlFileLog) {

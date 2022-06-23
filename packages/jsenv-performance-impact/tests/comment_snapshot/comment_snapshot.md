@@ -17,9 +17,9 @@
     <tbody>
       <tr>
         <td nowrap>Duration for setTimeout(100)</td>
-        <td nowrap>0.1 seconds</td>
-        <td nowrap>0.102 seconds</td>
-        <td nowrap>+0.002 seconds / +2%</td>
+        <td nowrap>0.1 second</td>
+        <td nowrap>0.1 second</td>
+        <td nowrap>+0.002 second / +2%</td>
         <td>:arrow_upper_right:</td>
       </tr>
       <tr>
@@ -59,9 +59,9 @@
     <tbody>
       <tr>
         <td nowrap>100ms</td>
-        <td nowrap>0.1 seconds</td>
-        <td nowrap>0.2 seconds</td>
-        <td nowrap>+0.1 seconds / +100%</td>
+        <td nowrap>0.1 second</td>
+        <td nowrap>0.2 second</td>
+        <td nowrap>+0.1 second / +100%</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tbody>
@@ -87,9 +87,9 @@
     <tbody>
       <tr>
         <td nowrap>100ms</td>
-        <td nowrap>0.1 seconds</td>
-        <td nowrap>0.098 seconds</td>
-        <td nowrap>-0.002 seconds / -2%</td>
+        <td nowrap>0.1 second</td>
+        <td nowrap>0.1 second</td>
+        <td nowrap>-0.002 second / -2%</td>
         <td>:arrow_lower_right:</td>
       </tr>
     </tbody>
@@ -115,9 +115,9 @@
     <tbody>
       <tr>
         <td nowrap>100ms</td>
-        <td nowrap>0.1 seconds</td>
-        <td nowrap>0 seconds</td>
-        <td nowrap>-0.1 seconds / -100%</td>
+        <td nowrap>0.1 second</td>
+        <td nowrap>0 second</td>
+        <td nowrap>-0.1 second / -100%</td>
         <td>:arrow_lower_right:</td>
       </tr>
     </tbody>
@@ -143,8 +143,8 @@
     <tbody>
       <tr>
         <td nowrap>100ms</td>
-        <td nowrap>0.1 seconds</td>
-        <td nowrap>0.1 seconds</td>
+        <td nowrap>0.1 second</td>
+        <td nowrap>0.1 second</td>
         <td nowrap></td>
         <td>:ghost:</td>
       </tr>
@@ -172,7 +172,7 @@
       <tr>
         <td nowrap>100ms</td>
         <td nowrap></td>
-        <td nowrap>0.1 seconds</td>
+        <td nowrap>0.1 second</td>
         <td nowrap></td>
         <td>:baby:</td>
       </tr>
@@ -206,7 +206,7 @@
       <tr>
         <td nowrap>100ms</td>
         <td nowrap></td>
-        <td nowrap>0.1 seconds</td>
+        <td nowrap>0.1 second</td>
         <td nowrap></td>
         <td>:baby:</td>
       </tr>

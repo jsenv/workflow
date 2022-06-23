@@ -28,7 +28,7 @@
     "@jsenv/package-workspace": "./packages/jsenv-packages-workspace",
     "@jsenv/eslint-config": "16.0.9",
     "@jsenv/eslint-import-resolver": "0.3.0",
-    "@jsenv/log": "2.0.1",
+    "@jsenv/log": "2.1.0",
     "eslint": "8.18.0",
     "eslint-plugin-html": "6.2.0",
     "eslint-plugin-import": "2.26.0",
