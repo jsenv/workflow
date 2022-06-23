@@ -1,14 +1,21 @@
-import { resolveUrl, urlToRelativeUrl } from "@jsenv/filesystem"
+import { urlToRelativeUrl } from "@jsenv/urls"
 
 export const manifestToMappings = (manifestMap) => {
   const mappings = {}
   Object.keys(manifestMap).forEach((manifestRelativeUrl) => {
     const manifest = manifestMap[manifestRelativeUrl]
-    const manifestAbstractUrl = resolveUrl(manifestRelativeUrl, ABSTRACT_DIRECTORY_URL)
+    const manifestAbstractUrl = new URL(
+      manifestRelativeUrl,
+      ABSTRACT_DIRECTORY_URL,
+    ).href
     Object.keys(manifest).forEach((manifestKey) => {
       const manifestValue = manifest[manifestKey]
-      const manifestKeyAsAbstractUrl = resolveUrl(manifestKey, manifestAbstractUrl)
-      const manifestValueAsAbstractUrl = resolveUrl(manifestValue, manifestAbstractUrl)
+      const manifestKeyAsAbstractUrl = new URL(manifestKey, manifestAbstractUrl)
+        .href
+      const manifestValueAsAbstractUrl = new URL(
+        manifestValue,
+        manifestAbstractUrl,
+      ).href
       const manifestKeyAsRelativeUrl = urlToRelativeUrl(
         manifestKeyAsAbstractUrl,
         ABSTRACT_DIRECTORY_URL,

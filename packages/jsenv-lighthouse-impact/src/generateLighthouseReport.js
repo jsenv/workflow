@@ -1,13 +1,8 @@
 // https://github.com/GoogleChrome/lighthouse/blob/5a14deb5c4e0ec4e8e58f50ff72b53851b021bcf/docs/readme.md#using-programmatically
 
 import { createRequire } from "node:module"
-
-import {
-  writeFile,
-  resolveUrl,
-  assertAndNormalizeDirectoryUrl,
-} from "@jsenv/filesystem"
-import { createLogger } from "@jsenv/logger"
+import { writeFile, assertAndNormalizeFileUrl } from "@jsenv/filesystem"
+import { createLogger } from "@jsenv/log"
 import { Abort, raceProcessTeardownEvents } from "@jsenv/abort"
 
 import { formatLighthouseReportForLog } from "./internal/formatLighthouseReportForLog.js"
@@ -31,13 +26,10 @@ export const generateLighthouseReport = async (
     runCount = 1,
     delayBetweenEachRunInSeconds = 1,
 
-    rootDirectoryUrl, // required only when jsonFile or htmlFile is passed
     log = false,
-    jsonFile = false,
-    jsonFileRelativeUrl = "./lighthouse/lighthouse_report.json",
+    jsonFileUrl,
     jsonFileLog = true,
-    htmlFile = false,
-    htmlFileRelativeUrl = "./lighthouse/lighthouse_report.html",
+    htmlFileUrl,
     htmlFileLog = true,
   } = {},
 ) => {
@@ -117,15 +109,11 @@ export const generateLighthouseReport = async (
 
     await chrome.kill()
 
-    if (jsonFile || htmlFile) {
-      rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
-    }
-
     const promises = []
-    if (jsonFile) {
+    if (jsonFileUrl) {
+      assertAndNormalizeFileUrl(jsonFileUrl)
       promises.push(
         (async () => {
-          const jsonFileUrl = resolveUrl(jsonFileRelativeUrl, rootDirectoryUrl)
           const json = JSON.stringify(lighthouseReport, null, "  ")
           await writeFile(jsonFileUrl, json)
           if (jsonFileLog) {
@@ -134,10 +122,10 @@ export const generateLighthouseReport = async (
         })(),
       )
     }
-    if (htmlFile) {
+    if (htmlFileUrl) {
+      assertAndNormalizeFileUrl(htmlFileUrl)
       promises.push(
         (async () => {
-          const htmlFileUrl = resolveUrl(htmlFileRelativeUrl, rootDirectoryUrl)
           const html = ReportGenerator.generateReportHtml(lighthouseReport)
           await writeFile(htmlFileUrl, html)
           if (htmlFileLog) {

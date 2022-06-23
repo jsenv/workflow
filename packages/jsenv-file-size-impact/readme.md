@@ -108,10 +108,7 @@ import {
 await reportFileSizeImpact({
   ...readGitHubWorkflowEnv(),
   buildCommand: "npm run dist",
-  fileSizeReportModulePath: new URL(
-    "./file_size.mjs#fileSizeReport",
-    import.meta.url,
-  ),
+  fileSizeReportUrl: new URL("./file_size.mjs#fileSizeReport", import.meta.url),
 })
 ```
 
@@ -327,10 +324,7 @@ await reportFileSizeImpact({
 
   installCommand: "npm install",
   buildCommand: "npm run build",
-  fileSizeReportModulePath: new URL(
-    "./file_size.mjs#fileSizeReport",
-    import.meta.url,
-  ),
+  fileSizeReportUrl: new URL("./file_size.mjs#fileSizeReport", import.meta.url),
   filesOrdering: "size_impact",
 })
 ```

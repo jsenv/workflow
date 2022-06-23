@@ -1,8 +1,8 @@
-import bytes from "pretty-bytes"
+import { byteAsFileSize } from "@jsenv/log"
 
 export const formatSize = (sizeNumber, { diff = false } = {}) => {
   const sizeNumberAbsolute = Math.abs(sizeNumber)
-  let sizeString = bytes(sizeNumberAbsolute)
+  let sizeString = byteAsFileSize(sizeNumberAbsolute)
   if (diff) {
     if (sizeNumber < 0) {
       sizeString = `-${sizeString}`

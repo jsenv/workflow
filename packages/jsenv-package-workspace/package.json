@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/package-workspace",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "TODO",
   "license": "MIT",
   "author": {
@@ -22,26 +22,22 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./main.js"
+      "import": "./src/main.js"
     },
     "./*": "./*"
   },
-  "main": "./main.js",
+  "main": "./src/main.js",
   "files": [
-    "/src/",
-    "/main.js"
+    "/src/"
   ],
   "scripts": {
-    "eslint": "npx eslint . --ext=.js,.mjs",
-    "test": "node ./script/test/test.mjs",
-    "test-with-coverage": "npm run test -- --coverage",
-    "prettier": "prettier --write ."
+    "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/urls": "1.1.0",
-    "@jsenv/filesystem": "4.0.0",
-    "@jsenv/package-publish": "1.7.5",
-    "@jsenv/logger": "4.0.1",
-    "@jsenv/log": "1.6.3"
+    "@jsenv/urls": "1.2.6",
+    "@jsenv/filesystem": "4.1.0",
+    "@jsenv/package-publish": "1.8.0",
+    "@jsenv/log": "2.1.0",
+    "semver": "7.3.7"
   }
 }

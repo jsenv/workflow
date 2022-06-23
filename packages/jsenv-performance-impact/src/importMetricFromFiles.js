@@ -1,5 +1,5 @@
-import { assertAndNormalizeDirectoryUrl, resolveUrl } from "@jsenv/filesystem"
-import { createLogger } from "@jsenv/logger"
+import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
+import { createLogger } from "@jsenv/log"
 import { importOneExportFromFile } from "@jsenv/dynamic-import-worker"
 
 import { measureMultipleTimes } from "./internal/measureMultipleTimes.js"
@@ -27,7 +27,7 @@ export const importMetricFromFiles = async ({
         iterations,
         msToWaitBetweenEachIteration = 100,
       } = metricsDescription
-      const url = resolveUrl(file, directoryUrl)
+      const url = new URL(file, directoryUrl).href
 
       const measure = async () => {
         const metrics = await importOneExportFromFile(url)

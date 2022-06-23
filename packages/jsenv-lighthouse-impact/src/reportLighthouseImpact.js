@@ -16,7 +16,7 @@ export const reportLighthouseImpact = async ({
   repositoryName,
   pullRequestNumber,
   installCommand = "npm install",
-  lighthouseReportPath,
+  lighthouseReportUrl,
 
   runLink,
   commitInGeneratedByInfo,
@@ -24,14 +24,12 @@ export const reportLighthouseImpact = async ({
   skipGistWarning = false,
 }) => {
   rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
-  let lighthouseReportUrl
-  if (lighthouseReportPath === "string") {
-    lighthouseReportUrl = new URL(lighthouseReportPath, rootDirectoryUrl).href
-  } else if (lighthouseReportPath instanceof URL) {
-    lighthouseReportUrl = lighthouseReportPath.href
+  if (lighthouseReportUrl === "string") {
+    lighthouseReportUrl = new URL(lighthouseReportUrl, rootDirectoryUrl).href
+  } else if (lighthouseReportUrl instanceof URL) {
   } else {
     throw new TypeError(
-      `lighthouseReportPath must be a string or an url but received ${lighthouseReportPath}`,
+      `lighthouseReportUrl must be a string or an url but received ${lighthouseReportUrl}`,
     )
   }
 

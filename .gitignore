@@ -1,5 +1,6 @@
+.jsenv/
 node_modules/
 .DS_STORE
 
 /secrets.json
-**/test/**/temp/
+**/tests/**/temp/

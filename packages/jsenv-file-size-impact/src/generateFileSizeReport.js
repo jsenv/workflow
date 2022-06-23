@@ -1,11 +1,10 @@
+import { fileURLToPath } from "node:url"
 import {
   assertAndNormalizeDirectoryUrl,
   bufferToEtag,
-  resolveUrl,
   readFile,
-  urlToFileSystemPath,
 } from "@jsenv/filesystem"
-import { createDetailedMessage, createLogger } from "@jsenv/logger"
+import { createDetailedMessage, createLogger } from "@jsenv/log"
 
 import { transform as rawTransform } from "./rawTransformation.js"
 import { jsenvTrackingConfig } from "./jsenvTrackingConfig.js"
@@ -81,7 +80,8 @@ const groupTrackingResultToGroupReport = async (
   const manifestRelativeUrls = Object.keys(manifestMetaMap)
   await Promise.all(
     manifestRelativeUrls.map(async (manifestRelativeUrl) => {
-      const manifestFileUrl = resolveUrl(manifestRelativeUrl, rootDirectoryUrl)
+      const manifestFileUrl = new URL(manifestRelativeUrl, rootDirectoryUrl)
+        .href
       const manifestFileContent = await readFile(manifestFileUrl, {
         as: "string",
       })
@@ -95,7 +95,7 @@ const groupTrackingResultToGroupReport = async (
               `JSON.parse error while trying to parse a manifest file`,
               {
                 "error stack": e.stack,
-                "manifest file": urlToFileSystemPath(manifestFileUrl),
+                "manifest file": fileURLToPath(manifestFileUrl),
               },
             ),
           )
@@ -114,7 +114,7 @@ const groupTrackingResultToGroupReport = async (
   // so we won't benefit from concurrency (it might even make things worse)
   await trackedRelativeUrls.reduce(async (previous, fileRelativeUrl) => {
     await previous
-    const fileUrl = resolveUrl(fileRelativeUrl, rootDirectoryUrl)
+    const fileUrl = new URL(fileRelativeUrl, rootDirectoryUrl).href
     const fileBuffer = await readFile(fileUrl, { as: "buffer" })
     const sizeMap = await getFileSizeMap(fileBuffer, {
       transformations,

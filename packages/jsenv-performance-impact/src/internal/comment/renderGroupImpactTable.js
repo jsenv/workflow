@@ -47,7 +47,9 @@ const renderPerfImpactTableBody = ({
     const metricNameDisplayed = truncateMetricName(metricName)
     const metric = afterMergeMetrics[metricName]
     const metricValueAfterMerge = metric.value
-    const metricBeforeMerge = beforeMergeMetrics ? beforeMergeMetrics[metricName] : undefined
+    const metricBeforeMerge = beforeMergeMetrics
+      ? beforeMergeMetrics[metricName]
+      : undefined
     if (!metricBeforeMerge) {
       lines.push([
         `<td nowrap>${metricNameDisplayed}</td>`,
@@ -84,14 +86,19 @@ const renderPerfImpactTableBody = ({
   })
   if (metricNames !== metricAllNames) {
     lines.push([
-      `<td colspan="5" align="center">... ${metricCount - MAX_METRIC_PER_GROUP} more ...</td>`,
+      `<td colspan="5" align="center">... ${
+        metricCount - MAX_METRIC_PER_GROUP
+      } more ...</td>`,
     ])
   }
 
   return renderTableLines(lines)
 }
 
-const renderEmojiCellContent = ({ metricValueAfterMerge, metricValueBeforeMerge }) => {
+const renderEmojiCellContent = ({
+  metricValueAfterMerge,
+  metricValueBeforeMerge,
+}) => {
   const delta = metricValueAfterMerge - metricValueBeforeMerge
   if (delta === 0) {
     return ":ghost:"

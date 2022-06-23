@@ -1,7 +1,5 @@
-import {
-  urlToFileSystemPath,
-  collectDirectoryMatchReport,
-} from "@jsenv/filesystem"
+import { fileURLToPath } from "node:url"
+import { collectDirectoryMatchReport } from "@jsenv/filesystem"
 
 export const applyTrackingConfig = async (
   trackingConfig,
@@ -30,21 +28,18 @@ const applyTracking = async (
   tracking,
   { rootDirectoryUrl, manifestConfig },
 ) => {
-  const structuredMetaMap = {
-    track: tracking,
-    ...(manifestConfig ? { manifest: manifestConfig } : {}),
-  }
-
   let directoryMatchReport
-
   try {
     directoryMatchReport = await collectDirectoryMatchReport({
       directoryUrl: rootDirectoryUrl,
-      structuredMetaMap,
+      associations: {
+        track: tracking,
+        ...(manifestConfig ? { manifest: manifestConfig } : {}),
+      },
       predicate: (meta) => Boolean(meta.track) || Boolean(meta.manifest),
     })
   } catch (e) {
-    const directoryPath = urlToFileSystemPath(rootDirectoryUrl)
+    const directoryPath = fileURLToPath(rootDirectoryUrl)
     if (e.code === "ENOENT" && e.path === directoryPath) {
       console.warn(`${directoryPath} does not exists`)
       return []

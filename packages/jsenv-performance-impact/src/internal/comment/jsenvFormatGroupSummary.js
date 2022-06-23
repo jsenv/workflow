@@ -1,11 +1,18 @@
 import { formatRatioAsPercentage } from "../formatRatio.js"
 
-export const jsenvFormatGroupSummary = ({ groupName, beforeMergeMetrics, afterMergeMetrics }) => {
+export const jsenvFormatGroupSummary = ({
+  groupName,
+  beforeMergeMetrics,
+  afterMergeMetrics,
+}) => {
   if (!beforeMergeMetrics) {
     return `${groupName} (new)`
   }
 
-  const allRatios = getAllImpactRatios({ beforeMergeMetrics, afterMergeMetrics })
+  const allRatios = getAllImpactRatios({
+    beforeMergeMetrics,
+    afterMergeMetrics,
+  })
   const ratiosCount = allRatios.length
   if (ratiosCount === 0) {
     return `${groupName} (no impact)`
@@ -31,7 +38,11 @@ const getAllImpactRatios = ({ afterMergeMetrics, beforeMergeMetrics }) => {
     const metricValueBeforeMerge = metricBeforeMerge.value
     const metricValueAfterMerge = metricAfterMerge.value
     const metricDiff = metricValueAfterMerge - metricValueBeforeMerge
-    if (metricDiff === 0 && metricValueAfterMerge === 0 && metricValueBeforeMerge === 0) {
+    if (
+      metricDiff === 0 &&
+      metricValueAfterMerge === 0 &&
+      metricValueBeforeMerge === 0
+    ) {
       // there is no impact on a metric that is 0
       // we can ignore this metric
       return

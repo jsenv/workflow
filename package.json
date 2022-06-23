@@ -15,23 +15,23 @@
     "./*": "./*"
   },
   "scripts": {
-    "eslint": "npx eslint . --ext=.js,.mjs && npm run eslint --workspaces --if-present",
+    "eslint": "npx eslint . --ext=.js,.mjs,.cjs",
     "test": "npm run test --workspaces --if-present",
     "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",
-    "workspace-versions": "node ./script/publish/workspace_versions.mjs",
-    "workspace-publish": "node ./script/publish/workspace_publish.mjs",
+    "workspace-versions": "node ./scripts/workspace_versions.mjs",
+    "workspace-publish": "node ./scripts/workspace_publish.mjs",
     "prettier": "prettier --write ."
   },
   "devDependencies": {
-    "@jsenv/assert": "2.5.3",
-    "@jsenv/core": "26.0.1",
+    "@jsenv/assert": "2.6.0",
+    "@jsenv/core": "27.0.0-alpha.92",
+    "@jsenv/package-workspace": "./packages/jsenv-packages-workspace",
     "@jsenv/eslint-config": "16.0.9",
-    "@jsenv/eslint-import-resolver": "0.0.1",
-    "@jsenv/filesystem": "3.1.0",
-    "@jsenv/log": "1.5.1",
-    "eslint": "8.13.0",
-    "eslint-plugin-html": "^6.2.0",
+    "@jsenv/eslint-import-resolver": "0.3.0",
+    "@jsenv/log": "2.1.0",
+    "eslint": "8.18.0",
+    "eslint-plugin-html": "6.2.0",
     "eslint-plugin-import": "2.26.0",
-    "prettier": "2.6.2"
+    "prettier": "2.7.1"
   }
 }

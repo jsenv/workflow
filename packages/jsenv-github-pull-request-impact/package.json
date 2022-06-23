@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/github-pull-request-impact",
-  "version": "1.6.11",
+  "version": "1.7.0",
   "description": "Report pull request impact on something",
   "license": "MIT",
   "author": {
@@ -22,24 +22,20 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./main.js"
+      "import": "./src/main.js"
     },
     "./*": "./*"
   },
-  "main": "./main.js",
+  "main": "./src/main.js",
   "files": [
-    "/src/",
-    "/main.js"
+    "/src/"
   ],
   "scripts": {
-    "eslint": "npx eslint . --ext=.js,.mjs",
-    "test": "node ./script/test/test.mjs",
-    "test-with-coverage": "npm run test -- --coverage",
-    "prettier": "prettier --write ."
+    "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/filesystem": "3.1.0",
-    "@jsenv/logger": "4.0.1",
-    "node-fetch": "2.6.7"
+    "@jsenv/fetch": "1.1.2",
+    "@jsenv/filesystem": "4.1.0",
+    "@jsenv/log": "2.1.0"
   }
 }

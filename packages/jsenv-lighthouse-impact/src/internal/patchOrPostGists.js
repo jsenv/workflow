@@ -1,5 +1,5 @@
 import * as githubRESTAPI from "@jsenv/github-pull-request-impact/src/internal/github_rest_api.js"
-import { createDetailedMessage } from "@jsenv/logger"
+import { createDetailedMessage } from "@jsenv/log"
 
 // https://developer.github.com/v3/gists/#create-a-gist
 

@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/performance-impact",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "Report pull request impacts on performance metrics",
   "license": "MIT",
   "author": {
@@ -22,28 +22,22 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./main.js"
+      "import": "./src/main.js"
     },
     "./*": "./*"
   },
-  "main": "./main.js",
+  "main": "./src/main.js",
   "files": [
-    "/src/",
-    "/main.js"
+    "/src/"
   ],
   "scripts": {
-    "eslint": "npx eslint . --ext=.js,.mjs",
-    "snapshot": "node ./test/comment_snapshot/generate_comment_snapshot_file.mjs",
-    "test": "node ./script/test/test.mjs",
-    "test-with-coverage": "npm run test -- --coverage",
-    "prettier": "prettier --write ."
+    "snapshot": "node ./tests/comment_snapshot/generate_comment_snapshot_file.mjs",
+    "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/dynamic-import-worker": "1.0.1",
-    "@jsenv/filesystem": "3.1.0",
-    "@jsenv/github-pull-request-impact": "1.6.11",
-    "@jsenv/logger": "4.0.1",
-    "bytes": "3.1.1",
-    "humanize-duration": "3.27.1"
+    "@jsenv/dynamic-import-worker": "1.1.0",
+    "@jsenv/filesystem": "4.1.0",
+    "@jsenv/github-pull-request-impact": "1.7.0",
+    "@jsenv/log": "2.1.0"
   }
 }

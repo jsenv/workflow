@@ -40,7 +40,11 @@ const compareTwoGroups = (beforeMergeGroup, afterMergeGroup) => {
       beforeMerge: null,
       afterMerge: {
         relativeUrl: afterMergeRelativeUrl,
-        manifestKey: manifestKeyFromRelativeUrl(afterMergeRelativeUrl, afterMergeMappings) || null,
+        manifestKey:
+          manifestKeyFromRelativeUrl(
+            afterMergeRelativeUrl,
+            afterMergeMappings,
+          ) || null,
         ...afterMergeFileMap[afterMergeRelativeUrl],
       },
     }
@@ -50,12 +54,19 @@ const compareTwoGroups = (beforeMergeGroup, afterMergeGroup) => {
       beforeMerge: {
         relativeUrl: beforeMergeRelativeUrl,
         manifestKey:
-          manifestKeyFromRelativeUrl(beforeMergeRelativeUrl, beforeMergeMappings) || null,
+          manifestKeyFromRelativeUrl(
+            beforeMergeRelativeUrl,
+            beforeMergeMappings,
+          ) || null,
         ...beforeMergeFileMap[beforeMergeRelativeUrl],
       },
       afterMerge: {
         relativeUrl: afterMergeRelativeUrl,
-        manifestKey: manifestKeyFromRelativeUrl(afterMergeRelativeUrl, afterMergeMappings) || null,
+        manifestKey:
+          manifestKeyFromRelativeUrl(
+            afterMergeRelativeUrl,
+            afterMergeMappings,
+          ) || null,
         ...afterMergeFileMap[afterMergeRelativeUrl],
       },
     }
@@ -64,7 +75,10 @@ const compareTwoGroups = (beforeMergeGroup, afterMergeGroup) => {
     return {
       beforeMerge: {
         relativeUrl: beforeMergeRelativeUrl,
-        manifestKey: manifestKeyFromRelativeUrl(beforeMergeRelativeUrl, beforeMergeMappings),
+        manifestKey: manifestKeyFromRelativeUrl(
+          beforeMergeRelativeUrl,
+          beforeMergeMappings,
+        ),
         ...beforeMergeFileMap[beforeMergeRelativeUrl],
       },
       afterMerge: null,
@@ -78,14 +92,16 @@ const compareTwoGroups = (beforeMergeGroup, afterMergeGroup) => {
     )
 
     if (afterMergeManifestKey) {
-      const existsInBeforeMergeManifest =
-        Object.keys(beforeMergeMappings).includes(afterMergeManifestKey)
+      const existsInBeforeMergeManifest = Object.keys(
+        beforeMergeMappings,
+      ).includes(afterMergeManifestKey)
       if (existsInBeforeMergeManifest) {
         // the manifest key also appears in the manifest before merge.
         // It means that even if both file have different relative urls,
         // they are considered the same.
         // This is to support file generated with a dynamic name
-        const beforeMergeRelativeUrl = beforeMergeMappings[afterMergeManifestKey]
+        const beforeMergeRelativeUrl =
+          beforeMergeMappings[afterMergeManifestKey]
         const beforeMerge = beforeMergeFileMap[beforeMergeRelativeUrl]
         if (beforeMerge) {
           groupComparison[afterMergeRelativeUrl] = getUpdateInfo({
@@ -113,8 +129,9 @@ const compareTwoGroups = (beforeMergeGroup, afterMergeGroup) => {
       beforeMergeMappings,
     )
     if (beforeMergeManifestKey) {
-      const existsInAfterMergeManifest =
-        Object.keys(afterMergeMappings).includes(beforeMergeManifestKey)
+      const existsInAfterMergeManifest = Object.keys(
+        afterMergeMappings,
+      ).includes(beforeMergeManifestKey)
       if (existsInAfterMergeManifest) {
         // file also referenced in after merge manifest
         // let's first see if the file still exists
@@ -137,7 +154,9 @@ const compareTwoGroups = (beforeMergeGroup, afterMergeGroup) => {
     // at this point there is no file for an eventual file mapping from manifest
     // AND no file for the real relative url after merge
     // -> the file is gone
-    groupComparison[beforeMergeRelativeUrl] = getRemoveInfo({ beforeMergeRelativeUrl })
+    groupComparison[beforeMergeRelativeUrl] = getRemoveInfo({
+      beforeMergeRelativeUrl,
+    })
   })
 
   const fileImpactMap = sortFileStructure(groupComparison)
@@ -149,7 +168,8 @@ const compareTwoGroups = (beforeMergeGroup, afterMergeGroup) => {
 }
 
 const sortFileStructure = (fileStructure) => {
-  const relativeUrlSortedArray = Object.keys(fileStructure).sort(comparePathnames)
+  const relativeUrlSortedArray =
+    Object.keys(fileStructure).sort(comparePathnames)
   const fileStructureSorted = {}
   relativeUrlSortedArray.forEach((relativeUrl) => {
     fileStructureSorted[relativeUrl] = fileStructure[relativeUrl]

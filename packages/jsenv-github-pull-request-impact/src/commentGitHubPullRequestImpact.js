@@ -4,11 +4,9 @@
  * @jsenv/file-size-impact, @jsenv/performance-impact and @jsenv/lighthouse-score-impact
  */
 
-import {
-  assertAndNormalizeDirectoryUrl,
-  urlToFileSystemPath,
-} from "@jsenv/filesystem"
-import { createLogger } from "@jsenv/logger"
+import { fileURLToPath } from "node:url"
+import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
+import { createLogger } from "@jsenv/log"
 
 import * as githubRESTAPI from "./internal/github_rest_api.js"
 import { exec } from "./internal/exec.js"
@@ -133,7 +131,7 @@ const commentPrImpact = async ({
   const execCommandInRootDirectory = (command) => {
     logger.info(`> ${command}`)
     return exec(command, {
-      cwd: urlToFileSystemPath(rootDirectoryUrl),
+      cwd: fileURLToPath(rootDirectoryUrl),
       onLog: (string) => {
         if (commandLogs) {
           logger.info(string)
@@ -370,9 +368,7 @@ const ensureGitConfig = async (
     await execCommandInRootDirectory(`git config ${name}`)
     return () => {}
   } catch (e) {
-    await execCommandInRootDirectory(
-      `git config ${name} "${valueIfMissing}"`,
-    )
+    await execCommandInRootDirectory(`git config ${name} "${valueIfMissing}"`)
     return async () => {
       await execCommandInRootDirectory(`git config --unset ${name}`)
     }

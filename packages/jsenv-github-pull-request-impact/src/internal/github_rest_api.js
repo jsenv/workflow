@@ -1,4 +1,4 @@
-import nodeFetch from "node-fetch"
+import { fetchUrl } from "@jsenv/fetch"
 
 export const GET = async ({ url, githubToken, headers }) => {
   return sendHttpRequest({
@@ -72,7 +72,7 @@ const sendHttpRequest = async ({
 }) => {
   let response
   try {
-    response = await nodeFetch(url, {
+    response = await fetchUrl(url, {
       method,
       headers: {
         ...(typeof body === "undefined"

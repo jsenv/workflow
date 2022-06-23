@@ -1,5 +1,5 @@
 import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
-import { createLogger } from "@jsenv/logger"
+import { createLogger } from "@jsenv/log"
 
 import { fetchLatestInRegistry } from "./internal/fetchLatestInRegistry.js"
 import { publish } from "./internal/publish.js"
@@ -32,9 +32,7 @@ export const publishPackage = async ({
   assertRegistriesConfig(registriesConfig)
 
   logger.debug(`reading project package.json`)
-  const packageInProject = await readProjectPackage({
-    rootDirectoryUrl,
-  })
+  const packageInProject = readProjectPackage({ rootDirectoryUrl })
 
   const { name: packageName, version: packageVersion } = packageInProject
   logger.info(`${packageName}@${packageVersion} found in package.json`)
