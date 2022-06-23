@@ -2,14 +2,13 @@
  * Publish all package if needed (the local package version must not be published)
  */
 
-import { readFile } from "@jsenv/filesystem"
+import { readFileSync } from "node:fs"
 
-import { publishWorkspace } from "@jsenv/workflow/packages/jsenv-package-workspace"
+import { publishWorkspace } from "@jsenv/package-workspace"
 
 if (!process.env.CI) {
-  const secrets = await readFile(
-    new URL("../../secrets.json", import.meta.url),
-    { as: "json" },
+  const secrets = JSON.parse(
+    String(readFileSync(new URL("../secrets.json", import.meta.url))),
   )
   Object.assign(process.env, secrets)
 }
