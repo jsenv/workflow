@@ -221,8 +221,8 @@
     <tbody>
       <tr>
         <td nowrap>dist/feature.js</td>
-        <td nowrap>21.6 kB (+4.11 kB / +24%)</td>
-        <td nowrap>12.5 kB (+2.94 kB / +31%)</td>
+        <td nowrap>21.6 kB (+4.1 kB / +24%)</td>
+        <td nowrap>12.5 kB (+2.9 kB / +31%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
       <tr>
@@ -235,8 +235,8 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (5)</strong></td>
-        <td nowrap>91.4 kB (+4.11 kB / +5%)</td>
-        <td nowrap>50.6 kB (+2.94 kB / +6%)</td>
+        <td nowrap>91.4 kB (+4.1 kB / +5%)</td>
+        <td nowrap>50.6 kB (+2.9 kB / +6%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -287,8 +287,8 @@
       <tr>
         <td nowrap><strong>Total (3)</strong></td>
         <td nowrap>187 kB (+20 kB / +12%)</td>
-        <td nowrap>1.81 kB (+202 B / +13%)</td>
-        <td nowrap>1.71 kB (+202 B / +13%)</td>
+        <td nowrap>1.8 kB (+202 B / +13%)</td>
+        <td nowrap>1.7 kB (+202 B / +13%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -334,8 +334,8 @@
       <tr>
         <td nowrap><strong>Total (3)</strong></td>
         <td nowrap>187 kB (+20 kB / +12%)</td>
-        <td nowrap>1.81 kB (+202 B / +13%)</td>
-        <td nowrap>1.71 kB (+202 B / +13%)</td>
+        <td nowrap>1.8 kB (+202 B / +13%)</td>
+        <td nowrap>1.7 kB (+202 B / +13%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -372,7 +372,7 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (2)</strong></td>
-        <td nowrap>2.81 kB (+15 B / +0.5%)</td>
+        <td nowrap>2.8 kB (+15 B / +0.5%)</td>
         <td>:arrow_upper_right:</td>
       </tr>
     </tfoot>
@@ -537,7 +537,7 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (100)</strong></td>
-        <td nowrap>497 kB (+1.72 kB / +0.3%)</td>
+        <td nowrap>497 kB (+1.7 kB / +0.3%)</td>
         <td nowrap>99.2 kB (+150 B / +0.2%)</td>
         <td>:arrow_upper_right:</td>
       </tr>

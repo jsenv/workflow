@@ -1,4 +1,4 @@
-import { writeFile, resolveUrl } from "@jsenv/filesystem"
+import { writeFileSync } from "node:fs"
 import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact"
 
 import { jsenvCommentParameters } from "@jsenv/file-size-impact/src/internal/jsenvCommentParameters.js"
@@ -649,7 +649,7 @@ const examples = {
   })
 }
 
-const snapshotFileUrl = resolveUrl("./comment_snapshot.md", import.meta.url)
+const snapshotFileUrl = new URL("./comment_snapshot.md", import.meta.url)
 const snapshotFileContent = Object.keys(examples).map((exampleName) => {
   return `# ${exampleName}
 
@@ -657,8 +657,7 @@ ${examples[exampleName]}`
 }).join(`
 
 `)
-
-await writeFile(
+writeFileSync(
   snapshotFileUrl,
   `${snapshotFileContent}
 `,
