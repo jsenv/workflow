@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/github-release-package",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Create github release when package version changes.",
   "license": "MIT",
   "author": {
@@ -35,8 +35,8 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@jsenv/filesystem": "3.1.0",
-    "@jsenv/logger": "4.0.1",
-    "@jsenv/github-pull-request-impact": "1.6.11"
+    "@jsenv/filesystem": "4.1.0",
+    "@jsenv/log": "2.0.1",
+    "@jsenv/github-pull-request-impact": "1.7.0"
   }
 }

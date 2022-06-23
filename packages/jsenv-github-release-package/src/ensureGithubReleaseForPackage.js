@@ -1,5 +1,5 @@
 import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
-import { createLogger } from "@jsenv/logger"
+import { createLogger } from "@jsenv/log"
 import * as githubRESTAPI from "@jsenv/github-pull-request-impact/src/internal/github_rest_api.js"
 
 import { readProjectPackage } from "./internal/readProjectPackage.js"
@@ -27,9 +27,8 @@ export const ensureGithubReleaseForPackage = async ({
   } = getOptionsFromGithubAction()
 
   logger.debug(`reading project package.json`)
-  const { packageVersion } = await getOptionsFromProjectPackage({
-    rootDirectoryUrl,
-  })
+  const projectPackage = readProjectPackage({ rootDirectoryUrl })
+  const packageVersion = projectPackage.version
   logger.debug(`${packageVersion} found in package.json`)
   if (
     packageVersion.includes("alpha") ||
@@ -118,12 +117,5 @@ const getOptionsFromGithubAction = () => {
     githubRepositoryName,
     githubToken,
     githubSha,
-  }
-}
-
-const getOptionsFromProjectPackage = async ({ rootDirectoryUrl }) => {
-  const projectPackage = await readProjectPackage({ rootDirectoryUrl })
-  return {
-    packageVersion: projectPackage.version,
   }
 }

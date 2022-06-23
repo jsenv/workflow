@@ -32,9 +32,7 @@ export const publishPackage = async ({
   assertRegistriesConfig(registriesConfig)
 
   logger.debug(`reading project package.json`)
-  const packageInProject = await readProjectPackage({
-    rootDirectoryUrl,
-  })
+  const packageInProject = readProjectPackage({ rootDirectoryUrl })
 
   const { name: packageName, version: packageVersion } = packageInProject
   logger.info(`${packageName}@${packageVersion} found in package.json`)
