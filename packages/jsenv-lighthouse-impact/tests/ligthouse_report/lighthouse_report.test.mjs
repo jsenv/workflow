@@ -25,6 +25,8 @@ if (process.platform !== "win32") {
 
   const actual = await generateLighthouseReport(server.origin, {
     runCount: 2,
+    // htmlFileUrl: new URL("./report.html", import.meta.url),
+    // jsonFileUrl: new URL("./report.json", import.meta.url),
   })
   const expected = actual
   assert({ actual, expected })

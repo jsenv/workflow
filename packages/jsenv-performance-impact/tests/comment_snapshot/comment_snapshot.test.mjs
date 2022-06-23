@@ -10,22 +10,19 @@ before commiting it.
 
 */
 
-import { readFile, resolveUrl } from "@jsenv/filesystem"
+import { readFileSync } from "node:fs"
 import { assert } from "@jsenv/assert"
 
-const commentSnapshotFileUrl = resolveUrl(
-  "./comment_snapshot.md",
-  import.meta.url,
-)
-const readCommentSnapshotFile = async () => {
-  const fileContent = await readFile(commentSnapshotFileUrl, { as: "string" })
+const commentSnapshotFileUrl = new URL("./comment_snapshot.md", import.meta.url)
+const readCommentSnapshotFile = () => {
+  const fileContent = String(readFileSync(commentSnapshotFileUrl))
   return fileContent
 }
 
 // disable on windows because it would fails due to line endings (CRLF)
 if (process.platform !== "win32") {
-  const expected = await readCommentSnapshotFile()
+  const expected = readCommentSnapshotFile()
   await import("./generate_comment_snapshot_file.mjs")
-  const actual = await readCommentSnapshotFile()
+  const actual = readCommentSnapshotFile()
   assert({ actual, expected })
 }

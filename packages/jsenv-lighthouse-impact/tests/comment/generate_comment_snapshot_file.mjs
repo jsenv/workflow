@@ -5,7 +5,7 @@ https://github.com/actions/toolkit/tree/master/packages/core
 
 */
 
-import { writeFile, resolveUrl, readFile } from "@jsenv/filesystem"
+import { readFileSync, writeFileSync } from "node:fs"
 import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact"
 
 import { jsenvCommentParameters } from "@jsenv/lighthouse-impact/src/internal/jsenvCommentParameters.js"
@@ -22,9 +22,12 @@ const generateComment = (data) => {
   )
 }
 
-const normalReport = await readFile(
-  new URL("./lighthouse_report_examples/normal.json", import.meta.url),
-  { as: "json" },
+const normalReport = JSON.parse(
+  String(
+    readFileSync(
+      new URL("./lighthouse_report_examples/normal.json", import.meta.url),
+    ),
+  ),
 )
 
 const examples = {
@@ -91,7 +94,7 @@ const examples = {
   }),
 }
 
-const exampleFileUrl = resolveUrl("./comment_snapshot.md", import.meta.url)
+const exampleFileUrl = new URL("./comment_snapshot.md", import.meta.url)
 const exampleFileContent = Object.keys(examples).map((exampleName) => {
   return `# ${exampleName}
 
@@ -99,8 +102,7 @@ ${examples[exampleName]}`
 }).join(`
 
 `)
-
-await writeFile(
+writeFileSync(
   exampleFileUrl,
   `${exampleFileContent}
 `,

@@ -1,6 +1,5 @@
 import { assert } from "@jsenv/assert"
 import {
-  resolveUrl,
   ensureEmptyDirectory,
   writeFile,
   writeDirectory,
@@ -9,7 +8,7 @@ import {
 import { generateFileSizeReport, raw } from "@jsenv/file-size-impact"
 
 const transformations = { raw }
-const tempDirectoryUrl = resolveUrl("./temp/", import.meta.url)
+const tempDirectoryUrl = new URL("./temp/", import.meta.url)
 const test = (params) => {
   return generateFileSizeReport({
     ...params,
@@ -19,8 +18,8 @@ const test = (params) => {
 // .js + .js.map without manifest
 {
   await ensureEmptyDirectory(tempDirectoryUrl)
-  const fileUrl = resolveUrl("dist/file.js", tempDirectoryUrl)
-  const fileMapUrl = resolveUrl("dist/file.js.map", tempDirectoryUrl)
+  const fileUrl = new URL("dist/file.js", tempDirectoryUrl)
+  const fileMapUrl = new URL("dist/file.js.map", tempDirectoryUrl)
   await writeFile(fileUrl, `console.log("hello")`)
   await writeFile(fileMapUrl, `{ "file": "foo" }`)
 
@@ -58,8 +57,8 @@ const test = (params) => {
 // file hashed + manifest
 {
   await ensureEmptyDirectory(tempDirectoryUrl)
-  const fileUrl = resolveUrl("dist/file.hash.js", tempDirectoryUrl)
-  const manifestUrl = resolveUrl("dist/manifest.json", tempDirectoryUrl)
+  const fileUrl = new URL("dist/file.hash.js", tempDirectoryUrl)
+  const manifestUrl = new URL("dist/manifest.json", tempDirectoryUrl)
   await writeFile(fileUrl, `console.log("hello")`)
   await writeFile(manifestUrl, `{ "file.js": "file.hash.js" }`)
 
@@ -107,7 +106,7 @@ const test = (params) => {
 // an empty directory
 {
   await ensureEmptyDirectory(tempDirectoryUrl)
-  const directoryUrl = resolveUrl("dist", tempDirectoryUrl)
+  const directoryUrl = new URL("dist", tempDirectoryUrl)
   await writeDirectory(directoryUrl)
 
   const actual = await test({
