@@ -1,6 +1,9 @@
-import { formatPercentage } from "./format_percentage.js"
+import { setRoundedPrecision } from "@jsenv/log"
 
 export const formatRatioAsPercentage = (ratio) => {
-  const asPercentageFormatted = formatPercentage(ratio * 100)
-  return asPercentageFormatted
+  const percentage = ratio * 100
+  return `${percentage < 0 ? `-` : "+"}${setRoundedPrecision(percentage, {
+    decimals: 0,
+    decimalsWhenSmall: 1,
+  })}%`
 }

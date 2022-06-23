@@ -1,12 +1,11 @@
-import { formatMs } from "./formatMs.js"
-import { formatByte } from "./formatByte.js"
+import { byteAsFileSize, msAsDuration } from "@jsenv/log"
 
 export const formatMetricValue = ({ value, unit }) => {
   return formatters[unit](value)
 }
 
 const formatters = {
-  ms: formatMs,
-  byte: formatByte,
+  ms: msAsDuration,
+  byte: byteAsFileSize,
   undefined: (value) => value,
 }

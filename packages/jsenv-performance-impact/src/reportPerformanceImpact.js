@@ -18,7 +18,7 @@ export const reportPerformanceImpact = async ({
   pullRequestNumber,
 
   installCommand = "npm install",
-  performanceReportPath,
+  performanceReportUrl,
   isPerformanceImpactBig = jsenvCommentParameters.isPerformanceImpactBig,
   formatGroupSummary = jsenvCommentParameters.formatGroupSummary,
   formatPerformanceImpactCell = jsenvCommentParameters.formatPerformanceImpactCell,
@@ -27,14 +27,12 @@ export const reportPerformanceImpact = async ({
   commitInGeneratedByInfo,
 }) => {
   rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
-  let performanceReportUrl
-  if (performanceReportPath === "string") {
-    performanceReportUrl = new URL(performanceReportPath, rootDirectoryUrl).href
-  } else if (performanceReportPath instanceof URL) {
-    performanceReportUrl = performanceReportPath.href
+  if (performanceReportUrl === "string") {
+    performanceReportUrl = new URL(performanceReportUrl, rootDirectoryUrl).href
+  } else if (performanceReportUrl instanceof URL) {
   } else {
     throw new TypeError(
-      `performanceReportPath must be a string or an url but received ${performanceReportPath}`,
+      `performanceReportUrl must be a string or an url but received ${performanceReportUrl}`,
     )
   }
 

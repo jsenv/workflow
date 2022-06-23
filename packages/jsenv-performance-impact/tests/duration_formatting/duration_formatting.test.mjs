@@ -1,33 +1,33 @@
 import { assert } from "@jsenv/assert"
 
-import { formatMs } from "@jsenv/performance-impact/src/internal/formatMs.js"
+import { formatMetricValue } from "@jsenv/performance-impact/src/internal/formatMetricValue.js"
 
 {
-  const actual = formatMs(0.168999)
-  const expected = `0.0001 seconds`
+  const actual = formatMetricValue({ unit: "ms", value: 0.168999 })
+  const expected = `0 second`
   assert({ actual, expected })
 }
 
 {
-  const actual = formatMs(2)
-  const expected = `0.002 seconds`
+  const actual = formatMetricValue({ unit: "ms", value: 2 })
+  const expected = `0.002 second`
   assert({ actual, expected })
 }
 
 {
-  const actual = formatMs(59)
-  const expected = `0.059 seconds`
+  const actual = formatMetricValue({ unit: "ms", value: 59 })
+  const expected = `0.06 second`
   assert({ actual, expected })
 }
 
 {
-  const actual = formatMs(1059.456)
-  const expected = `1.05 seconds`
+  const actual = formatMetricValue({ unit: "ms", value: 1059.456 })
+  const expected = `1.1 seconds`
   assert({ actual, expected })
 }
 
 {
-  const actual = formatMs(1002.456)
+  const actual = formatMetricValue({ unit: "ms", value: 1002.456 })
   const expected = `1 second`
   assert({ actual, expected })
 }

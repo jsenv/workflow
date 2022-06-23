@@ -1,4 +1,4 @@
-import { createDetailedMessage } from "@jsenv/logger"
+import { createDetailedMessage } from "@jsenv/log"
 
 export const assertPerformanceReport = (performanceReport) => {
   if (typeof performanceReport !== "object" || performanceReport === null) {
