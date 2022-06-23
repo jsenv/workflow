@@ -22,17 +22,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./main.js"
+      "import": "./src/main.js"
     }
   },
-  "main": "./main.js",
+  "main": "./src/main.js",
   "files": [
-    "/src/",
-    "/main.js"
+    "/src/"
   ],
   "scripts": {
-    "eslint": "npx eslint . --ext=.js,.mjs",
-    "test": "node ./script/test/test.mjs",
+    "test": "node ./scripts/test.mjs",
     "test-with-coverage": "npm run test -- --coverage",
     "prettier": "prettier --write ."
   },

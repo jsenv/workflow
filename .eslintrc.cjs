@@ -33,12 +33,14 @@ const eslintConfig = composeEslintConfig(
     settings: {
       "import/resolver": {
         "@jsenv/eslint-import-resolver": {
-          projectDirectoryUrl: __dirname,
+          rootDirectoryUrl: __dirname,
           // logLevel: "debug",
-          packageConditions: ["node", "import"],
+          packageConditions: ["node", "development", "import"],
         },
       },
       "import/extensions": [".js", ".mjs"],
+      // https://github.com/import-js/eslint-plugin-import/issues/1753
+      "import/ignore": ["node_modules/playwright/"],
     },
     rules: jsenvEslintRulesForImport,
   },
@@ -82,6 +84,28 @@ const eslintConfig = composeEslintConfig(
           __dirname: true,
           require: true,
           exports: true,
+        },
+      },
+    ],
+  },
+
+  // several files are written for browsers, not Node.js
+  {
+    overrides: [
+      {
+        files: ["**/**/*.html"],
+        env: {
+          browser: true,
+          node: false,
+        },
+        settings: {
+          "import/resolver": {
+            "@jsenv/eslint-import-resolver": {
+              rootDirectoryUrl: __dirname,
+              packageConditions: ["browser", "import"],
+              // logLevel: "debug",
+            },
+          },
         },
       },
     ],

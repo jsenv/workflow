@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/file-size-impact",
-  "version": "12.2.0",
+  "version": "13.0.0",
   "description": "Add files size impact into pull requests",
   "license": "MIT",
   "repository": {
@@ -17,21 +17,19 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./main.js"
+      "import": "./src/main.js"
     },
     "./*": "./*"
   },
-  "main": "./main.js",
+  "main": "./src/main.js",
   "files": [
-    "/src/",
-    "/main.js"
+    "/src/"
   ],
   "scripts": {
-    "eslint": "npx eslint . --ext=.js,.mjs",
-    "snapshot": "node ./test/comment/generate_comment_snapshot_file.mjs",
-    "test": "node ./script/test/test.mjs",
+    "snapshot": "node ./tests/comment/generate_comment_snapshot_file.mjs",
+    "test": "node ./scripts/test.mjs",
     "test-with-coverage": "npm run test -- --coverage",
-    "file-size": "node ./script/file_size/file_size.mjs --log",
+    "file-size": "node ./scripts/file_size.mjs --log",
     "prettier": "prettier --write ."
   },
   "dependencies": {
