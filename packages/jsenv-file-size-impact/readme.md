@@ -48,7 +48,7 @@ export const fileSizeReport = await generateFileSizeReport({
 At this stage, you could generate a file size report on your machine with the following command.
 
 ```console
-node ./_file_size.mjs --log
+node ./file_size.mjs --log
 ```
 
 Now it's time to configure a workflow to compare file size reports before and after merging a pull request.
