@@ -166,12 +166,13 @@ In order to analyse the impact of a pull request on file size the following step
 
 1. Checkout pull request base branch
 2. Execute an install command (_npm install_ by default)
-3. Get a file size report (dynamic import of a js module exporting `generateFileSizeReport`)
-4. Merge pull request into its base
-5. Execute command to generate files again
-6. Get a second file size report
-7. Analyse differences between the two file size reports
-8. Post or update comment in the pull request
+3. Run a build command (nom build by default)
+4. Get a file size report (dynamic import of a js module exporting `generateFileSizeReport`)
+5. Merge pull request into its base
+6. Execute command to generate files again
+7. Get a second file size report
+8. Analyse differences between the two file size reports
+9. Post or update comment in the pull request
 
 # generateFileSizeReport
 
@@ -347,9 +348,9 @@ _installCommand_ parameter is a string representing the command to run in order 
 
 _buildCommand_ parameter is a string representing the command to run in order to generate files. This parameter is optional with a default value of `"npm run-script build"`. You can pass `null` if you don't need to run a build command before computing file sizes.
 
-## fileSizeModulePath
+## fileSizeReportUrl
 
-_fileSizeModulePath_ is a string parameter representing an url relative to [rootDirectoryUrl](#rootDirectoryUrl) leading a module file. This file must contain a _generateFileSizeReport_ export.
+_fileSizeReportUrl_ is a string or an url parameter representing an url leading a module file. This file must export a fileSizeReport produced by _generateFileSizeReport_.
 
 ## filesOrdering
 
