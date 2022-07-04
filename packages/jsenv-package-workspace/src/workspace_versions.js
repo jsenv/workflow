@@ -34,23 +34,22 @@ export const updateWorkspaceVersions = async ({ directoryUrl }) => {
       outdatedPackageNames.push(packageName)
       return
     }
-    if (
-      result === VERSION_COMPARE_RESULTS.GREATER ||
-      result === VERSION_COMPARE_RESULTS.DIFF_TAG
-    ) {
-      toPublishPackageNames.push(packageName)
-      return
+    if (!workspacePackage.packageObject.private) {
+      if (
+        result === VERSION_COMPARE_RESULTS.GREATER ||
+        result === VERSION_COMPARE_RESULTS.DIFF_TAG
+      ) {
+        toPublishPackageNames.push(packageName)
+      }
     }
   })
   if (outdatedPackageNames.length) {
-    await Promise.all(
-      outdatedPackageNames.map(async (outdatedPackageName) => {
-        const workspacePackage = workspacePackages[outdatedPackageName]
-        workspacePackage.packageObject.version =
-          registryLatestVersions[outdatedPackageName]
-        await workspacePackage.updateFile(workspacePackage.packageObject)
-      }),
-    )
+    outdatedPackageNames.forEach((outdatedPackageName) => {
+      const workspacePackage = workspacePackages[outdatedPackageName]
+      workspacePackage.packageObject.version =
+        registryLatestVersions[outdatedPackageName]
+      workspacePackage.updateFile(workspacePackage.packageObject)
+    })
     console.warn(
       `${UNICODE.WARNING} ${outdatedPackageNames.length} packages updated because they where outdated.
 Use a tool like "git diff" to see the new versions and ensure this is what you want`,
@@ -133,16 +132,15 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
         from: versionInDependencies,
         to: version,
       })
-      if (
-        !toPublishPackageNames.includes(packageName) &&
-        !workspacePackage.packageObject.private
-      ) {
+      if (!toPublishPackageNames.includes(packageName)) {
         updateVersion({
           packageName,
           from: workspacePackage.packageObject.version,
           to: increaseVersion(workspacePackage.packageObject.version),
         })
-        toPublishPackageNames.push(packageName)
+        if (!workspacePackage.packageObject.private) {
+          toPublishPackageNames.push(packageName)
+        }
       }
     })
   })
@@ -170,12 +168,11 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
     })
   })
 
-  await Promise.all(
-    Object.keys(packageFilesToUpdate).map(async (packageName) => {
-      const workspacePackage = workspacePackages[packageName]
-      await workspacePackage.updateFile(workspacePackage.packageObject)
-    }),
-  )
+  Object.keys(packageFilesToUpdate).forEach((packageName) => {
+    const workspacePackage = workspacePackages[packageName]
+    workspacePackage.updateFile(workspacePackage.packageObject)
+  })
+
   const updateCount = versionUpdates.length + dependencyUpdates.length
   if (updateCount === 0) {
     console.log(`${UNICODE.OK} all versions in package.json files are in sync`)

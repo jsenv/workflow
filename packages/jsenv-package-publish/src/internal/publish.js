@@ -1,6 +1,7 @@
 import { fileURLToPath } from "node:url"
+import { readFileSync, writeFileSync } from "node:fs"
 import { exec } from "node:child_process"
-import { readFile, writeFile, removeEntry } from "@jsenv/filesystem"
+import { removeEntry } from "@jsenv/filesystem"
 import { UNICODE } from "@jsenv/log"
 
 import { setNpmConfig } from "./setNpmConfig.js"
@@ -15,51 +16,54 @@ export const publish = async ({
 }) => {
   const getResult = async () => {
     try {
-      const promises = []
+      // process.env.NODE_AUTH_TOKEN
       const previousValue = process.env.NODE_AUTH_TOKEN
       const restoreProcessEnv = () => {
         process.env.NODE_AUTH_TOKEN = previousValue
       }
       process.env.NODE_AUTH_TOKEN = token
+      // updating package.json to publish on the correct registry
+      let restorePackageFile = () => {}
       const rootPackageFileUrl = new URL("./package.json", rootDirectoryUrl)
-        .href
-      const rootPackageString = await readFile(rootPackageFileUrl)
-      const restorePackageFile = () =>
-        writeFile(rootPackageFileUrl, rootPackageString)
-      const packageObject = JSON.parse(rootPackageString)
-      packageObject.publishConfig = packageObject.publishConfig || {}
-      packageObject.publishConfig.registry = registryUrl
-      promises.push(
-        writeFile(
+      const rootPackageFileContent = readFileSync(rootPackageFileUrl)
+      const { publishConfig } = packageObject
+      const packageObject = JSON.parse(String(rootPackageFileContent))
+      const registerUrlFromPackage = publishConfig
+        ? publishConfig.registry || "https://registry.npmjs.org"
+        : "https://registry.npmjs.org"
+      if (registryUrl !== registerUrlFromPackage) {
+        restorePackageFile = () =>
+          writeFileSync(rootPackageFileUrl, rootPackageFileContent)
+        packageObject.publishConfig = packageObject.publishConfig || {}
+        packageObject.publishConfig.registry = registryUrl
+        writeFileSync(
           rootPackageFileUrl,
           JSON.stringify(packageObject, null, "  "),
-        ),
-      )
-      const npmConfigFileUrl = new URL("./.npmrc", rootDirectoryUrl).href
+        )
+      }
+      // updating .npmrc to add the token
+      const npmConfigFileUrl = new URL("./.npmrc", rootDirectoryUrl)
       let restoreNpmConfigFile
-      let projectNpmConfigString
+      let npmConfigFileContent
       try {
-        projectNpmConfigString = await readFile(npmConfigFileUrl)
+        npmConfigFileContent = String(readFileSync(npmConfigFileUrl))
         restoreNpmConfigFile = () =>
-          writeFile(npmConfigFileUrl, projectNpmConfigString)
+          writeFileSync(npmConfigFileUrl, npmConfigFileContent)
       } catch (e) {
         if (e.code === "ENOENT") {
           restoreNpmConfigFile = () => removeEntry(npmConfigFileUrl)
-          projectNpmConfigString = ""
+          npmConfigFileContent = ""
         } else {
           throw e
         }
       }
-      promises.push(
-        writeFile(
-          npmConfigFileUrl,
-          setNpmConfig(projectNpmConfigString, {
-            [computeRegistryTokenKey(registryUrl)]: token,
-            [computeRegistryKey(packageObject.name)]: registryUrl,
-          }),
-        ),
+      writeFileSync(
+        npmConfigFileUrl,
+        setNpmConfig(npmConfigFileContent, {
+          [computeRegistryTokenKey(registryUrl)]: token,
+          [computeRegistryKey(packageObject.name)]: registryUrl,
+        }),
       )
-      await Promise.all(promises)
       try {
         return await new Promise((resolve, reject) => {
           const command = exec(
@@ -136,11 +140,9 @@ export const publish = async ({
           }
         })
       } finally {
-        await Promise.all([
-          restoreProcessEnv(),
-          restorePackageFile(),
-          restoreNpmConfigFile(),
-        ])
+        restoreProcessEnv()
+        restorePackageFile()
+        restoreNpmConfigFile()
       }
     } catch (e) {
       return {

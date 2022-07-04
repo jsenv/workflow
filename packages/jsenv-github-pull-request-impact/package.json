@@ -34,8 +34,8 @@
     "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/fetch": "1.1.2",
+    "@jsenv/fetch": "1.1.3",
     "@jsenv/filesystem": "4.1.0",
-    "@jsenv/log": "2.1.0"
+    "@jsenv/log": "3.0.0"
   }
 }
