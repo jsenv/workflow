@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/performance-impact",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Report pull request impacts on performance metrics",
   "license": "MIT",
   "author": {

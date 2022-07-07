@@ -17,7 +17,7 @@ const generateComment = (data) => {
 }
 
 const examples = {
-  "metric + 2%": generateComment({
+  "metric +2%": generateComment({
     beforeMergeData: {
       timeout: {
         "Duration for setTimeout(100)": { value: 100, unit: "ms" },
@@ -45,7 +45,7 @@ const examples = {
       },
     },
   }),
-  "metric - 2%": generateComment({
+  "metric -0.2%": generateComment({
     beforeMergeData: {
       timeout: {
         "100ms": { value: 100, unit: "ms" },
@@ -53,7 +53,7 @@ const examples = {
     },
     afterMergeData: {
       timeout: {
-        "100ms": { value: 98, unit: "ms" },
+        "100ms": { value: 99.8, unit: "ms" },
       },
     },
   }),

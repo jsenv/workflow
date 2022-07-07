@@ -1,4 +1,4 @@
-# metric + 2%
+# metric +2%
 
 <h4 id="perf-impact">Performance impact</h4>
 
@@ -68,14 +68,14 @@
   </table>
 </details>
 
-# metric - 2%
+# metric -0.2%
 
 <h4 id="perf-impact">Performance impact</h4>
 
 <p>Impact on 1 metrics when merging <em>head</em> into <em>base</em>. Before drawing conclusion, keep in mind <a href="https://github.com/jsenv/workflow/tree/main/packages/jsenv-performance-impact#performance-variability">performance variability</a>.</p>
 
 <details>
-  <summary>timeout (-2%)</summary>
+  <summary>timeout (-0.2%)</summary>
   <table>
     <thead>
       <th nowrap>Metric</th>
@@ -89,7 +89,7 @@
         <td nowrap>100ms</td>
         <td nowrap>0.1 second</td>
         <td nowrap>0.1 second</td>
-        <td nowrap>-0.002 second / -2%</td>
+        <td nowrap>-0 second / -0.2%</td>
         <td>:arrow_lower_right:</td>
       </tr>
     </tbody>
