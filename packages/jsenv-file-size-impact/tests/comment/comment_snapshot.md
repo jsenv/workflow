@@ -208,7 +208,7 @@
 </details>
 
 <details>
-  <summary>remaining files (+5%)</summary>
+  <summary>remaining files (-8%)</summary>
   <table>
     <thead>
       <tr>
@@ -221,9 +221,9 @@
     <tbody>
       <tr>
         <td nowrap>dist/feature.js</td>
-        <td nowrap>21.6 kB (+4.1 kB / +24%)</td>
-        <td nowrap>12.5 kB (+2.9 kB / +31%)</td>
-        <td>:arrow_upper_right:</td>
+        <td nowrap>1.6 kB (-5.9 kB / -79%)</td>
+        <td nowrap>472 B (-60 B / -11%)</td>
+        <td>:arrow_lower_right:</td>
       </tr>
       <tr>
         <td nowrap><i>Unmodified (4)</i></td>
@@ -235,9 +235,9 @@
     <tfoot>
       <tr>
         <td nowrap><strong>Total (5)</strong></td>
-        <td nowrap>91.4 kB (+4.1 kB / +5%)</td>
-        <td nowrap>50.6 kB (+2.9 kB / +6%)</td>
-        <td>:arrow_upper_right:</td>
+        <td nowrap>71.4 kB (-5.9 kB / -8%)</td>
+        <td nowrap>38.6 kB (-60 B / -0.2%)</td>
+        <td>:arrow_lower_right:</td>
       </tr>
     </tfoot>
   </table>

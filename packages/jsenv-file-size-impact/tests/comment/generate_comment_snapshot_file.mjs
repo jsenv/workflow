@@ -232,8 +232,8 @@ const examples = {
             "dist/feature.js": {
               hash: "a",
               sizeMap: {
-                raw: 17450,
-                gzip: 9532,
+                raw: 7450,
+                gzip: 532,
               },
               meta: true,
             },
@@ -300,8 +300,8 @@ const examples = {
             "dist/feature.js": {
               hash: "b",
               sizeMap: {
-                raw: 21560,
-                gzip: 12472,
+                raw: 1560,
+                gzip: 472,
               },
               meta: true,
             },
