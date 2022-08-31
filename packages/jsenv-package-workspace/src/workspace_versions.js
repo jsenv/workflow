@@ -12,7 +12,10 @@ import {
 } from "./internal/compare_two_package_versions.js"
 import { increaseVersion } from "./internal/increase_version.js"
 
-export const updateWorkspaceVersions = async ({ directoryUrl }) => {
+export const updateWorkspaceVersions = async ({
+  directoryUrl,
+  packagesRelations = {},
+}) => {
   const workspacePackages = await collectWorkspacePackages({ directoryUrl })
   const dependencyGraph = buildDependencyGraph(workspacePackages)
   const registryLatestVersions = await fetchWorkspaceLatests(workspacePackages)
@@ -43,6 +46,9 @@ export const updateWorkspaceVersions = async ({ directoryUrl }) => {
       }
     }
   })
+
+  const versionUpdates = []
+  const dependencyUpdates = []
   if (outdatedPackageNames.length) {
     outdatedPackageNames.forEach((outdatedPackageName) => {
       const workspacePackage = workspacePackages[outdatedPackageName]
@@ -54,7 +60,10 @@ export const updateWorkspaceVersions = async ({ directoryUrl }) => {
       `${UNICODE.WARNING} ${outdatedPackageNames.length} packages updated because they where outdated.
 Use a tool like "git diff" to see the new versions and ensure this is what you want`,
     )
-    return
+    return {
+      versionUpdates,
+      dependencyUpdates,
+    }
   }
   if (toPublishPackageNames.length === 0) {
     console.log(`${UNICODE.OK} packages are published on registry`)
@@ -71,8 +80,6 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
   }
 
   const packageFilesToUpdate = {}
-  const versionUpdates = []
-  const dependencyUpdates = []
   const updateDependencyVersion = ({
     packageName,
     dependencyType,
@@ -168,6 +175,31 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
     })
   })
 
+  Object.keys(packagesRelations).forEach((packageName) => {
+    const relatedPackageNames = packagesRelations[packageName]
+    const someRelatedPackageUpdated = relatedPackageNames.some(
+      (relatedPackageName) => {
+        return (
+          dependencyUpdates.some(
+            (dependencyUpdate) =>
+              dependencyUpdate.packageName === relatedPackageName,
+          ) ||
+          versionUpdates.some(
+            (versionUpdate) => versionUpdate.packageName === relatedPackageName,
+          )
+        )
+      },
+    )
+    if (someRelatedPackageUpdated) {
+      const packageInfo = workspacePackages[packageName]
+      updateVersion({
+        packageName,
+        from: packageInfo.packageObject.version,
+        to: increaseVersion(packageInfo.packageObject.version),
+      })
+    }
+  })
+
   Object.keys(packageFilesToUpdate).forEach((packageName) => {
     const workspacePackage = workspacePackages[packageName]
     workspacePackage.updateFile(workspacePackage.packageObject)
@@ -181,5 +213,10 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
       `${UNICODE.INFO} ${updateCount} versions updated in package.json files
   Use a tool like "git diff" to review these changes`,
     )
+  }
+
+  return {
+    versionUpdates,
+    dependencyUpdates,
   }
 }
