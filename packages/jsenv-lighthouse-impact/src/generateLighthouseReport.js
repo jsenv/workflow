@@ -22,6 +22,8 @@ export const generateLighthouseReport = async (
     // https://github.com/GoogleChrome/lighthouse/blob/a58510583acd2f796557175ac949932618af49e7/docs/readme.md#testing-on-a-site-with-an-untrusted-certificate
     ignoreCertificateErrors = false,
     config = null,
+    mobile = false,
+    lighthouseSettings = {},
 
     runCount = 1,
     delayBetweenEachRunInSeconds = 1,
@@ -70,8 +72,13 @@ export const generateLighthouseReport = async (
     }
 
     const lighthouseOptions = {
+      extends: "lighthouse:default",
       chromeFlags,
       port: chrome.port,
+      settings: {
+        emulatedFormFactor: mobile ? "mobile" : "desktop",
+        ...lighthouseSettings,
+      },
     }
 
     const reports = []
