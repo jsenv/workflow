@@ -11,7 +11,7 @@ import {
   PUBLISH_BECAUSE_TAG_DIFFERS,
   NOTHING_BECAUSE_LATEST_HIGHER,
   NOTHING_BECAUSE_ALREADY_PUBLISHED,
-} from "../src/internal/needsPublish.js"
+} from "./internal/needsPublish.js"
 
 export const publishPackage = async ({
   logLevel,

@@ -1,4 +1,4 @@
-import { execute, nodeProcess } from "@jsenv/core"
+import { execute, nodeWorkerThread } from "@jsenv/core"
 
 import { measureMultipleTimes } from "@jsenv/performance-impact/src/internal/measureMultipleTimes.js"
 import { computeMetricsMedian } from "@jsenv/performance-impact/src/internal/computeMetricsMedian.js"
@@ -7,7 +7,7 @@ const rootDirectoryUrl = new URL("./", import.meta.url)
 
 const measureFilePerformance = async (params) => {
   const executionResult = await execute({
-    runtime: nodeProcess,
+    runtime: nodeWorkerThread,
     ...params,
     // measurePerformance: true,
     compileServerCanWriteOnFilesystem: false,
