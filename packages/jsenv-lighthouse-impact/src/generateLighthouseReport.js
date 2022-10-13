@@ -22,7 +22,21 @@ export const generateLighthouseReport = async (
     // https://github.com/GoogleChrome/lighthouse/blob/a58510583acd2f796557175ac949932618af49e7/docs/readme.md#testing-on-a-site-with-an-untrusted-certificate
     ignoreCertificateErrors = false,
     config = null,
-    mobile = false,
+
+    // I'm pretty sure these options are given to lighthouse
+    // so that it knows how chrome is currently configured
+    // lighthouse won't actually enable the emulated screen width
+    // this should be done when starting chrome (with chrome-launcher)
+    // in that case I think pupeteer might be better with something like
+    // https://github.com/GoogleChrome/lighthouse/issues/14134#issuecomment-1158091067
+    // see https://github.com/GoogleChrome/lighthouse/blob/78b93aacacb12ae10f14049c5a16bc48a431f5a6/core/config/constants.js#L70
+    // and https://github.com/GoogleChrome/lighthouse/blob/78b93aacacb12ae10f14049c5a16bc48a431f5a6/core/config/desktop-config.js#L10
+    emulatedScreenWidth,
+    emulatedScreenHeight,
+    emulatedDeviceScaleFactor,
+    emulatedMobile = true,
+    emulatedUserAgent,
+    throttling,
     lighthouseSettings = {},
 
     runCount = 1,
@@ -73,10 +87,18 @@ export const generateLighthouseReport = async (
 
     const lighthouseOptions = {
       extends: "lighthouse:default",
-      chromeFlags,
       port: chrome.port,
       settings: {
-        emulatedFormFactor: mobile ? "mobile" : "desktop",
+        formatFactor: emulatedMobile ? "mobile" : "desktop",
+        throttling,
+        screenEmulation: {
+          mobile: emulatedMobile,
+          width: emulatedScreenWidth,
+          height: emulatedScreenHeight,
+          deviceScaleFactor: emulatedDeviceScaleFactor,
+          disabled: false,
+        },
+        emulatedUserAgent,
         ...lighthouseSettings,
       },
     }

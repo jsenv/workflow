@@ -24,8 +24,9 @@ if (process.platform !== "win32") {
   })
 
   const actual = await generateLighthouseReport(server.origin, {
-    runCount: 2,
-    // mobile: true,
+    // runCount: 2,
+    // headless: false,
+    // emulatedMobile: true,
     // htmlFileUrl: new URL("./report.html", import.meta.url),
     // jsonFileUrl: new URL("./report.json", import.meta.url),
   })
