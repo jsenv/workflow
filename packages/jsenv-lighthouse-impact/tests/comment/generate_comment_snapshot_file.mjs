@@ -8,8 +8,8 @@ https://github.com/actions/toolkit/tree/master/packages/core
 import { readFileSync, writeFileSync } from "node:fs"
 import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact"
 
-import { jsenvCommentParameters } from "@jsenv/lighthouse-impact/src/internal/jsenvCommentParameters.js"
-import { createLighthouseImpactComment } from "@jsenv/lighthouse-impact/src/internal/createLighthouseImpactComment.js"
+import { jsenvCommentParameters } from "@jsenv/lighthouse-impact/src/pr_impact/jsenvCommentParameters.js"
+import { createLighthouseImpactComment } from "@jsenv/lighthouse-impact/src/pr_impact/createLighthouseImpactComment.js"
 
 const generateComment = (data) => {
   return createGitHubPullRequestCommentText(
