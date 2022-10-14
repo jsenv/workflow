@@ -3,7 +3,7 @@ import { readFile } from "@jsenv/filesystem"
 import { assert } from "@jsenv/assert"
 import { chromium } from "playwright"
 
-import { generateLighthouseReport } from "@jsenv/lighthouse-impact"
+import { runLighthouseOnPlaywrightPage } from "@jsenv/lighthouse-impact"
 
 const htmlFileUrl = new URL("./index.html", import.meta.url)
 
@@ -25,15 +25,7 @@ if (process.platform !== "win32") {
   })
 
   const browser = await chromium.launch({
-    args: [
-      "--headless",
-      "--disable-gpu",
-      "--no-sandbox",
-      "--ignore-certificate-errors",
-      "--incognito",
-      "--disk-cache-size=1",
-      "--remote-debugging-port=9222",
-    ],
+    args: ["--remote-debugging-port=9222"],
   })
   const context = await browser.newContext({
     // userAgent: "",
@@ -42,13 +34,19 @@ if (process.platform !== "win32") {
       width: 640,
       height: 380,
     },
+    screen: {
+      width: 640,
+      height: 380,
+    },
     hasTouch: true,
     isMobile: true,
     deviceScaleFactor: 1,
   })
+  const page = await context.newPage()
+  await page.goto(server.origin)
 
   try {
-    const actual = await generateLighthouseReport(server.origin, {
+    const actual = await runLighthouseOnPlaywrightPage(page, {
       chromiumPort: "9222",
       // runCount: 2,
       // headless: false,

@@ -21,6 +21,7 @@ _Screenshot of comment when expanded_
 The first thing you need is a script capable to generate a lighthouse report.
 
 ```console
+npm install --save-dev playwright
 npm install --save-dev @jsenv/lighthouse-impact
 ```
 
@@ -32,9 +33,10 @@ _lighthouse.mjs_
  * - It starts a local server serving a single basic HTML file
  * - It is meant to be modified to use your own server and website files
  */
+import { chromium } from "playwright"
 import { createServer } from "node:http"
 import { readFileSync } from "node:fs"
-import { generateLighthouseReport } from "@jsenv/lighthouse-impact"
+import { runLighthouseOnPlaywrightPage } from "@jsenv/lighthouse-impact"
 
 const htmlFileUrl = new URL("./index.html", import.meta.url)
 const html = String(readFileSync(htmlFileUrl))
@@ -48,9 +50,30 @@ const server = createServer((request, response) => {
 server.listen(8080)
 server.unref()
 
-export const lighthouseReport = await generateLighthouseReport(
-  "http://127.0.0.1:8080",
-)
+const browser = await chromium.launch({
+  args: ["--remote-debugging-port=9222"],
+})
+const browserContext = await browser.newContext({
+  // userAgent: "",
+  ignoreHTTPSErrors: true,
+  viewport: {
+    width: 640,
+    height: 480,
+  },
+  screen: {
+    width: 640,
+    height: 480,
+  },
+  hasTouch: true,
+  isMobile: true,
+  deviceScaleFactor: 1,
+})
+const page = await browserContext.newPage()
+await page.goto(server.origin)
+
+export const lighthouseReport = await runLighthouseOnPlaywrightPage(page, {
+  chromiumPort: 9222,
+})
 ```
 
 _index.html_
@@ -119,11 +142,11 @@ _report_lighthouse_impact.mjs_
  */
 
 import {
-  reportLighthouseImpact,
+  reportLighthouseImpactInGithubPullRequest,
   readGitHubWorkflowEnv,
 } from "@jsenv/lighthouse-impact"
 
-await reportLighthouseImpact({
+await reportLighthouseImpactInGithubPullRequest({
   ...readGitHubWorkflowEnv(),
   lighthouseReportUrl: new URL(
     "./lighthouse.mjs#lighthouseReport",
@@ -160,10 +183,10 @@ It means you must pass several parameters to _reportLighthouseImpact_.
 The example below assume code is executed by Travis.
 
 ```diff
-- import { reportLighthouseImpact, readGitHubWorkflowEnv } from "@jsenv/lighthouse-impact"
-+ import { reportLighthouseImpact } from "@jsenv/lighthouse-impact"
+- import { reportLighthouseImpactInGithubPullRequest, readGitHubWorkflowEnv } from "@jsenv/lighthouse-impact"
++ import { reportLighthouseImpactInGithubPullRequest } from "@jsenv/lighthouse-impact"
 
-reportLighthouseImpact({
+reportLighthouseImpactInGithubPullRequest({
 -  ...readGitHubWorkflowEnv(),
 +  rootDirectoryUrl: process.env.TRAVIS_BUILD_DIR,
 +  repositoryOwner: process.env.TRAVIS_REPO_SLUG.split("/")[0],

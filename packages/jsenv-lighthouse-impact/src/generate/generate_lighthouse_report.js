@@ -10,7 +10,7 @@ import {
   formatReportAsSummaryText,
   formatReportAsJson,
   formatReportAsHtml,
-} from "./generate/lighthouse_api.js"
+} from "./lighthouse_api.js"
 
 export const generateLighthouseReport = async (
   url,
@@ -18,9 +18,8 @@ export const generateLighthouseReport = async (
     signal = new AbortController().signal,
     handleSIGINT = true,
     logLevel,
-    config = null,
 
-    chromiumPort,
+    chromiumDebuggingPort,
     // I'm pretty sure these options are given to lighthouse
     // so that it knows how chrome is currently configured
     // lighthouse won't actually enable the emulated screen width
@@ -47,8 +46,10 @@ export const generateLighthouseReport = async (
     htmlFileLog = true,
   } = {},
 ) => {
-  if (chromiumPort === undefined) {
-    throw new Error(`"chromiumPort" is required, got ${chromiumPort}`)
+  if (chromiumDebuggingPort === undefined) {
+    throw new Error(
+      `"chromiumDebuggingPort" is required, got ${chromiumDebuggingPort}`,
+    )
   }
 
   const generateReportOperation = Abort.startOperation()
@@ -71,9 +72,9 @@ export const generateLighthouseReport = async (
     }
     const lighthouseOptions = {
       extends: "lighthouse:default",
-      port: chromiumPort,
+      port: chromiumDebuggingPort,
       settings: {
-        formatFactor: emulatedMobile ? "mobile" : "desktop",
+        formFactor: emulatedMobile ? "mobile" : "desktop",
         throttling,
         screenEmulation: {
           mobile: emulatedMobile,
@@ -99,7 +100,7 @@ export const generateLighthouseReport = async (
             )
           }
           generateReportOperation.throwIfAborted()
-          const report = await runLighthouse(url, { lighthouseOptions, config })
+          const report = await runLighthouse(url, lighthouseOptions)
           reports.push(report)
         }, Promise.resolve())
     } catch (e) {
