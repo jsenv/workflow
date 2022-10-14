@@ -2,10 +2,10 @@ import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem"
 import { commentGitHubPullRequestImpact } from "@jsenv/github-pull-request-impact"
 import { importOneExportFromFile } from "@jsenv/dynamic-import-worker"
 
-import { patchOrPostGists } from "./internal/patchOrPostGists.js"
-import { createLighthouseImpactComment } from "./internal/createLighthouseImpactComment.js"
+import { patchOrPostGists } from "./pr_impact/patchOrPostGists.js"
+import { createLighthouseImpactComment } from "./pr_impact/createLighthouseImpactComment.js"
 
-export const reportLighthouseImpact = async ({
+export const reportLighthouseImpactInGithubPullRequest = async ({
   logLevel,
   commandLogs = false,
   cancelOnSIGINT,

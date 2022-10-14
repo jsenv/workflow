@@ -1,13 +1,16 @@
 // https://github.com/GoogleChrome/lighthouse/blob/5a14deb5c4e0ec4e8e58f50ff72b53851b021bcf/docs/readme.md#using-programmatically
 
-import { createRequire } from "node:module"
-import { writeFile, assertAndNormalizeFileUrl } from "@jsenv/filesystem"
+import { assertAndNormalizeFileUrl, writeFileSync } from "@jsenv/filesystem"
 import { createLogger } from "@jsenv/log"
 import { Abort, raceProcessTeardownEvents } from "@jsenv/abort"
 
-import { formatLighthouseReportForLog } from "./internal/formatLighthouseReportForLog.js"
-
-const require = createRequire(import.meta.url)
+import {
+  runLighthouse,
+  reduceToMedianReport,
+  formatReportAsSummaryText,
+  formatReportAsJson,
+  formatReportAsHtml,
+} from "./generate/lighthouse_api.js"
 
 export const generateLighthouseReport = async (
   url,
@@ -15,14 +18,9 @@ export const generateLighthouseReport = async (
     signal = new AbortController().signal,
     handleSIGINT = true,
     logLevel,
-
-    headless = true,
-    gpu = false,
-    sandbox = false,
-    // https://github.com/GoogleChrome/lighthouse/blob/a58510583acd2f796557175ac949932618af49e7/docs/readme.md#testing-on-a-site-with-an-untrusted-certificate
-    ignoreCertificateErrors = false,
     config = null,
 
+    chromiumPort,
     // I'm pretty sure these options are given to lighthouse
     // so that it knows how chrome is currently configured
     // lighthouse won't actually enable the emulated screen width
@@ -40,7 +38,7 @@ export const generateLighthouseReport = async (
     lighthouseSettings = {},
 
     runCount = 1,
-    delayBetweenEachRunInSeconds = 1,
+    delayBetweenEachRun = 1_000,
 
     log = false,
     jsonFileUrl,
@@ -49,11 +47,9 @@ export const generateLighthouseReport = async (
     htmlFileLog = true,
   } = {},
 ) => {
-  const ReportGenerator = require("lighthouse/report/generator/report-generator.js")
-  const {
-    computeMedianRun,
-  } = require("lighthouse/lighthouse-core/lib/median-run.js")
-  const chromeLauncher = require("chrome-launcher")
+  if (chromiumPort === undefined) {
+    throw new Error(`"chromiumPort" is required, got ${chromiumPort}`)
+  }
 
   const generateReportOperation = Abort.startOperation()
   generateReportOperation.addAbortSignal(signal)
@@ -70,24 +66,12 @@ export const generateLighthouseReport = async (
 
   const jsenvGenerateLighthouseReport = async () => {
     const logger = createLogger({ logLevel })
-    const chromeFlags = [
-      ...(headless ? ["--headless"] : []),
-      ...(gpu ? [] : ["--disable-gpu"]),
-      ...(sandbox ? [] : ["--no-sandbox"]),
-      ...(ignoreCertificateErrors ? ["--ignore-certificate-errors"] : []),
-      // "--purge_hint_cache_store",
-      "--incognito",
-      "--disk-cache-size=1",
-      // "--disk-cache-dir=/dev/null",
-    ]
-    const chrome = await chromeLauncher.launch({ chromeFlags })
     if (generateReportOperation.signal.aborted) {
       return { aborted: true }
     }
-
     const lighthouseOptions = {
       extends: "lighthouse:default",
-      port: chrome.port,
+      port: chromiumPort,
       settings: {
         formatFactor: emulatedMobile ? "mobile" : "desktop",
         throttling,
@@ -102,7 +86,6 @@ export const generateLighthouseReport = async (
         ...lighthouseSettings,
       },
     }
-
     const reports = []
     try {
       await Array(runCount)
@@ -110,17 +93,13 @@ export const generateLighthouseReport = async (
         .reduce(async (previous, _, index) => {
           generateReportOperation.throwIfAborted()
           await previous
-
-          if (index > 0 && delayBetweenEachRunInSeconds) {
+          if (index > 0 && delayBetweenEachRun) {
             await new Promise((resolve) =>
-              setTimeout(resolve, delayBetweenEachRunInSeconds * 1000),
+              setTimeout(resolve, delayBetweenEachRun),
             )
           }
           generateReportOperation.throwIfAborted()
-          const report = await generateOneLighthouseReport(url, {
-            lighthouseOptions,
-            config,
-          })
+          const report = await runLighthouse(url, { lighthouseOptions, config })
           reports.push(report)
         }, Promise.resolve())
     } catch (e) {
@@ -130,41 +109,26 @@ export const generateLighthouseReport = async (
       throw e
     }
 
-    const lighthouseReport = computeMedianRun(reports)
-
+    const lighthouseReport = reduceToMedianReport(reports)
     if (log) {
-      logger.info(formatLighthouseReportForLog(lighthouseReport))
+      logger.info(formatReportAsSummaryText(lighthouseReport))
     }
-
-    await chrome.kill()
-
-    const promises = []
     if (jsonFileUrl) {
       assertAndNormalizeFileUrl(jsonFileUrl)
-      promises.push(
-        (async () => {
-          const json = JSON.stringify(lighthouseReport, null, "  ")
-          await writeFile(jsonFileUrl, json)
-          if (jsonFileLog) {
-            logger.info(`-> ${jsonFileUrl}`)
-          }
-        })(),
-      )
+      const json = formatReportAsJson(lighthouseReport)
+      writeFileSync(jsonFileUrl, json)
+      if (jsonFileLog) {
+        logger.info(`-> ${jsonFileUrl}`)
+      }
     }
     if (htmlFileUrl) {
       assertAndNormalizeFileUrl(htmlFileUrl)
-      promises.push(
-        (async () => {
-          const html = ReportGenerator.generateReportHtml(lighthouseReport)
-          await writeFile(htmlFileUrl, html)
-          if (htmlFileLog) {
-            logger.info(`-> ${htmlFileUrl}`)
-          }
-        })(),
-      )
+      const html = formatReportAsHtml(lighthouseReport)
+      writeFileSync(htmlFileUrl, html)
+      if (htmlFileLog) {
+        logger.info(`-> ${htmlFileUrl}`)
+      }
     }
-    await Promise.all(promises)
-
     return lighthouseReport
   }
 
@@ -173,27 +137,4 @@ export const generateLighthouseReport = async (
   } finally {
     await generateReportOperation.end()
   }
-}
-
-const generateOneLighthouseReport = async (
-  url,
-  { lighthouseOptions, config },
-) => {
-  const lighthouse = require("lighthouse")
-  const results = await lighthouse(url, lighthouseOptions, config)
-
-  // use results.lhr for the JS-consumeable output
-  // https://github.com/GoogleChrome/lighthouse/blob/master/types/lhr.d.ts
-  // use results.report for the HTML/JSON/CSV output as a string
-  // use results.artifacts for the trace/screenshots/other specific case you need (rarer)
-  const { lhr } = results
-
-  const { runtimeError } = lhr
-  if (runtimeError) {
-    const error = new Error(runtimeError.message)
-    Object.assign(error, runtimeError)
-    throw error
-  }
-
-  return lhr
 }
