@@ -1,8 +1,9 @@
 import { startServer } from "@jsenv/server"
 import { readFile } from "@jsenv/filesystem"
 import { assert } from "@jsenv/assert"
+import { chromium } from "playwright"
 
-import { generateLighthouseReport } from "@jsenv/lighthouse-impact"
+import { runLighthouseOnPlaywrightPage } from "@jsenv/lighthouse-impact"
 
 const htmlFileUrl = new URL("./index.html", import.meta.url)
 
@@ -23,12 +24,40 @@ if (process.platform !== "win32") {
     keepProcessAlive: false,
   })
 
-  const actual = await generateLighthouseReport(server.origin, {
-    runCount: 2,
-    // mobile: true,
-    // htmlFileUrl: new URL("./report.html", import.meta.url),
-    // jsonFileUrl: new URL("./report.json", import.meta.url),
+  const browser = await chromium.launch({
+    args: ["--remote-debugging-port=9222"],
   })
-  const expected = actual
-  assert({ actual, expected })
+  const context = await browser.newContext({
+    // userAgent: "",
+    ignoreHTTPSErrors: true,
+    viewport: {
+      width: 640,
+      height: 380,
+    },
+    screen: {
+      width: 640,
+      height: 380,
+    },
+    hasTouch: true,
+    isMobile: true,
+    deviceScaleFactor: 1,
+  })
+  const page = await context.newPage()
+  await page.goto(server.origin)
+
+  try {
+    const actual = await runLighthouseOnPlaywrightPage(page, {
+      chromiumPort: "9222",
+      // runCount: 2,
+      // headless: false,
+      // emulatedMobile: true,
+      // htmlFileUrl: new URL("./report.html", import.meta.url),
+      // jsonFileUrl: new URL("./report.json", import.meta.url),
+    })
+    const expected = actual
+    assert({ actual, expected })
+  } finally {
+    await context.close()
+    await browser.close()
+  }
 }

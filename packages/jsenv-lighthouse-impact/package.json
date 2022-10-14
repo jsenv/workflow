@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/lighthouse-impact",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "Package description",
   "license": "MIT",
   "author": {
@@ -40,7 +40,6 @@
     "@jsenv/filesystem": "4.1.5",
     "@jsenv/github-pull-request-impact": "1.7.0",
     "@jsenv/log": "3.3.1",
-    "chrome-launcher": "0.15.1",
     "lighthouse": "9.6.7"
   }
 }
