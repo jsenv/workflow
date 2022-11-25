@@ -1,7 +1,7 @@
+import { chromium } from "playwright"
 import { startServer } from "@jsenv/server"
 import { readFile } from "@jsenv/filesystem"
 import { assert } from "@jsenv/assert"
-import { chromium } from "playwright"
 
 import { runLighthouseOnPlaywrightPage } from "@jsenv/lighthouse-impact"
 
@@ -11,16 +11,20 @@ const htmlFileUrl = new URL("./index.html", import.meta.url)
 if (process.platform !== "win32") {
   const server = await startServer({
     logLevel: "warn",
-    requestToResponse: async () => {
-      const htmlFileContent = await readFile(htmlFileUrl, { as: "string" })
-      return {
-        status: 200,
-        headers: {
-          "content-type": "text/html",
+    services: [
+      {
+        handleRequest: async () => {
+          const htmlFileContent = await readFile(htmlFileUrl, { as: "string" })
+          return {
+            status: 200,
+            headers: {
+              "content-type": "text/html",
+            },
+            body: htmlFileContent,
+          }
         },
-        body: htmlFileContent,
-      }
-    },
+      },
+    ],
     keepProcessAlive: false,
   })
 
@@ -47,7 +51,7 @@ if (process.platform !== "win32") {
 
   try {
     const actual = await runLighthouseOnPlaywrightPage(page, {
-      chromiumPort: "9222",
+      chromiumDebuggingPort: "9222",
       // runCount: 2,
       // headless: false,
       // emulatedMobile: true,
