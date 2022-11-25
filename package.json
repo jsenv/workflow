@@ -17,7 +17,6 @@
   "scripts": {
     "eslint": "npx eslint . --ext=.js,.mjs,.cjs",
     "test": "npm run test --workspaces --if-present",
-    "test-with-coverage": "npm run test-with-coverage --workspaces --if-present",
     "workspace:versions": "node ./scripts/workspace_versions.mjs",
     "workspace:publish": "node ./scripts/workspace_publish.mjs",
     "prettier": "prettier --write ."
