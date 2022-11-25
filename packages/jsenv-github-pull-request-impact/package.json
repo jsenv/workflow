@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/github-pull-request-impact",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Report pull request impact on something",
   "license": "MIT",
   "author": {
@@ -34,8 +34,8 @@
     "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/fetch": "1.1.3",
-    "@jsenv/filesystem": "4.1.0",
-    "@jsenv/log": "3.0.0"
+    "@jsenv/fetch": "1.1.22",
+    "@jsenv/filesystem": "4.1.6",
+    "@jsenv/log": "3.3.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/package-workspace",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "TODO",
   "license": "MIT",
   "author": {
@@ -34,10 +34,10 @@
     "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/urls": "1.2.6",
-    "@jsenv/filesystem": "4.1.0",
-    "@jsenv/package-publish": "1.10.0",
-    "@jsenv/log": "3.0.0",
-    "semver": "7.3.7"
+    "@jsenv/urls": "1.2.8",
+    "@jsenv/filesystem": "4.1.6",
+    "@jsenv/package-publish": "1.10.1",
+    "@jsenv/log": "3.3.1",
+    "semver": "7.3.8"
   }
 }

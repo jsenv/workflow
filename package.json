@@ -23,15 +23,15 @@
     "prettier": "prettier --write ."
   },
   "devDependencies": {
-    "@jsenv/assert": "2.7.0",
-    "@jsenv/core": "29.2.0",
+    "@jsenv/assert": "2.8.0",
+    "@jsenv/core": "29.8.5",
     "@jsenv/package-workspace": "./packages/jsenv-packages-workspace",
-    "@jsenv/eslint-config": "16.2.5",
-    "@jsenv/eslint-import-resolver": "0.3.1",
+    "@jsenv/eslint-config": "16.2.8",
+    "@jsenv/eslint-import-resolver": "0.4.0",
     "@jsenv/log": "3.3.1",
-    "eslint": "8.25.0",
+    "eslint": "8.28.0",
     "eslint-plugin-html": "7.1.0",
     "eslint-plugin-import": "2.26.0",
-    "prettier": "2.7.1"
+    "prettier": "2.8.0"
   }
 }
