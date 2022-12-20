@@ -4,8 +4,8 @@ import { runInNewContext } from "node:vm"
 
 export const startMeasures = ({
   duration = true, // will be in milliseconds
-  memoryHeapUsage = false,
-  filesystemUsage = false,
+  memoryHeap = false,
+  filesystem = false,
   gc = false,
 } = {}) => {
   if (gc && !global.gc) {
@@ -18,7 +18,6 @@ export const startMeasures = ({
   }
 
   const measures = []
-
   if (duration) {
     const beforeMs = Date.now()
     measures.push(() => {
@@ -29,35 +28,38 @@ export const startMeasures = ({
       }
     })
   }
-
-  if (filesystemUsage) {
+  if (filesystem) {
     const beforeRessourceUsage = resourceUsage()
     measures.push(() => {
       const afterRessourceUsage = resourceUsage()
-      const fileSystemReadOperationCount =
-        afterRessourceUsage.fsRead - beforeRessourceUsage.fsRead
-      const fileSystemWriteOperationCount =
-        afterRessourceUsage.fsWrite - beforeRessourceUsage.fsWrite
+      const fsRead = afterRessourceUsage.fsRead - beforeRessourceUsage.fsRead
+      const fsWrite = afterRessourceUsage.fsWrite - beforeRessourceUsage.fsWrite
       return {
-        fileSystemReadOperationCount,
-        fileSystemWriteOperationCount,
+        fsRead,
+        fsWrite,
       }
     })
   }
 
-  if (memoryHeapUsage) {
+  if (memoryHeap) {
     if (gc) {
       global.gc()
     }
-    const beforeHeapUsed = memoryUsage().heapUsed
+    const beforeMemoryUsage = memoryUsage()
     measures.push(() => {
       if (gc) {
         global.gc()
       }
-      const afterHeapUsed = memoryUsage().heapUsed
-      const heapUsed = afterHeapUsed - beforeHeapUsed
+      const afterMemoryUsage = memoryUsage()
       return {
-        heapUsed,
+        // total means "allocated"
+        memoryHeapTotal:
+          afterMemoryUsage.heapTotal - beforeMemoryUsage.heapTotal,
+        memoryHeapUsed: afterMemoryUsage.heapUsed - beforeMemoryUsage.heapTotal,
+        external: afterMemoryUsage.external - beforeMemoryUsage.external,
+        rss: afterMemoryUsage.rss - beforeMemoryUsage.rss,
+        arrayBuffers:
+          afterMemoryUsage.arrayBuffers - beforeMemoryUsage.arrayBuffers,
       }
     })
   }
