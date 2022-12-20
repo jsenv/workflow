@@ -55,7 +55,7 @@ export const startMeasures = ({
         // total means "allocated"
         memoryHeapTotal:
           afterMemoryUsage.heapTotal - beforeMemoryUsage.heapTotal,
-        memoryHeapUsed: afterMemoryUsage.heapUsed - beforeMemoryUsage.heapTotal,
+        memoryHeapUsed: afterMemoryUsage.heapUsed - beforeMemoryUsage.heapUsed,
         external: afterMemoryUsage.external - beforeMemoryUsage.external,
         rss: afterMemoryUsage.rss - beforeMemoryUsage.rss,
         arrayBuffers:
