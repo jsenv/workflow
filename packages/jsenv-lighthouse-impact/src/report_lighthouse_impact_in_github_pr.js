@@ -24,7 +24,7 @@ export const reportLighthouseImpactInGithubPullRequest = async ({
   skipGistWarning = false,
 }) => {
   rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
-  if (lighthouseReportUrl === "string") {
+  if (typeof lighthouseReportUrl === "string") {
     lighthouseReportUrl = new URL(lighthouseReportUrl, rootDirectoryUrl).href
   } else if (lighthouseReportUrl instanceof URL) {
   } else {
