@@ -1,3 +1,7 @@
+# 14.0.0
+
+- Rename reportFileSizeImpact into reportFileSizeImpactInGitHubPullRequest
+
 # 13.0.0
 
 - Rename fileSizeReportModulePath into fileSizeReportUrl

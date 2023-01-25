@@ -69,7 +69,7 @@ _.github/workflows/file_size_impact.yml_
 
 name: file size impact
 
-on: pull_request_target
+on: pull_request
 
 jobs:
   file_size_impact:
@@ -77,11 +77,11 @@ jobs:
     name: file size impact
     steps:
       - name: Setup git
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: "16.6.1"
+          node-version: "18.3.0"
       - name: Setup npm
         run: npm install
       - name: Report file size impact
@@ -101,11 +101,11 @@ _report_file_size_impact.mjs_
  */
 
 import {
-  reportFileSizeImpact,
+  reportFileSizeImpactInGitHubPullRequest,
   readGitHubWorkflowEnv,
 } from "@jsenv/file-size-impact"
 
-await reportFileSizeImpact({
+await reportFileSizeImpactInGitHubPullRequest({
   ...readGitHubWorkflowEnv(),
   buildCommand: "npm run dist",
   fileSizeReportUrl: new URL("./file_size.mjs#fileSizeReport", import.meta.url),
@@ -139,13 +139,13 @@ node ./report_file_size_impact.mjs
 
 ### 2. Adjust _report_file_size_impact.mjs_
 
-When outside a GitHub workflow, you cannot use _readGitHubWorkflowEnv()_. It means you must pass several parameters to _reportFileSizeImpact_. The example below assume code is executed by Travis.
+When outside a GitHub workflow, you cannot use _readGitHubWorkflowEnv()_. It means you must pass several parameters to _reportFileSizeImpactInGitHubPullRequest_. The example below assume code is executed by Travis.
 
 ```diff
-- import { reportFileSizeImpact, readGitHubWorkflowEnv } from "@jsenv/file-size-impact"
-+ import { reportFileSizeImpact } from "@jsenv/file-size-impact"
+- import { reportFileSizeImpactInGitHubPullRequest, readGitHubWorkflowEnv } from "@jsenv/file-size-impact"
++ import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact"
 
-reportFileSizeImpact({
+reportFileSizeImpactInGitHubPullRequest({
 - ...readGitHubWorkflowEnv(),
 + rootDirectoryUrl: process.env.TRAVIS_BUILD_DIR,
 + repositoryOwner: process.env.TRAVIS_REPO_SLUG.split("/")[0],
@@ -284,9 +284,9 @@ _manifestConfig_ parameter is an object used to configure the location of an opt
 This parameter reuses the shape of [trackingConfig](#trackingConfig) (associating pattern + value).
 
 ```js
-import { reportFileSizeImpact } from "@jsenv/file-size-impact"
+import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact"
 
-await reportFileSizeImpact({
+await reportFileSizeImpactInGitHubPullRequest({
   manifestConfig: {
     "./dist/**/manifest.json": true,
   },
@@ -296,9 +296,9 @@ await reportFileSizeImpact({
 You can disable manifest files handling by passing `null`.
 
 ```js
-import { reportFileSizeImpact } from "@jsenv/file-size-impact"
+import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact"
 
-await reportFileSizeImpact({
+await reportFileSizeImpactInGitHubPullRequest({
   manifestConfig: {
     "./dist/**/manifest.json": null,
   },
@@ -307,14 +307,17 @@ await reportFileSizeImpact({
 
 In that case _manifest.json_ will be handled as a regular file.
 
-# reportFileSizeImpact
+# reportFileSizeImpactInGitHubPullRequest
 
-_reportFileSizeImpact_ is an async function that will analyse a pull request file size impact and post a comment with the result of this analysis.
+_reportFileSizeImpactInGitHubPullRequest_ is an async function that will analyse a pull request file size impact and post a comment with the result of this analysis.
 
 ```js
-import { reportFileSizeImpact, raw } from "@jsenv/file-size-impact"
+import {
+  reportFileSizeImpactInGitHubPullRequest,
+  raw,
+} from "@jsenv/file-size-impact"
 
-await reportFileSizeImpact({
+await reportFileSizeImpactInGitHubPullRequest({
   logLevel: "info",
 
   rootDirectoryUrl: "file:///directory",
@@ -372,9 +375,9 @@ This parameter is returned by [readGitHubWorkflowEnv](#readGitHubWorkflowEnv) me
 Inside an other workflow, you can pass your own _runLink_. As in the example below where it is assumed that script is runned by jenkins.
 
 ```js
-import { reportFileSizeImpact } from "@jsenv/file-size-impact"
+import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact"
 
-await reportFileSizeImpact({
+await reportFileSizeImpactInGitHubPullRequest({
   runLink: {
     url: process.env.BUILD_URL,
     text: `${process.env.JOB_NAME}#${process.env.BUILD_ID}`,
@@ -390,17 +393,17 @@ _commitInGeneratedByInfo_ parameter is a boolean controlling if a link to the co
 
 # readGitHubWorkflowEnv
 
-_readGitHubWorkflowEnv_ is a function meant to be runned inside a GitHub workflow. It returns an object meant to be forwarded to [reportFileSizeImpact](#reportFileSizeImpact).
+_readGitHubWorkflowEnv_ is a function meant to be runned inside a GitHub workflow. It returns an object meant to be forwarded to [reportFileSizeImpactInGitHubPullRequest](#reportFileSizeImpactInGitHubPullRequest).
 
 ```js
 import {
-  reportFileSizeImpact,
+  reportFileSizeImpactInGitHubPullRequest,
   readGitHubWorkflowEnv,
 } from "@jsenv/file-size-impact"
 
 const gitHubWorkflowEnv = readGitHubWorkflowEnv()
 
-await reportFileSizeImpact({
+await reportFileSizeImpactInGitHubPullRequest({
   ...gitHubWorkflowEnv,
 })
 ```

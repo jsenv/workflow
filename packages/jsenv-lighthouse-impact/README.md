@@ -112,7 +112,7 @@ _.github/workflows/lighthouse_impact.yml_
 
 name: lighthouse impact
 
-on: pull_request_target
+on: pull_request
 
 jobs:
   lighthouse_impact:
@@ -120,11 +120,11 @@ jobs:
     name: lighthouse impact
     steps:
       - name: Setup git
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: "16.13.0"
+          node-version: "18.3.0"
       - name: Install node modules
         run: npm install
       - name: Report lighthouse impact

@@ -5,7 +5,7 @@ import { importOneExportFromFile } from "@jsenv/dynamic-import-worker"
 import { formatComment } from "./internal/formatComment.js"
 import { jsenvCommentParameters } from "./internal/jsenvCommentParameters.js"
 
-export const reportFileSizeImpact = async ({
+export const reportFileSizeImpactInGitHubPullRequest = async ({
   logLevel,
   commandLogs,
   cancellationToken,
