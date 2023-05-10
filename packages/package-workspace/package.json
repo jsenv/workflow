@@ -1,0 +1,43 @@
+{
+  "name": "@jsenv/package-workspace",
+  "version": "0.5.1",
+  "description": "TODO",
+  "license": "MIT",
+  "author": {
+    "name": "dmail",
+    "email": "dmaillard06@gmail.com",
+    "url": "https://twitter.com/damienmaillard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsenv/workflow",
+    "directory": "packages/package-workspace"
+  },
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/main.js"
+    },
+    "./*": "./*"
+  },
+  "main": "./src/main.js",
+  "files": [
+    "/src/"
+  ],
+  "scripts": {
+    "test": "node ./scripts/test.mjs"
+  },
+  "dependencies": {
+    "@jsenv/urls": "1.2.8",
+    "@jsenv/filesystem": "4.1.6",
+    "@jsenv/package-publish": "1.10.1",
+    "@jsenv/log": "3.3.1",
+    "semver": "7.3.8"
+  }
+}
