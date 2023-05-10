@@ -1,15 +1,13 @@
-import { executeTestPlan, nodeWorkerThread } from "@jsenv/core"
+import { executeTestPlan, nodeWorkerThread } from "@jsenv/test"
 
 await executeTestPlan({
   rootDirectoryUrl: new URL("../", import.meta.url),
   testPlan: {
-    "test/**/*.test.mjs": {
+    "tests/**/*.test.mjs": {
       node: {
-        runtime: nodeWorkerThread,
+        runtime: nodeWorkerThread(),
       },
     },
   },
-  completedExecutionLogAbbreviation: true,
-  coverage: process.argv.includes("--coverage"),
-  coverageTextLog: false,
+  logShortForCompletedExecutions: true,
 })

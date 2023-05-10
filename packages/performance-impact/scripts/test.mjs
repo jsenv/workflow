@@ -1,20 +1,13 @@
-/*
- * This file uses "@jsenv/core" to execute all test files.
- * See https://github.com/jsenv/core/blob/master/docs/testing/readme.md#jsenv-test-runner
- */
-
-import { executeTestPlan, nodeWorkerThread } from "@jsenv/core"
+import { executeTestPlan, nodeWorkerThread } from "@jsenv/test"
 
 await executeTestPlan({
   rootDirectoryUrl: new URL("../", import.meta.url),
   testPlan: {
     "tests/**/*.test.mjs": {
       node: {
-        runtime: nodeWorkerThread,
+        runtime: nodeWorkerThread(),
       },
     },
   },
-  completedExecutionLogAbbreviation: true,
-  coverage: process.argv.includes("--coverage"),
-  coverageTextLog: false,
+  logShortForCompletedExecutions: true,
 })
