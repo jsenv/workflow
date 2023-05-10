@@ -3,4 +3,4 @@ export const jsenvTrackingConfig = {
     "./dist/**/*": true,
     "./dist/**/*.map": false,
   },
-}
+};

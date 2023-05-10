@@ -1,11 +1,11 @@
-import { chromium } from "playwright"
-import { startServer } from "@jsenv/server"
-import { readFile } from "@jsenv/filesystem"
-import { assert } from "@jsenv/assert"
+import { chromium } from "playwright";
+import { startServer } from "@jsenv/server";
+import { readFile } from "@jsenv/filesystem";
+import { assert } from "@jsenv/assert";
 
-import { runLighthouseOnPlaywrightPage } from "@jsenv/lighthouse-impact"
+import { runLighthouseOnPlaywrightPage } from "@jsenv/lighthouse-impact";
 
-const htmlFileUrl = new URL("./index.html", import.meta.url)
+const htmlFileUrl = new URL("./index.html", import.meta.url);
 
 // chrome-launcher does not work on windows
 if (process.platform !== "win32") {
@@ -14,23 +14,23 @@ if (process.platform !== "win32") {
     services: [
       {
         handleRequest: async () => {
-          const htmlFileContent = await readFile(htmlFileUrl, { as: "string" })
+          const htmlFileContent = await readFile(htmlFileUrl, { as: "string" });
           return {
             status: 200,
             headers: {
               "content-type": "text/html",
             },
             body: htmlFileContent,
-          }
+          };
         },
       },
     ],
     keepProcessAlive: false,
-  })
+  });
 
   const browser = await chromium.launch({
     args: ["--remote-debugging-port=9222"],
-  })
+  });
   const context = await browser.newContext({
     // userAgent: "",
     ignoreHTTPSErrors: true,
@@ -45,9 +45,9 @@ if (process.platform !== "win32") {
     hasTouch: true,
     isMobile: true,
     deviceScaleFactor: 1,
-  })
-  const page = await context.newPage()
-  await page.goto(server.origin)
+  });
+  const page = await context.newPage();
+  await page.goto(server.origin);
 
   try {
     const actual = await runLighthouseOnPlaywrightPage(page, {
@@ -57,11 +57,11 @@ if (process.platform !== "win32") {
       // emulatedMobile: true,
       // htmlFileUrl: new URL("./report.html", import.meta.url),
       // jsonFileUrl: new URL("./report.json", import.meta.url),
-    })
-    const expected = actual
-    assert({ actual, expected })
+    });
+    const expected = actual;
+    assert({ actual, expected });
   } finally {
-    await context.close()
-    await browser.close()
+    await context.close();
+    await browser.close();
   }
 }

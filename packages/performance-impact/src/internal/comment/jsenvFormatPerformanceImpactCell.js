@@ -1,4 +1,4 @@
-import { formatImpact, formatImpactAsPercentage } from "./formatImpact.js"
+import { formatImpact, formatImpactAsPercentage } from "./formatImpact.js";
 
 export const jsenvFormatPerformanceImpactCell = ({
   metricUnit,
@@ -7,23 +7,23 @@ export const jsenvFormatPerformanceImpactCell = ({
 }) => {
   // metric is new
   if (metricValueBeforeMerge === undefined) {
-    return ``
+    return ``;
   }
 
-  const diff = metricValueAfterMerge - metricValueBeforeMerge
+  const diff = metricValueAfterMerge - metricValueBeforeMerge;
   if (diff === 0) {
-    return ``
+    return ``;
   }
 
   const diffFormatted = formatImpact({
     metricUnit,
     metricValueAfterMerge,
     metricValueBeforeMerge,
-  })
+  });
   const diffAsPercentageFormatted = formatImpactAsPercentage({
     metricUnit,
     metricValueBeforeMerge,
     metricValueAfterMerge,
-  })
-  return `${diffFormatted} / ${diffAsPercentageFormatted}`
-}
+  });
+  return `${diffFormatted} / ${diffAsPercentageFormatted}`;
+};

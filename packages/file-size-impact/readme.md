@@ -31,7 +31,7 @@ npm install --save-dev @jsenv/file-size-impact
 _file_size.mjs_
 
 ```js
-import { generateFileSizeReport } from "@jsenv/file-size-impact"
+import { generateFileSizeReport } from "@jsenv/file-size-impact";
 
 export const fileSizeReport = await generateFileSizeReport({
   log: process.argv.includes("--log"),
@@ -42,7 +42,7 @@ export const fileSizeReport = await generateFileSizeReport({
       "./dist/**/*.map": false,
     },
   },
-})
+});
 ```
 
 At this stage, you could generate a file size report on your machine with the following command.
@@ -103,13 +103,13 @@ _report_file_size_impact.mjs_
 import {
   reportFileSizeImpactInGitHubPullRequest,
   readGitHubWorkflowEnv,
-} from "@jsenv/file-size-impact"
+} from "@jsenv/file-size-impact";
 
 await reportFileSizeImpactInGitHubPullRequest({
   ...readGitHubWorkflowEnv(),
   buildCommand: "npm run dist",
   fileSizeReportUrl: new URL("./file_size.mjs#fileSizeReport", import.meta.url),
-})
+});
 ```
 
 **Notes**:
@@ -179,7 +179,7 @@ In order to analyse the impact of a pull request on file size the following step
 _generateFileSizeReport_ is an async function scanning filesystem to compute a list of file sizes and return these infos into an object.
 
 ```js
-import { generateFileSizeReport, raw, gzip } from "@jsenv/file-size-impact"
+import { generateFileSizeReport, raw, gzip } from "@jsenv/file-size-impact";
 
 const fileSizeReport = await generateFileSizeReport({
   rootDirectoryUrl: new URL("./", import.meta.url),
@@ -189,7 +189,7 @@ const fileSizeReport = await generateFileSizeReport({
     },
   },
   transformations: { raw, gzip },
-})
+});
 ```
 
 ## trackingConfig
@@ -202,7 +202,7 @@ _trackingConfig_ values are objects associating a pattern to a value. This objec
 For example you can create two groups named _"critical files"_ and _"remaining files"_ like this:
 
 ```js
-import { generateFileSizeReport } from "@jsenv/file-size-impact"
+import { generateFileSizeReport } from "@jsenv/file-size-impact";
 
 await generateFileSizeReport({
   trackingConfig: {
@@ -217,7 +217,7 @@ await generateFileSizeReport({
       "./dist/main.css": false,
     },
   },
-})
+});
 ```
 
 ![screenshot of pull request comment where groups are highlighted](./docs/comment_group_highlighted.png)
@@ -234,11 +234,11 @@ import {
   raw,
   gzip,
   brotli,
-} from "@jsenv/file-size-impact"
+} from "@jsenv/file-size-impact";
 
 await generateFileSizeReport({
   transformations: { raw, gzip, brotli },
-})
+});
 ```
 
 ![screenshot of pull request comment with gzip and brotli](./docs/comment_compression.png)
@@ -248,7 +248,7 @@ _raw_, _gzip_ and _brotli_ compression can be enabled this way.
 It's also possible to control compression level.
 
 ```js
-import { generateFileSizeReport, raw, gzip } from "@jsenv/file-size-impact"
+import { generateFileSizeReport, raw, gzip } from "@jsenv/file-size-impact";
 
 await generateFileSizeReport({
   transformations: {
@@ -256,7 +256,7 @@ await generateFileSizeReport({
     gzip7: (buffer) => gzip(buffer, { level: 7 }),
     gzip9: (buffer) => gzip(buffer, { level: 9 }),
   },
-})
+});
 ```
 
 Finally _transformations_ can be used to add custom _transformations_.
@@ -267,14 +267,14 @@ import {
   raw,
   gzip,
   brotli,
-} from "@jsenv/file-size-impact"
+} from "@jsenv/file-size-impact";
 
 await generateFileSizeReport({
   transformations: {
     raw,
     trim: (buffer) => String(buffer).trim(),
   },
-})
+});
 ```
 
 ## manifestConfig
@@ -284,25 +284,25 @@ _manifestConfig_ parameter is an object used to configure the location of an opt
 This parameter reuses the shape of [trackingConfig](#trackingConfig) (associating pattern + value).
 
 ```js
-import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact"
+import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact";
 
 await reportFileSizeImpactInGitHubPullRequest({
   manifestConfig: {
     "./dist/**/manifest.json": true,
   },
-})
+});
 ```
 
 You can disable manifest files handling by passing `null`.
 
 ```js
-import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact"
+import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact";
 
 await reportFileSizeImpactInGitHubPullRequest({
   manifestConfig: {
     "./dist/**/manifest.json": null,
   },
-})
+});
 ```
 
 In that case _manifest.json_ will be handled as a regular file.
@@ -315,7 +315,7 @@ _reportFileSizeImpactInGitHubPullRequest_ is an async function that will analyse
 import {
   reportFileSizeImpactInGitHubPullRequest,
   raw,
-} from "@jsenv/file-size-impact"
+} from "@jsenv/file-size-impact";
 
 await reportFileSizeImpactInGitHubPullRequest({
   logLevel: "info",
@@ -330,7 +330,7 @@ await reportFileSizeImpactInGitHubPullRequest({
   buildCommand: "npm run build",
   fileSizeReportUrl: new URL("./file_size.mjs#fileSizeReport", import.meta.url),
   filesOrdering: "size_impact",
-})
+});
 ```
 
 ## logLevel
@@ -375,14 +375,14 @@ This parameter is returned by [readGitHubWorkflowEnv](#readGitHubWorkflowEnv) me
 Inside an other workflow, you can pass your own _runLink_. As in the example below where it is assumed that script is runned by jenkins.
 
 ```js
-import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact"
+import { reportFileSizeImpactInGitHubPullRequest } from "@jsenv/file-size-impact";
 
 await reportFileSizeImpactInGitHubPullRequest({
   runLink: {
     url: process.env.BUILD_URL,
     text: `${process.env.JOB_NAME}#${process.env.BUILD_ID}`,
   },
-})
+});
 ```
 
 # commitInGeneratedByInfo
@@ -399,13 +399,13 @@ _readGitHubWorkflowEnv_ is a function meant to be runned inside a GitHub workflo
 import {
   reportFileSizeImpactInGitHubPullRequest,
   readGitHubWorkflowEnv,
-} from "@jsenv/file-size-impact"
+} from "@jsenv/file-size-impact";
 
-const gitHubWorkflowEnv = readGitHubWorkflowEnv()
+const gitHubWorkflowEnv = readGitHubWorkflowEnv();
 
 await reportFileSizeImpactInGitHubPullRequest({
   ...gitHubWorkflowEnv,
-})
+});
 ```
 
 _gitHubWorkflowEnv_ object looks like this:
@@ -421,7 +421,7 @@ const gitHubWorkflowEnv = {
     url: "https://github.com/jsenv/repository-name/actions/runs/34",
     text: "workflow-name#34",
   },
-}
+};
 ```
 
 # File with dynamic names

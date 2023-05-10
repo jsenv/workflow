@@ -1,5 +1,5 @@
-import { formatPercentage } from "./format_percentage.js"
-import { formatSize } from "./formatSize.js"
+import { formatPercentage } from "./format_percentage.js";
+import { formatSize } from "./formatSize.js";
 
 const jsenvFormatGroupSummary = ({
   groupName,
@@ -7,30 +7,30 @@ const jsenvFormatGroupSummary = ({
   groupSizeMapAfterMerge,
   sizeNames,
 }) => {
-  const firstSizeName = sizeNames[0]
-  const groupSizeBeforeMerge = groupSizeMapBeforeMerge[firstSizeName]
-  const groupSizeAfterMerge = groupSizeMapAfterMerge[firstSizeName]
+  const firstSizeName = sizeNames[0];
+  const groupSizeBeforeMerge = groupSizeMapBeforeMerge[firstSizeName];
+  const groupSizeAfterMerge = groupSizeMapAfterMerge[firstSizeName];
 
   if (groupSizeBeforeMerge === groupSizeAfterMerge) {
-    return `${groupName} (no impact)`
+    return `${groupName} (no impact)`;
   }
 
   return `${groupName} (${formatSizeImpactAsPercentage({
     sizeBeforeMerge: groupSizeBeforeMerge,
     sizeAfterMerge: groupSizeAfterMerge,
-  })})`
-}
+  })})`;
+};
 
 const jsenvFormatFileRelativeUrl = (fileRelativeUrl) => {
-  return fileRelativeUrl
-}
+  return fileRelativeUrl;
+};
 
 const jsenvFormatFileCell = ({ fileRelativeUrlDisplayed, sizeAfterMerge }) => {
   if (sizeAfterMerge === undefined) {
-    return `<del>${fileRelativeUrlDisplayed}</del>`
+    return `<del>${fileRelativeUrlDisplayed}</del>`;
   }
-  return fileRelativeUrlDisplayed
-}
+  return fileRelativeUrlDisplayed;
+};
 
 /**
  * - added
@@ -47,8 +47,8 @@ const jsenvFormatFileSizeImpactCell = ({ sizeBeforeMerge, sizeAfterMerge }) => {
   // but it would make no sense to compare with something that does not exists like
   // "100 B (+100B / +100%)
   if (sizeBeforeMerge === undefined) {
-    const sizeAfterMergeFormatted = formatSize(sizeAfterMerge)
-    return sizeAfterMergeFormatted
+    const sizeAfterMergeFormatted = formatSize(sizeAfterMerge);
+    return sizeAfterMergeFormatted;
   }
 
   // The file is deleted, it makes sense to display
@@ -57,41 +57,41 @@ const jsenvFormatFileSizeImpactCell = ({ sizeBeforeMerge, sizeAfterMerge }) => {
   // but it would be redundant to add the percentage
   // "deleted (-100 B / -100%)"
   if (sizeAfterMerge === undefined) {
-    const sizeDiff = -sizeBeforeMerge
-    const sizeDiffFormatted = formatSize(sizeDiff, { diff: true })
-    return `deleted (${sizeDiffFormatted})`
+    const sizeDiff = -sizeBeforeMerge;
+    const sizeDiffFormatted = formatSize(sizeDiff, { diff: true });
+    return `deleted (${sizeDiffFormatted})`;
   }
 
-  const sizeAfterMergeFormatted = formatSize(sizeAfterMerge)
-  const sizeDiff = sizeAfterMerge - sizeBeforeMerge
-  const sizeDiffFormatted = formatSize(sizeDiff, { diff: true })
+  const sizeAfterMergeFormatted = formatSize(sizeAfterMerge);
+  const sizeDiff = sizeAfterMerge - sizeBeforeMerge;
+  const sizeDiffFormatted = formatSize(sizeDiff, { diff: true });
   const sizeDiffAsPercentageFormatted = formatSizeImpactAsPercentage({
     sizeBeforeMerge,
     sizeAfterMerge,
-  })
-  return `${sizeAfterMergeFormatted} (${sizeDiffFormatted} / ${sizeDiffAsPercentageFormatted})`
-}
+  });
+  return `${sizeAfterMergeFormatted} (${sizeDiffFormatted} / ${sizeDiffAsPercentageFormatted})`;
+};
 
 export const jsenvFormatEmojiCell = ({ sizeBeforeMerge, sizeAfterMerge }) => {
   if (sizeBeforeMerge === undefined) {
-    return ":baby:"
+    return ":baby:";
   }
 
   if (sizeAfterMerge === undefined) {
-    return ""
+    return "";
   }
 
-  const delta = sizeAfterMerge - sizeBeforeMerge
+  const delta = sizeAfterMerge - sizeBeforeMerge;
   if (delta === 0) {
-    return ":ghost:"
+    return ":ghost:";
   }
 
   if (delta > 0) {
-    return ":arrow_upper_right:"
+    return ":arrow_upper_right:";
   }
 
-  return ":arrow_lower_right:"
-}
+  return ":arrow_lower_right:";
+};
 
 export const jsenvCommentParameters = {
   filesOrdering: "size_impact",
@@ -104,10 +104,10 @@ export const jsenvCommentParameters = {
   formatFileSizeImpactCell: jsenvFormatFileSizeImpactCell,
   formatEmojiCell: jsenvFormatEmojiCell,
   shouldOpenGroupByDefault: () => false,
-}
+};
 
 const formatSizeImpactAsPercentage = ({ sizeBeforeMerge, sizeAfterMerge }) => {
-  const sizeDiff = sizeAfterMerge - sizeBeforeMerge
+  const sizeDiff = sizeAfterMerge - sizeBeforeMerge;
   const sizeDiffRatio =
     sizeDiff === 0
       ? 0
@@ -115,8 +115,8 @@ const formatSizeImpactAsPercentage = ({ sizeBeforeMerge, sizeAfterMerge }) => {
       ? 1
       : sizeAfterMerge === 0
       ? -1
-      : sizeDiff / sizeBeforeMerge
-  const sizeDiffAsPercentage = sizeDiffRatio * 100
-  const sizeDiffAsPercentageFormatted = formatPercentage(sizeDiffAsPercentage)
-  return sizeDiffAsPercentageFormatted
-}
+      : sizeDiff / sizeBeforeMerge;
+  const sizeDiffAsPercentage = sizeDiffRatio * 100;
+  const sizeDiffAsPercentageFormatted = formatPercentage(sizeDiffAsPercentage);
+  return sizeDiffAsPercentageFormatted;
+};

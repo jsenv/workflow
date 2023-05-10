@@ -1,27 +1,27 @@
-import { assert } from "@jsenv/assert"
+import { assert } from "@jsenv/assert";
 import {
   ensureEmptyDirectory,
   writeFile,
   writeDirectory,
-} from "@jsenv/filesystem"
+} from "@jsenv/filesystem";
 
-import { generateFileSizeReport, raw } from "@jsenv/file-size-impact"
+import { generateFileSizeReport, raw } from "@jsenv/file-size-impact";
 
-const transformations = { raw }
-const tempDirectoryUrl = new URL("./temp/", import.meta.url)
+const transformations = { raw };
+const tempDirectoryUrl = new URL("./temp/", import.meta.url);
 const test = (params) => {
   return generateFileSizeReport({
     ...params,
-  })
-}
+  });
+};
 
 // .js + .js.map without manifest
 {
-  await ensureEmptyDirectory(tempDirectoryUrl)
-  const fileUrl = new URL("dist/file.js", tempDirectoryUrl)
-  const fileMapUrl = new URL("dist/file.js.map", tempDirectoryUrl)
-  await writeFile(fileUrl, `console.log("hello")`)
-  await writeFile(fileMapUrl, `{ "file": "foo" }`)
+  await ensureEmptyDirectory(tempDirectoryUrl);
+  const fileUrl = new URL("dist/file.js", tempDirectoryUrl);
+  const fileMapUrl = new URL("dist/file.js.map", tempDirectoryUrl);
+  await writeFile(fileUrl, `console.log("hello")`);
+  await writeFile(fileMapUrl, `{ "file": "foo" }`);
 
   const actual = await test({
     logLevel: "warn",
@@ -32,7 +32,7 @@ const test = (params) => {
       },
     },
     transformations,
-  })
+  });
   const expected = {
     transformationKeys: ["raw"],
     groups: {
@@ -50,21 +50,21 @@ const test = (params) => {
         },
       },
     },
-  }
-  assert({ actual, expected })
+  };
+  assert({ actual, expected });
 }
 
 // file hashed + manifest
 {
-  await ensureEmptyDirectory(tempDirectoryUrl)
-  const fileUrl = new URL("dist/file.hash.js", tempDirectoryUrl)
-  const manifestUrl = new URL("dist/manifest.json", tempDirectoryUrl)
-  await writeFile(fileUrl, `console.log("hello")`)
-  await writeFile(manifestUrl, `{ "file.js": "file.hash.js" }`)
+  await ensureEmptyDirectory(tempDirectoryUrl);
+  const fileUrl = new URL("dist/file.hash.js", tempDirectoryUrl);
+  const manifestUrl = new URL("dist/manifest.json", tempDirectoryUrl);
+  await writeFile(fileUrl, `console.log("hello")`);
+  await writeFile(manifestUrl, `{ "file.js": "file.hash.js" }`);
 
   const meta = {
     showSizeImpact: () => true,
-  }
+  };
   const actual = await test({
     logLevel: "warn",
     rootDirectoryUrl: tempDirectoryUrl,
@@ -77,7 +77,7 @@ const test = (params) => {
     manifestConfig: {
       "./**/manifest.json": true,
     },
-  })
+  });
   const expected = {
     transformationKeys: ["raw"],
     groups: {
@@ -99,15 +99,15 @@ const test = (params) => {
         },
       },
     },
-  }
-  assert({ actual, expected })
+  };
+  assert({ actual, expected });
 }
 
 // an empty directory
 {
-  await ensureEmptyDirectory(tempDirectoryUrl)
-  const directoryUrl = new URL("dist", tempDirectoryUrl)
-  await writeDirectory(directoryUrl)
+  await ensureEmptyDirectory(tempDirectoryUrl);
+  const directoryUrl = new URL("dist", tempDirectoryUrl);
+  await writeDirectory(directoryUrl);
 
   const actual = await test({
     logLevel: "warn",
@@ -118,7 +118,7 @@ const test = (params) => {
       },
     },
     transformations,
-  })
+  });
   const expected = {
     transformationKeys: ["raw"],
     groups: {
@@ -130,6 +130,6 @@ const test = (params) => {
         fileMap: {},
       },
     },
-  }
-  assert({ actual, expected })
+  };
+  assert({ actual, expected });
 }

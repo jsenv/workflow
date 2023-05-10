@@ -1,12 +1,12 @@
-import { publishPackage } from "@jsenv/package-publish"
-import { loadEnvFile } from "./testHelper.js"
+import { publishPackage } from "@jsenv/package-publish";
+import { loadEnvFile } from "./testHelper.js";
 
 const run = async () => {
   if (!process.env.CI) {
-    await loadEnvFile(new URL("../secrets.json", import.meta.url).href)
+    await loadEnvFile(new URL("../secrets.json", import.meta.url).href);
   }
 
-  const projectDirectoryUrl = new URL("../", import.meta.url).href
+  const projectDirectoryUrl = new URL("../", import.meta.url).href;
 
   const report = await publishPackage({
     projectDirectoryUrl,
@@ -18,7 +18,7 @@ const run = async () => {
         token: process.env.GITHUB_TOKEN,
       },
     },
-  })
-  console.log(report)
-}
-run()
+  });
+  console.log(report);
+};
+run();

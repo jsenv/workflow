@@ -1,1 +1,1 @@
-export const toto = 42
+export const toto = 42;

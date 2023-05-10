@@ -8,21 +8,21 @@
  */
 
 export const median = (numbers) => {
-  const numberCount = numbers.length
-  const numbersSorted = numbers.slice()
-  numbersSorted.sort()
+  const numberCount = numbers.length;
+  const numbersSorted = numbers.slice();
+  numbersSorted.sort();
 
-  const isEven = numberCount % 2 === 0
+  const isEven = numberCount % 2 === 0;
   if (isEven) {
-    const rightMiddleNumberIndex = numberCount / 2
-    const leftMiddleNumberIndex = rightMiddleNumberIndex - 1
-    const leftMiddleNumber = numbersSorted[leftMiddleNumberIndex]
-    const rightMiddleNumber = numbersSorted[rightMiddleNumberIndex]
-    const medianNumber = (leftMiddleNumber + rightMiddleNumber) / 2
-    return medianNumber
+    const rightMiddleNumberIndex = numberCount / 2;
+    const leftMiddleNumberIndex = rightMiddleNumberIndex - 1;
+    const leftMiddleNumber = numbersSorted[leftMiddleNumberIndex];
+    const rightMiddleNumber = numbersSorted[rightMiddleNumberIndex];
+    const medianNumber = (leftMiddleNumber + rightMiddleNumber) / 2;
+    return medianNumber;
   }
 
-  const medianNumberIndex = (numberCount - 1) / 2
-  const medianNumber = numbersSorted[medianNumberIndex]
-  return medianNumber
-}
+  const medianNumberIndex = (numberCount - 1) / 2;
+  const medianNumber = numbersSorted[medianNumberIndex];
+  return medianNumber;
+};

@@ -1,4 +1,4 @@
-import { generateFileSizeReport } from "@jsenv/file-size-impact"
+import { generateFileSizeReport } from "@jsenv/file-size-impact";
 
 export const fileSizeReport = await generateFileSizeReport({
   log: process.argv.includes("--log"),
@@ -8,4 +8,4 @@ export const fileSizeReport = await generateFileSizeReport({
       "./dist/**/*.js": true,
     },
   },
-})
+});

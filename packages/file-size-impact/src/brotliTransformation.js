@@ -1,6 +1,6 @@
-import { brotliCompress, constants } from "node:zlib"
+import { brotliCompress, constants } from "node:zlib";
 
-export const name = "brotli"
+export const name = "brotli";
 
 export const transform = (
   value,
@@ -23,11 +23,11 @@ export const transform = (
       },
       (error, buffer) => {
         if (error) {
-          reject(error)
+          reject(error);
         } else {
-          resolve(buffer)
+          resolve(buffer);
         }
       },
-    )
-  })
-}
+    );
+  });
+};

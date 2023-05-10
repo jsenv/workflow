@@ -1,12 +1,12 @@
-import { measureMultipleTimes } from "@jsenv/performance-impact/src/internal/measureMultipleTimes.js"
-import { computeMetricsMedian } from "@jsenv/performance-impact/src/internal/computeMetricsMedian.js"
+import { measureMultipleTimes } from "@jsenv/performance-impact/src/internal/measureMultipleTimes.js";
+import { computeMetricsMedian } from "@jsenv/performance-impact/src/internal/computeMetricsMedian.js";
 
 export const generatePerformanceReport = async () => {
-  const oneTimeout = await measureOneTimeout()
+  const oneTimeout = await measureOneTimeout();
 
   const twoTimeouts = computeMetricsMedian(
     await measureMultipleTimes(measureTwoTimeouts, 5),
-  )
+  );
 
   return {
     groups: {
@@ -15,8 +15,8 @@ export const generatePerformanceReport = async () => {
         ...twoTimeouts,
       },
     },
-  }
-}
+  };
+};
 
 const measureOneTimeout = async () => {
   return {
@@ -24,8 +24,8 @@ const measureOneTimeout = async () => {
       type: "duration",
       value: await measureATimeoutDuration(100),
     },
-  }
-}
+  };
+};
 
 // this will happen when code use multiple performance.measure
 // we will receive an object representing each measures
@@ -33,24 +33,24 @@ const measureTwoTimeouts = async () => {
   const [durationFor100MsTimeout, durationFor200MsTimeout] = await Promise.all([
     measureATimeoutDuration(200),
     measureATimeoutDuration(400),
-  ])
+  ]);
 
   return {
     "with 200": { type: "duration", value: durationFor100MsTimeout },
     "with 400": { type: "duration", value: durationFor200MsTimeout },
-  }
-}
+  };
+};
 
 const measureATimeoutDuration = async (ms) => {
-  const startTime = Date.now()
-  let endTime
+  const startTime = Date.now();
+  let endTime;
 
   await new Promise((resolve) => {
     setTimeout(() => {
-      endTime = Date.now()
-      resolve()
-    }, ms)
-  })
+      endTime = Date.now();
+      resolve();
+    }, ms);
+  });
 
-  return endTime - startTime
-}
+  return endTime - startTime;
+};

@@ -7,24 +7,24 @@ Bypass node cache on dynamic import thanks to worker
 _docs/demo/random_number.mjs_
 
 ```js
-export const randomNumber = Math.random()
+export const randomNumber = Math.random();
 ```
 
 _docs/demo/demo.mjs_
 
 ```js
-import { importOneExportFromFile } from "@jsenv/dynamic-import-worker"
+import { importOneExportFromFile } from "@jsenv/dynamic-import-worker";
 
 const randomNumberFileUrl = new URL(
   "./random_number.mjs#randomNumber",
   import.meta.url,
-)
+);
 
-const randomNumberA = await importOneExportFromFile(randomNumberExportUrl)
-const randomNumberB = await importOneExportFromFile(randomNumberExportUrl)
+const randomNumberA = await importOneExportFromFile(randomNumberExportUrl);
+const randomNumberB = await importOneExportFromFile(randomNumberExportUrl);
 
-console.log(randomNumberA)
-console.log(randomNumberB)
+console.log(randomNumberA);
+console.log(randomNumberB);
 ```
 
 ```console

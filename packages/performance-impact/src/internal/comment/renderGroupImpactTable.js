@@ -1,7 +1,7 @@
-import { formatMetricValue } from "../formatMetricValue.js"
+import { formatMetricValue } from "../formatMetricValue.js";
 
-const METRIC_NAME_MAX_LENGTH = 50
-const MAX_METRIC_PER_GROUP = 20
+const METRIC_NAME_MAX_LENGTH = 50;
+const MAX_METRIC_PER_GROUP = 20;
 
 export const renderGroupImpactTable = ({
   formatPerformanceImpactCell,
@@ -26,8 +26,8 @@ export const renderGroupImpactTable = ({
         bigImpacts,
       })}
     </tbody>
-  </table>`
-}
+  </table>`;
+};
 
 const renderPerfImpactTableBody = ({
   formatPerformanceImpactCell,
@@ -35,21 +35,21 @@ const renderPerfImpactTableBody = ({
   afterMergeMetrics,
   bigImpacts,
 }) => {
-  const lines = []
-  const metricAllNames = Object.keys(afterMergeMetrics)
-  const metricCount = metricAllNames.length
+  const lines = [];
+  const metricAllNames = Object.keys(afterMergeMetrics);
+  const metricCount = metricAllNames.length;
   const metricNames =
     metricCount > MAX_METRIC_PER_GROUP
       ? metricAllNames.slice(0, MAX_METRIC_PER_GROUP)
-      : metricAllNames
+      : metricAllNames;
 
   metricNames.forEach((metricName) => {
-    const metricNameDisplayed = truncateMetricName(metricName)
-    const metric = afterMergeMetrics[metricName]
-    const metricValueAfterMerge = metric.value
+    const metricNameDisplayed = truncateMetricName(metricName);
+    const metric = afterMergeMetrics[metricName];
+    const metricValueAfterMerge = metric.value;
     const metricBeforeMerge = beforeMergeMetrics
       ? beforeMergeMetrics[metricName]
-      : undefined
+      : undefined;
     if (!metricBeforeMerge) {
       lines.push([
         `<td nowrap>${metricNameDisplayed}</td>`,
@@ -62,12 +62,12 @@ const renderPerfImpactTableBody = ({
           isBig: false,
         })}</td>`,
         `<td>:baby:</td>`,
-      ])
-      return
+      ]);
+      return;
     }
 
-    const isBig = Boolean(bigImpacts[metricName])
-    const metricValueBeforeMerge = metricBeforeMerge.value
+    const isBig = Boolean(bigImpacts[metricName]);
+    const metricValueBeforeMerge = metricBeforeMerge.value;
     lines.push([
       `<td nowrap>${metricNameDisplayed}</td>`,
       `<td nowrap>${formatMetricValue(metricBeforeMerge)}</td>`,
@@ -82,50 +82,50 @@ const renderPerfImpactTableBody = ({
         metricValueAfterMerge,
         metricValueBeforeMerge,
       })}</td>`,
-    ])
-  })
+    ]);
+  });
   if (metricNames !== metricAllNames) {
     lines.push([
       `<td colspan="5" align="center">... ${
         metricCount - MAX_METRIC_PER_GROUP
       } more ...</td>`,
-    ])
+    ]);
   }
 
-  return renderTableLines(lines)
-}
+  return renderTableLines(lines);
+};
 
 const renderEmojiCellContent = ({
   metricValueAfterMerge,
   metricValueBeforeMerge,
 }) => {
-  const delta = metricValueAfterMerge - metricValueBeforeMerge
+  const delta = metricValueAfterMerge - metricValueBeforeMerge;
   if (delta === 0) {
-    return ":ghost:"
+    return ":ghost:";
   }
 
   if (delta > 0) {
-    return ":arrow_upper_right:"
+    return ":arrow_upper_right:";
   }
 
-  return ":arrow_lower_right:"
-}
+  return ":arrow_lower_right:";
+};
 
 const truncateMetricName = (metricName) => {
-  const length = metricName.length
+  const length = metricName.length;
   if (length > METRIC_NAME_MAX_LENGTH) {
-    return `${metricName.slice(0, METRIC_NAME_MAX_LENGTH - `…`.length)}…`
+    return `${metricName.slice(0, METRIC_NAME_MAX_LENGTH - `…`.length)}…`;
   }
-  return metricName
-}
+  return metricName;
+};
 
 const renderTableLines = (lines, { indentCount = 3, indentSize = 2 } = {}) => {
   if (lines.length === 0) {
-    return ""
+    return "";
   }
 
-  const cellLeftSpacing = indent(indentCount + 1, indentSize)
-  const lineLeftSpacing = indent(indentCount, indentSize)
+  const cellLeftSpacing = indent(indentCount + 1, indentSize);
+  const lineLeftSpacing = indent(indentCount, indentSize);
 
   return `<tr>${lines.map(
     (cells) => `
@@ -134,7 +134,7 @@ ${cellLeftSpacing}`)}`,
   ).join(`
 ${lineLeftSpacing}</tr>
 ${lineLeftSpacing}<tr>`)}
-${lineLeftSpacing}</tr>`
-}
+${lineLeftSpacing}</tr>`;
+};
 
-const indent = (count, size) => ` `.repeat(size * count)
+const indent = (count, size) => ` `.repeat(size * count);

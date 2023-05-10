@@ -1,1 +1,1 @@
-export const randomNumber = Math.random()
+export const randomNumber = Math.random();

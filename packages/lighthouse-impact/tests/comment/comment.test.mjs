@@ -10,19 +10,22 @@ before commiting it.
 
 */
 
-import { readFileSync } from "node:fs"
-import { assert } from "@jsenv/assert"
+import { readFileSync } from "node:fs";
+import { assert } from "@jsenv/assert";
 
-const commentSnapshotFileUrl = new URL("./comment_snapshot.md", import.meta.url)
+const commentSnapshotFileUrl = new URL(
+  "./comment_snapshot.md",
+  import.meta.url,
+);
 const readCommentSnapshotFile = () => {
-  const fileContent = String(readFileSync(commentSnapshotFileUrl))
-  return fileContent
-}
+  const fileContent = String(readFileSync(commentSnapshotFileUrl));
+  return fileContent;
+};
 
 // disable on windows because it would fails due to line endings (CRLF)
 if (process.platform !== "win32") {
-  const expected = readCommentSnapshotFile()
-  await import("./generate_comment_snapshot_file.mjs")
-  const actual = readCommentSnapshotFile()
-  assert({ actual, expected })
+  const expected = readCommentSnapshotFile();
+  await import("./generate_comment_snapshot_file.mjs");
+  const actual = readCommentSnapshotFile();
+  assert({ actual, expected });
 }

@@ -1,6 +1,6 @@
-import { assert } from "@jsenv/assert"
+import { assert } from "@jsenv/assert";
 
-import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact/src/internal/createGitHubPullRequestCommentText.js"
+import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact/src/internal/createGitHubPullRequestCommentText.js";
 
 {
   const actual = createGitHubPullRequestCommentText({
@@ -8,7 +8,7 @@ import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-i
     warnings: ["warning message"],
     body: "body",
     footer: "footer",
-  })
+  });
   const expected = `header
 
 ---
@@ -19,8 +19,8 @@ warning message
 
 body
 
-footer`
-  assert({ actual, expected })
+footer`;
+  assert({ actual, expected });
 }
 
 {
@@ -30,11 +30,11 @@ footer`
     body: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
     footer: "footer",
     maxLength: 300,
-  })
+  });
   const actual = {
     message,
     messageLength: Buffer.byteLength(message),
-  }
+  };
   const expected = {
     message: `header
 
@@ -52,6 +52,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit,…
 
 footer`,
     messageLength: 300,
-  }
-  assert({ actual, expected })
+  };
+  assert({ actual, expected });
 }

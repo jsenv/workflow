@@ -9,42 +9,42 @@
  *
  */
 
-import { createRequire } from "node:module"
+import { createRequire } from "node:module";
 
-import { assert } from "@jsenv/assert"
-import { ensureEmptyDirectory, writeFile } from "@jsenv/filesystem"
+import { assert } from "@jsenv/assert";
+import { ensureEmptyDirectory, writeFile } from "@jsenv/filesystem";
 
-import { publishPackage } from "@jsenv/package-publish"
-import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js"
-import { loadEnvFile, assertProcessEnvShape } from "./testHelper.js"
+import { publishPackage } from "@jsenv/package-publish";
+import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js";
+import { loadEnvFile, assertProcessEnvShape } from "./testHelper.js";
 
-const require = createRequire(import.meta.url)
-const { inc: incrementVersion } = require("semver")
+const require = createRequire(import.meta.url);
+const { inc: incrementVersion } = require("semver");
 
 if (!process.env.CI) {
-  await loadEnvFile(new URL("../../../../secrets.json", import.meta.url).href)
+  await loadEnvFile(new URL("../../../../secrets.json", import.meta.url).href);
 }
 assertProcessEnvShape({
   GITHUB_TOKEN: true,
-})
+});
 
-const tempDirectoryUrl = new URL("./temp/", import.meta.url).href
-const packageName = "@jsenv/package-publish-test"
+const tempDirectoryUrl = new URL("./temp/", import.meta.url).href;
+const packageName = "@jsenv/package-publish-test";
 const fetchLatestVersionOnGithub = async () => {
   const { version } = await fetchLatestInRegistry({
     registryUrl: "https://npm.pkg.github.com",
     packageName,
     token: process.env.GITHUB_TOKEN,
-  })
-  return version
-}
-let latestVersionOnGithub = await fetchLatestVersionOnGithub()
+  });
+  return version;
+};
+let latestVersionOnGithub = await fetchLatestVersionOnGithub();
 
 // try to publish existing version on github
 {
-  await ensureEmptyDirectory(tempDirectoryUrl)
-  const packageFileUrl = new URL("package.json", tempDirectoryUrl).href
-  const packageVersion = latestVersionOnGithub
+  await ensureEmptyDirectory(tempDirectoryUrl);
+  const packageFileUrl = new URL("package.json", tempDirectoryUrl).href;
+  const packageVersion = latestVersionOnGithub;
   await writeFile(
     packageFileUrl,
     JSON.stringify({
@@ -58,7 +58,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
         access: "public",
       },
     }),
-  )
+  );
 
   const actual = await publishPackage({
     rootDirectoryUrl: tempDirectoryUrl,
@@ -68,7 +68,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
         token: process.env.GITHUB_TOKEN,
       },
     },
-  })
+  });
   const expected = {
     "https://npm.pkg.github.com": {
       packageName,
@@ -81,15 +81,15 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
         reason: "nothing-to-do",
       },
     },
-  }
-  assert({ actual, expected })
+  };
+  assert({ actual, expected });
 }
 
 // publish new minor on github
 {
-  await ensureEmptyDirectory(tempDirectoryUrl)
-  const packageFileUrl = new URL("package.json", tempDirectoryUrl).href
-  const packageVersion = incrementVersion(latestVersionOnGithub, "patch")
+  await ensureEmptyDirectory(tempDirectoryUrl);
+  const packageFileUrl = new URL("package.json", tempDirectoryUrl).href;
+  const packageVersion = incrementVersion(latestVersionOnGithub, "patch");
   await writeFile(
     packageFileUrl,
     JSON.stringify({
@@ -103,7 +103,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
         access: "public",
       },
     }),
-  )
+  );
 
   const actual = await publishPackage({
     logLevel: "debug",
@@ -114,7 +114,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
         token: process.env.GITHUB_TOKEN,
       },
     },
-  })
+  });
   const expected = {
     "https://npm.pkg.github.com": {
       packageName,
@@ -127,7 +127,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub()
         reason: actual["https://npm.pkg.github.com"].actionResult.reason,
       },
     },
-  }
-  assert({ actual, expected })
-  latestVersionOnGithub = packageVersion
+  };
+  assert({ actual, expected });
+  latestVersionOnGithub = packageVersion;
 }

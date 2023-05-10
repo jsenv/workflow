@@ -1,13 +1,13 @@
-import { assert } from "@jsenv/assert"
+import { assert } from "@jsenv/assert";
 
-import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js"
+import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js";
 
 const actual = await fetchLatestInRegistry({
   registryUrl: "https://registry.npmjs.org",
   packageName: "@jsenv/toto",
-})
-const expected = null
-assert({ actual, expected })
+});
+const expected = null;
+assert({ actual, expected });
 
 // if (!process.env.CI) {
 //   const { resolveUrl } = await import("@jsenv/util")

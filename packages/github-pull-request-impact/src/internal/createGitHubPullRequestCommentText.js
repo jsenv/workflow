@@ -1,4 +1,4 @@
-const GITHUB_MAX_COMMENT_LENGTH = 65536
+const GITHUB_MAX_COMMENT_LENGTH = 65536;
 
 export const createGitHubPullRequestCommentText = ({
   header = "",
@@ -17,12 +17,12 @@ export const createGitHubPullRequestCommentText = ({
     warnings,
     body,
     footer,
-  })
+  });
 
-  const commentLength = Buffer.byteLength(commentText)
+  const commentLength = Buffer.byteLength(commentText);
 
   if (commentLength < maxLength) {
-    return commentText
+    return commentText;
   }
 
   // on veut ajouter un warning + savoir combien de place il nous reste
@@ -33,8 +33,8 @@ export const createGitHubPullRequestCommentText = ({
     warnings,
     body,
     footer,
-  })
-}
+  });
+};
 
 const truncateComment = ({
   commentLength,
@@ -49,45 +49,45 @@ const truncateComment = ({
     `**Warning:** The comment body was truncated to fit GitHub limit on comment length.
 As the body is truncated the message might be hard to read.
 For the record the full comment length was ${commentLength} bytes.`,
-  ]
+  ];
 
   const commentWithFakeBody = composeCommentText({
     header,
     warnings: warningsWithTruncateWarning,
     body: "a",
     footer,
-  })
-  const commentWithFakeBodyLength = Buffer.byteLength(commentWithFakeBody)
-  let bytesAvailableForBody = maxLength - commentWithFakeBodyLength
+  });
+  const commentWithFakeBodyLength = Buffer.byteLength(commentWithFakeBody);
+  let bytesAvailableForBody = maxLength - commentWithFakeBodyLength;
   // add 1 because fake body had one letter
-  bytesAvailableForBody++
+  bytesAvailableForBody++;
   // remove byte length of `…` that is appended to the truncated body
-  bytesAvailableForBody -= Buffer.byteLength(`…`)
+  bytesAvailableForBody -= Buffer.byteLength(`…`);
 
-  const bodyTruncated = `${body.slice(0, bytesAvailableForBody)}…`
+  const bodyTruncated = `${body.slice(0, bytesAvailableForBody)}…`;
 
   return composeCommentText({
     header,
     warnings: warningsWithTruncateWarning,
     body: bodyTruncated,
     footer,
-  })
-}
+  });
+};
 
 const composeCommentText = ({ header, warnings, body, footer }) => {
-  const warningsAsText = composeWarningsText(warnings)
+  const warningsAsText = composeWarningsText(warnings);
   const parts = [header, warningsAsText, body, footer].filter(
     (string) => string.length > 0,
-  )
+  );
 
   return parts.join(`
 
-`)
-}
+`);
+};
 
 const composeWarningsText = (warnings) => {
   if (warnings.length === 0) {
-    return ""
+    return "";
   }
 
   return `---
@@ -96,5 +96,5 @@ ${warnings.join(`
 
 `)}
 
----`
-}
+---`;
+};

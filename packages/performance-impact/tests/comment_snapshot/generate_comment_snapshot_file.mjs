@@ -1,9 +1,9 @@
-import { writeFileSync } from "node:fs"
+import { writeFileSync } from "node:fs";
 
-import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact"
+import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact";
 
-import { createPerfImpactComment } from "@jsenv/performance-impact/src/internal/comment/createPerfImpactComment.js"
-import { jsenvCommentParameters } from "@jsenv/performance-impact/src/internal/comment/jsenvCommentParameters.js"
+import { createPerfImpactComment } from "@jsenv/performance-impact/src/internal/comment/createPerfImpactComment.js";
+import { jsenvCommentParameters } from "@jsenv/performance-impact/src/internal/comment/jsenvCommentParameters.js";
 
 const generateComment = (data) => {
   return createGitHubPullRequestCommentText(
@@ -13,8 +13,8 @@ const generateComment = (data) => {
       ...jsenvCommentParameters,
       ...data,
     }),
-  )
-}
+  );
+};
 
 const examples = {
   "metric +2%": generateComment({
@@ -117,18 +117,18 @@ const examples = {
       timeout: {},
     },
   }),
-}
+};
 
-const exampleFileUrl = new URL("./comment_snapshot.md", import.meta.url)
+const exampleFileUrl = new URL("./comment_snapshot.md", import.meta.url);
 const exampleFileContent = Object.keys(examples).map((exampleName) => {
   return `# ${exampleName}
 
-${examples[exampleName]}`
+${examples[exampleName]}`;
 }).join(`
 
-`)
+`);
 writeFileSync(
   exampleFileUrl,
   `${exampleFileContent}
 `,
-)
+);

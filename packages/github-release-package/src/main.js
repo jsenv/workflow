@@ -1,1 +1,1 @@
-export { ensureGithubReleaseForPackage } from "./ensureGithubReleaseForPackage.js"
+export { ensureGithubReleaseForPackage } from "./ensureGithubReleaseForPackage.js";

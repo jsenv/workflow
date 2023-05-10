@@ -6,8 +6,8 @@ export const renderGeneratedByText = ({
   if (runLink && typeof runLink !== "object") {
     console.warn(
       `runLink ignored because it should be an object with {url, text}, received ${runLink}`,
-    )
-    runLink = null
+    );
+    runLink = null;
   }
 
   const parts = [
@@ -16,9 +16,9 @@ export const renderGeneratedByText = ({
     ...(commitLink
       ? [`on <a href="${commitLink.url}">${commitLink.text}</a>`]
       : []),
-  ]
+  ];
 
   return `<sub>
   ${parts.join(` `)}
-</sub>`
-}
+</sub>`;
+};

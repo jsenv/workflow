@@ -1,4 +1,4 @@
-import { generateFileSizeReport } from "@jsenv/file-size-impact"
+import { generateFileSizeReport } from "@jsenv/file-size-impact";
 
 await generateFileSizeReport({
   rootDirectoryUrl: new URL("./", import.meta.url),
@@ -13,4 +13,4 @@ await generateFileSizeReport({
       "./dist-2/**/*.js": true,
     },
   },
-})
+});

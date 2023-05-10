@@ -5,11 +5,11 @@ https://github.com/actions/toolkit/tree/master/packages/core
 
 */
 
-import { readFileSync, writeFileSync } from "node:fs"
-import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact"
+import { readFileSync, writeFileSync } from "node:fs";
+import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact";
 
-import { jsenvCommentParameters } from "@jsenv/lighthouse-impact/src/pr_impact/jsenvCommentParameters.js"
-import { createLighthouseImpactComment } from "@jsenv/lighthouse-impact/src/pr_impact/createLighthouseImpactComment.js"
+import { jsenvCommentParameters } from "@jsenv/lighthouse-impact/src/pr_impact/jsenvCommentParameters.js";
+import { createLighthouseImpactComment } from "@jsenv/lighthouse-impact/src/pr_impact/createLighthouseImpactComment.js";
 
 const generateComment = (data) => {
   return createGitHubPullRequestCommentText(
@@ -19,8 +19,8 @@ const generateComment = (data) => {
       ...jsenvCommentParameters,
       ...data,
     }),
-  )
-}
+  );
+};
 
 const normalReport = JSON.parse(
   String(
@@ -28,7 +28,7 @@ const normalReport = JSON.parse(
       new URL("./lighthouse_report_examples/normal.json", import.meta.url),
     ),
   ),
-)
+);
 
 const examples = {
   "basic": generateComment({
@@ -92,18 +92,18 @@ const examples = {
     beforeMergeGist: { id: "base" },
     afterMergeGist: { id: "head" },
   }),
-}
+};
 
-const exampleFileUrl = new URL("./comment_snapshot.md", import.meta.url)
+const exampleFileUrl = new URL("./comment_snapshot.md", import.meta.url);
 const exampleFileContent = Object.keys(examples).map((exampleName) => {
   return `# ${exampleName}
 
-${examples[exampleName]}`
+${examples[exampleName]}`;
 }).join(`
 
-`)
+`);
 writeFileSync(
   exampleFileUrl,
   `${exampleFileContent}
 `,
-)
+);

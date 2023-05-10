@@ -1,6 +1,6 @@
-import { gzip, constants } from "node:zlib"
+import { gzip, constants } from "node:zlib";
 
-export const name = "gzip"
+export const name = "gzip";
 
 export const transform = (
   value,
@@ -9,10 +9,10 @@ export const transform = (
   return new Promise((resolve, reject) => {
     gzip(value, { level, ...rest }, (error, buffer) => {
       if (error) {
-        reject(error)
+        reject(error);
       } else {
-        resolve(buffer)
+        resolve(buffer);
       }
-    })
-  })
-}
+    });
+  });
+};

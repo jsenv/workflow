@@ -1,4 +1,4 @@
-import { getSizeMapsForManyFiles } from "./size_map.js"
+import { getSizeMapsForManyFiles } from "./size_map.js";
 
 export const renderImpactTable = ({
   fileByFileImpact,
@@ -38,13 +38,13 @@ export const renderImpactTable = ({
         groupSizeMapAfterMerge,
       })}
     </tfoot>
-  </table>`
+  </table>`;
 
-  return table
-}
+  return table;
+};
 
 const renderSizeImpactTableHeader = (transformationKeys) => {
-  const lines = []
+  const lines = [];
   const headerLine = [
     `<th nowrap>Files</th>`,
     ...transformationKeys.map(
@@ -54,11 +54,11 @@ const renderSizeImpactTableHeader = (transformationKeys) => {
         }</th>`,
     ),
     `<th></th>`,
-  ]
-  lines.push(headerLine)
+  ];
+  lines.push(headerLine);
 
-  return renderTableLines(lines)
-}
+  return renderTableLines(lines);
+};
 
 const renderSizeImpactTableBody = ({
   fileByFileImpact,
@@ -70,44 +70,44 @@ const renderSizeImpactTableBody = ({
   formatFileSizeImpactCell,
   formatEmojiCell,
 }) => {
-  const lines = []
-  const sizeNames = transformationKeys
-  const firstSizeName = sizeNames[0]
+  const lines = [];
+  const sizeNames = transformationKeys;
+  const firstSizeName = sizeNames[0];
 
-  let remainingFilesToDisplay = maxFilesPerGroup
-  const truncateds = []
-  const unmodifieds = []
+  let remainingFilesToDisplay = maxFilesPerGroup;
+  const truncateds = [];
+  const unmodifieds = [];
   Object.keys(fileByFileImpact).forEach((fileRelativeUrl) => {
-    const fileImpact = fileByFileImpact[fileRelativeUrl]
+    const fileImpact = fileByFileImpact[fileRelativeUrl];
 
     if (fileImpact.event === "none") {
-      unmodifieds.push(fileRelativeUrl)
-      return
+      unmodifieds.push(fileRelativeUrl);
+      return;
     }
 
     if (remainingFilesToDisplay === 0) {
-      truncateds.push(fileRelativeUrl)
-      return
+      truncateds.push(fileRelativeUrl);
+      return;
     }
 
-    remainingFilesToDisplay--
+    remainingFilesToDisplay--;
     const fileAbstractRelativeUrl =
-      fileAbstractRelativeUrlFromFileImpact(fileImpact)
+      fileAbstractRelativeUrlFromFileImpact(fileImpact);
     const fileRelativeUrlFormatted = (
       fileImpact.formatFileRelativeUrl || formatFileRelativeUrl
-    )(fileAbstractRelativeUrl)
+    )(fileAbstractRelativeUrl);
     const fileRelativeUrlDisplayed = truncateFileRelativeUrl(
       fileRelativeUrlFormatted,
       fileRelativeUrlMaxLength,
-    )
+    );
     const { sizeMapBeforeMerge, sizeMapAfterMerge } =
-      fileByFileImpact[fileRelativeUrl]
+      fileByFileImpact[fileRelativeUrl];
     const fileCellFormatted = formatFileCell({
       fileRelativeUrl,
       fileRelativeUrlDisplayed,
       sizeBeforeMerge: sizeMapBeforeMerge[firstSizeName],
       sizeAfterMerge: sizeMapAfterMerge[firstSizeName],
-    })
+    });
 
     const line = [
       `<td nowrap>${fileCellFormatted}</td>`,
@@ -116,7 +116,7 @@ const renderSizeImpactTableBody = ({
           sizeBeforeMerge: sizeMapBeforeMerge[sizeName],
           sizeAfterMerge: sizeMapAfterMerge[sizeName],
           sizeName,
-        })}</td>`
+        })}</td>`;
       }),
       ...(formatEmojiCell
         ? [
@@ -126,17 +126,17 @@ const renderSizeImpactTableBody = ({
             })}</td>`,
           ]
         : []),
-    ]
-    lines.push(line)
-  })
+    ];
+    lines.push(line);
+  });
 
-  const truncatedCount = truncateds.length
+  const truncatedCount = truncateds.length;
   if (truncatedCount > 0) {
     const { sizeMapBeforeMerge, sizeMapAfterMerge } = getSizeMapsForManyFiles({
       sizeNames,
       fileByFileImpact,
       files: truncateds,
-    })
+    });
     const lineForTruncatedFiles = [
       `<td nowrap><i>Truncated (${truncatedCount})</i></td>`,
       ...sizeNames.map((sizeName) => {
@@ -144,7 +144,7 @@ const renderSizeImpactTableBody = ({
           sizeBeforeMerge: sizeMapBeforeMerge[sizeName],
           sizeAfterMerge: sizeMapAfterMerge[sizeName],
           sizeName,
-        })}</td>`
+        })}</td>`;
       }),
       ...(formatEmojiCell
         ? [
@@ -154,17 +154,17 @@ const renderSizeImpactTableBody = ({
             })}</td>`,
           ]
         : []),
-    ]
-    lines.push(lineForTruncatedFiles)
+    ];
+    lines.push(lineForTruncatedFiles);
   }
 
-  const unmodifiedCount = unmodifieds.length
+  const unmodifiedCount = unmodifieds.length;
   if (unmodifiedCount > 0) {
     const { sizeMapBeforeMerge, sizeMapAfterMerge } = getSizeMapsForManyFiles({
       sizeNames,
       fileByFileImpact,
       files: unmodifieds,
-    })
+    });
     const lineForUnmodifiedFiles = [
       `<td nowrap><i>Unmodified (${unmodifiedCount})</i></td>`,
       ...sizeNames.map((sizeName) => {
@@ -172,7 +172,7 @@ const renderSizeImpactTableBody = ({
           sizeBeforeMerge: sizeMapBeforeMerge[sizeName],
           sizeAfterMerge: sizeMapAfterMerge[sizeName],
           sizeName,
-        })}</td>`
+        })}</td>`;
       }),
       ...(formatEmojiCell
         ? [
@@ -182,12 +182,12 @@ const renderSizeImpactTableBody = ({
             })}</td>`,
           ]
         : []),
-    ]
-    lines.push(lineForUnmodifiedFiles)
+    ];
+    lines.push(lineForUnmodifiedFiles);
   }
 
-  return renderTableLines(lines)
-}
+  return renderTableLines(lines);
+};
 
 const fileAbstractRelativeUrlFromFileImpact = ({
   manifestKeyBeforeMerge,
@@ -200,8 +200,8 @@ const fileAbstractRelativeUrlFromFileImpact = ({
     relativeUrlAfterMerge ||
     manifestKeyBeforeMerge ||
     relativeUrlBeforeMerge
-  )
-}
+  );
+};
 
 const renderSizeImpactTableFooter = ({
   fileByFileImpact,
@@ -211,11 +211,11 @@ const renderSizeImpactTableFooter = ({
   groupSizeMapBeforeMerge,
   groupSizeMapAfterMerge,
 }) => {
-  const footerLines = []
+  const footerLines = [];
 
-  const fileCount = Object.keys(fileByFileImpact).length
-  const sizeNames = transformationKeys
-  const firstSizeName = sizeNames[0]
+  const fileCount = Object.keys(fileByFileImpact).length;
+  const sizeNames = transformationKeys;
+  const firstSizeName = sizeNames[0];
 
   const groupSizeImpactLine = [
     `<td nowrap><strong>Total (${fileCount})</strong></td>`,
@@ -235,28 +235,28 @@ const renderSizeImpactTableFooter = ({
           })}</td>`,
         ]
       : []),
-  ]
-  footerLines.push(groupSizeImpactLine)
+  ];
+  footerLines.push(groupSizeImpactLine);
 
-  return renderTableLines(footerLines)
-}
+  return renderTableLines(footerLines);
+};
 
 const truncateFileRelativeUrl = (fileRelativeUrl, fileRelativeUrlMaxLength) => {
-  const length = fileRelativeUrl.length
-  const extraLength = length - fileRelativeUrlMaxLength
+  const length = fileRelativeUrl.length;
+  const extraLength = length - fileRelativeUrlMaxLength;
   if (extraLength > 0) {
-    return `…${fileRelativeUrl.slice(extraLength)}`
+    return `…${fileRelativeUrl.slice(extraLength)}`;
   }
-  return fileRelativeUrl
-}
+  return fileRelativeUrl;
+};
 
 const renderTableLines = (lines, { indentCount = 3, indentSize = 2 } = {}) => {
   if (lines.length === 0) {
-    return ""
+    return "";
   }
 
-  const cellLeftSpacing = indent(indentCount + 1, indentSize)
-  const lineLeftSpacing = indent(indentCount, indentSize)
+  const cellLeftSpacing = indent(indentCount + 1, indentSize);
+  const lineLeftSpacing = indent(indentCount, indentSize);
 
   return `<tr>${lines.map(
     (cells) => `
@@ -265,7 +265,7 @@ ${cellLeftSpacing}`)}`,
   ).join(`
 ${lineLeftSpacing}</tr>
 ${lineLeftSpacing}<tr>`)}
-${lineLeftSpacing}</tr>`
-}
+${lineLeftSpacing}</tr>`;
+};
 
-const indent = (count, size) => ` `.repeat(size * count)
+const indent = (count, size) => ` `.repeat(size * count);

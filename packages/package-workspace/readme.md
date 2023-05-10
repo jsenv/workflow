@@ -62,11 +62,11 @@ In a workspace with many packages this is hard to do correctly and time consumin
 _updateWorkspaceVersions_ is an async function ensuring versions in all package.json are in sync for the workspace. It update versions in "dependencies", "devDependencies" and increase "version" if needed. This ensure all versions are in sync before publishing.
 
 ```js
-import { updateWorkspaceVersions } from "@jsenv/package-workspace"
+import { updateWorkspaceVersions } from "@jsenv/package-workspace";
 
 await updateWorkspaceVersions({
   directoryUrl: new URL("./", import.meta.url),
-})
+});
 ```
 
 ### Review changes
@@ -78,11 +78,11 @@ Each package might need to increase their package.json "version" differently. Wh
 _publishWorkspace_ is an async function that will publish all packages in the workspace on NPM. But only the packages that are not already published.
 
 ```js
-import { publishWorkspace } from "@jsenv/package-workspace"
+import { publishWorkspace } from "@jsenv/package-workspace";
 
-process.env.NPM_TOKEN = "token_auhtorized_to_publish_on_npm"
+process.env.NPM_TOKEN = "token_auhtorized_to_publish_on_npm";
 
 await publishWorkspace({
   directoryUrl: new URL("./", import.meta.url),
-})
+});
 ```

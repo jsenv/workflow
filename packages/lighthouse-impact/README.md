@@ -33,26 +33,26 @@ _lighthouse.mjs_
  * - It starts a local server serving a single basic HTML file
  * - It is meant to be modified to use your own server and website files
  */
-import { chromium } from "playwright"
-import { createServer } from "node:http"
-import { readFileSync } from "node:fs"
-import { runLighthouseOnPlaywrightPage } from "@jsenv/lighthouse-impact"
+import { chromium } from "playwright";
+import { createServer } from "node:http";
+import { readFileSync } from "node:fs";
+import { runLighthouseOnPlaywrightPage } from "@jsenv/lighthouse-impact";
 
-const htmlFileUrl = new URL("./index.html", import.meta.url)
-const html = String(readFileSync(htmlFileUrl))
+const htmlFileUrl = new URL("./index.html", import.meta.url);
+const html = String(readFileSync(htmlFileUrl));
 
 const server = createServer((request, response) => {
   response.writeHead(200, {
     "content-type": "text/html",
-  })
-  response.end(html)
-})
-server.listen(8080)
-server.unref()
+  });
+  response.end(html);
+});
+server.listen(8080);
+server.unref();
 
 const browser = await chromium.launch({
   args: ["--remote-debugging-port=9222"],
-})
+});
 const browserContext = await browser.newContext({
   // userAgent: "",
   ignoreHTTPSErrors: true,
@@ -67,13 +67,13 @@ const browserContext = await browser.newContext({
   hasTouch: true,
   isMobile: true,
   deviceScaleFactor: 1,
-})
-const page = await browserContext.newPage()
-await page.goto(server.origin)
+});
+const page = await browserContext.newPage();
+await page.goto(server.origin);
 
 export const lighthouseReport = await runLighthouseOnPlaywrightPage(page, {
   chromiumPort: 9222,
-})
+});
 ```
 
 _index.html_
@@ -144,7 +144,7 @@ _report_lighthouse_impact.mjs_
 import {
   reportLighthouseImpactInGithubPullRequest,
   readGitHubWorkflowEnv,
-} from "@jsenv/lighthouse-impact"
+} from "@jsenv/lighthouse-impact";
 
 await reportLighthouseImpactInGithubPullRequest({
   ...readGitHubWorkflowEnv(),
@@ -152,7 +152,7 @@ await reportLighthouseImpactInGithubPullRequest({
     "./lighthouse.mjs#lighthouseReport",
     import.meta.url,
   ),
-})
+});
 ```
 
 ## Other tools

@@ -1,10 +1,10 @@
-import { fileURLToPath } from "node:url"
-import { readFileSync, writeFileSync } from "node:fs"
-import { exec } from "node:child_process"
-import { createTaskLog } from "@jsenv/log"
-import { removeEntry } from "@jsenv/filesystem"
+import { fileURLToPath } from "node:url";
+import { readFileSync, writeFileSync } from "node:fs";
+import { exec } from "node:child_process";
+import { createTaskLog } from "@jsenv/log";
+import { removeEntry } from "@jsenv/filesystem";
 
-import { setNpmConfig } from "./setNpmConfig.js"
+import { setNpmConfig } from "./setNpmConfig.js";
 
 export const publish = async ({
   logger,
@@ -14,47 +14,47 @@ export const publish = async ({
   registryUrl,
   token,
 }) => {
-  const publishTask = createTaskLog(`publish ${packageSlug} on ${registryUrl}`)
+  const publishTask = createTaskLog(`publish ${packageSlug} on ${registryUrl}`);
   try {
     // process.env.NODE_AUTH_TOKEN
-    const previousValue = process.env.NODE_AUTH_TOKEN
+    const previousValue = process.env.NODE_AUTH_TOKEN;
     const restoreProcessEnv = () => {
-      process.env.NODE_AUTH_TOKEN = previousValue
-    }
-    process.env.NODE_AUTH_TOKEN = token
+      process.env.NODE_AUTH_TOKEN = previousValue;
+    };
+    process.env.NODE_AUTH_TOKEN = token;
     // updating package.json to publish on the correct registry
-    let restorePackageFile = () => {}
-    const rootPackageFileUrl = new URL("./package.json", rootDirectoryUrl)
-    const rootPackageFileContent = readFileSync(rootPackageFileUrl)
-    const packageObject = JSON.parse(String(rootPackageFileContent))
-    const { publishConfig } = packageObject
+    let restorePackageFile = () => {};
+    const rootPackageFileUrl = new URL("./package.json", rootDirectoryUrl);
+    const rootPackageFileContent = readFileSync(rootPackageFileUrl);
+    const packageObject = JSON.parse(String(rootPackageFileContent));
+    const { publishConfig } = packageObject;
     const registerUrlFromPackage = publishConfig
       ? publishConfig.registry || "https://registry.npmjs.org"
-      : "https://registry.npmjs.org"
+      : "https://registry.npmjs.org";
     if (registryUrl !== registerUrlFromPackage) {
       restorePackageFile = () =>
-        writeFileSync(rootPackageFileUrl, rootPackageFileContent)
-      packageObject.publishConfig = packageObject.publishConfig || {}
-      packageObject.publishConfig.registry = registryUrl
+        writeFileSync(rootPackageFileUrl, rootPackageFileContent);
+      packageObject.publishConfig = packageObject.publishConfig || {};
+      packageObject.publishConfig.registry = registryUrl;
       writeFileSync(
         rootPackageFileUrl,
         JSON.stringify(packageObject, null, "  "),
-      )
+      );
     }
     // updating .npmrc to add the token
-    const npmConfigFileUrl = new URL("./.npmrc", rootDirectoryUrl)
-    let restoreNpmConfigFile
-    let npmConfigFileContent
+    const npmConfigFileUrl = new URL("./.npmrc", rootDirectoryUrl);
+    let restoreNpmConfigFile;
+    let npmConfigFileContent;
     try {
-      npmConfigFileContent = String(readFileSync(npmConfigFileUrl))
+      npmConfigFileContent = String(readFileSync(npmConfigFileUrl));
       restoreNpmConfigFile = () =>
-        writeFileSync(npmConfigFileUrl, npmConfigFileContent)
+        writeFileSync(npmConfigFileUrl, npmConfigFileContent);
     } catch (e) {
       if (e.code === "ENOENT") {
-        restoreNpmConfigFile = () => removeEntry(npmConfigFileUrl)
-        npmConfigFileContent = ""
+        restoreNpmConfigFile = () => removeEntry(npmConfigFileUrl);
+        npmConfigFileContent = "";
       } else {
-        throw e
+        throw e;
       }
     }
     writeFileSync(
@@ -63,7 +63,7 @@ export const publish = async ({
         [computeRegistryTokenKey(registryUrl)]: token,
         [computeRegistryKey(packageObject.name)]: registryUrl,
       }),
-    )
+    );
     try {
       const reason = await new Promise((resolve, reject) => {
         const command = exec(
@@ -89,14 +89,14 @@ export const publish = async ({
                 resolve({
                   success: true,
                   reason: "already-published",
-                })
+                });
               } else if (
                 error.message.includes("Cannot publish over existing version")
               ) {
                 resolve({
                   success: true,
                   reason: "already-published",
-                })
+                });
               } else if (
                 error.message.includes(
                   "You cannot publish over the previously published versions",
@@ -105,7 +105,7 @@ export const publish = async ({
                 resolve({
                   success: true,
                   reason: "already-published",
-                })
+                });
               }
               // github publish conflict
               else if (
@@ -116,71 +116,71 @@ export const publish = async ({
                 resolve({
                   success: true,
                   reason: "already-published",
-                })
+                });
               } else {
-                reject(error)
+                reject(error);
               }
             } else {
               resolve({
                 success: true,
                 reason: "published",
-              })
+              });
             }
           },
-        )
+        );
         if (logNpmPublishOutput) {
           command.stdout.on("data", (data) => {
-            logger.debug(data)
-          })
+            logger.debug(data);
+          });
           command.stderr.on("data", (data) => {
             // debug because this output is part of
             // the error message generated by a failing npm publish
-            logger.debug(data)
-          })
+            logger.debug(data);
+          });
         }
-      })
+      });
       if (reason === "already-published") {
-        publishTask.setRightText(`(already published)`)
+        publishTask.setRightText(`(already published)`);
       }
-      publishTask.done()
+      publishTask.done();
       return {
         success: true,
         reason,
-      }
+      };
     } finally {
-      restoreProcessEnv()
-      restorePackageFile()
-      restoreNpmConfigFile()
+      restoreProcessEnv();
+      restorePackageFile();
+      restoreNpmConfigFile();
     }
   } catch (e) {
-    publishTask.fail()
-    console.error(e.stack)
+    publishTask.fail();
+    console.error(e.stack);
     return {
       success: false,
       reason: e,
-    }
+    };
   }
-}
+};
 
 const computeRegistryTokenKey = (registryUrl) => {
   if (registryUrl.startsWith("http://")) {
-    return `${registryUrl.slice("http:".length)}/:_authToken`
+    return `${registryUrl.slice("http:".length)}/:_authToken`;
   }
   if (registryUrl.startsWith("https://")) {
-    return `${registryUrl.slice("https:".length)}/:_authToken`
+    return `${registryUrl.slice("https:".length)}/:_authToken`;
   }
   if (registryUrl.startsWith("//")) {
-    return `${registryUrl}/:_authToken`
+    return `${registryUrl}/:_authToken`;
   }
   throw new Error(
     `registryUrl must start with http or https, got ${registryUrl}`,
-  )
-}
+  );
+};
 
 const computeRegistryKey = (packageName) => {
   if (packageName[0] === "@") {
-    const packageScope = packageName.slice(0, packageName.indexOf("/"))
-    return `${packageScope}:registry`
+    const packageScope = packageName.slice(0, packageName.indexOf("/"));
+    return `${packageScope}:registry`;
   }
-  return `registry`
-}
+  return `registry`;
+};

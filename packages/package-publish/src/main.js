@@ -5,4 +5,4 @@
  *   discover codebase progressively
  */
 
-export { publishPackage } from "./publishPackage.js"
+export { publishPackage } from "./publishPackage.js";

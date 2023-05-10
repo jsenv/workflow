@@ -1,8 +1,8 @@
-import { compareTwoFileSizeReports } from "./compareTwoFileSizeReports.js"
-import { isAdded, isModified, isDeleted } from "./helper.js"
-import { renderImpactTable } from "./renderImpactTable.js"
-import { orderBySizeImpact } from "./orderBySizeImpact.js"
-import { getSizeMapsOneFile, getSizeMapsForManyFiles } from "./size_map.js"
+import { compareTwoFileSizeReports } from "./compareTwoFileSizeReports.js";
+import { isAdded, isModified, isDeleted } from "./helper.js";
+import { renderImpactTable } from "./renderImpactTable.js";
+import { orderBySizeImpact } from "./orderBySizeImpact.js";
+import { getSizeMapsOneFile, getSizeMapsForManyFiles } from "./size_map.js";
 
 export const formatComment = ({
   pullRequestBase,
@@ -20,17 +20,17 @@ export const formatComment = ({
   formatEmojiCell,
   shouldOpenGroupByDefault,
 }) => {
-  const warnings = []
+  const warnings = [];
   const reportComparison = compareTwoFileSizeReports({
     afterMergeFileSizeReport,
     beforeMergeFileSizeReport,
-  })
-  const groupCount = Object.keys(reportComparison.groups).length
+  });
+  const groupCount = Object.keys(reportComparison.groups).length;
 
   if (groupCount === 0) {
     warnings.push(
       `**Warning:** Nothing is tracked. It happens when tracking config is an empty object.`,
-    )
+    );
   }
 
   let body = renderCommentBody({
@@ -47,14 +47,14 @@ export const formatComment = ({
     formatFileSizeImpactCell,
     formatEmojiCell,
     shouldOpenGroupByDefault,
-  })
+  });
 
   body = `<h4 id="file-size-impact">File size impact</h4>
 
-${body}`
+${body}`;
 
-  return { warnings, body }
-}
+  return { warnings, body };
+};
 
 const renderCommentBody = ({
   pullRequestBase,
@@ -71,37 +71,37 @@ const renderCommentBody = ({
   formatEmojiCell,
   shouldOpenGroupByDefault,
 }) => {
-  const { groups, transformationKeys } = reportComparison
+  const { groups, transformationKeys } = reportComparison;
 
   const groupMessages = Object.keys(groups).map((groupName) => {
-    const groupComparison = groups[groupName]
-    const groupFileImpactMap = groupComparison.fileImpactMap
-    let fileByFileImpact = {}
-    const files = Object.keys(groupFileImpactMap)
+    const groupComparison = groups[groupName];
+    const groupFileImpactMap = groupComparison.fileImpactMap;
+    let fileByFileImpact = {};
+    const files = Object.keys(groupFileImpactMap);
 
     files.forEach((fileRelativeUrl) => {
-      const { beforeMerge, afterMerge } = groupFileImpactMap[fileRelativeUrl]
+      const { beforeMerge, afterMerge } = groupFileImpactMap[fileRelativeUrl];
       const event = isAdded({ beforeMerge, afterMerge })
         ? "added"
         : isDeleted({ beforeMerge, afterMerge })
         ? "deleted"
         : isModified({ beforeMerge, afterMerge })
         ? "modified"
-        : "none"
-      const meta = event === "deleted" ? beforeMerge.meta : afterMerge.meta
+        : "none";
+      const meta = event === "deleted" ? beforeMerge.meta : afterMerge.meta;
 
       const { sizeMapBeforeMerge, sizeMapAfterMerge, sizeImpactMap } =
         getSizeMapsOneFile({
           sizeNames: transformationKeys,
           beforeMerge,
           afterMerge,
-        })
+        });
       const { showSizeImpact, formatFileRelativeUrl } = metaToData(meta, {
         fileRelativeUrl,
         sizeBeforeMerge: sizeMapBeforeMerge[0],
         sizeAfterMerge: sizeMapAfterMerge[0],
         sizeImpactMap,
-      })
+      });
       fileByFileImpact[fileRelativeUrl] = {
         event,
         manifestKeyBeforeMerge: beforeMerge
@@ -117,20 +117,23 @@ const renderCommentBody = ({
         sizeImpactMap,
         showSizeImpact,
         formatFileRelativeUrl,
-      }
-    })
+      };
+    });
     if (filesOrdering === "size_impact") {
-      fileByFileImpact = orderBySizeImpact(fileByFileImpact, transformationKeys)
+      fileByFileImpact = orderBySizeImpact(
+        fileByFileImpact,
+        transformationKeys,
+      );
     }
 
     const groupSizeMaps = getSizeMapsForManyFiles({
       sizeNames: transformationKeys,
       fileByFileImpact,
       files,
-    })
-    const groupSizeMapBeforeMerge = groupSizeMaps.sizeMapBeforeMerge
-    const groupSizeMapAfterMerge = groupSizeMaps.sizeMapAfterMerge
-    const groupIsEmpty = Object.keys(fileByFileImpact).length === 0
+    });
+    const groupSizeMapBeforeMerge = groupSizeMaps.sizeMapBeforeMerge;
+    const groupSizeMapAfterMerge = groupSizeMaps.sizeMapAfterMerge;
+    const groupIsEmpty = Object.keys(fileByFileImpact).length === 0;
 
     const groupSummary = formatGroupSummary({
       groupName,
@@ -138,14 +141,14 @@ const renderCommentBody = ({
       groupSizeMapAfterMerge,
       sizeNames: transformationKeys,
       fileByFileImpact,
-    })
+    });
     const groupShouldBeOpenByDefault = shouldOpenGroupByDefault({
       groupName,
       groupSizeMapBeforeMerge,
       groupSizeMapAfterMerge,
       sizeNames: transformationKeys,
       fileByFileImpact,
-    })
+    });
 
     return renderDetails({
       open: groupShouldBeOpenByDefault,
@@ -167,19 +170,22 @@ const renderCommentBody = ({
             groupSizeMapBeforeMerge,
             groupSizeMapAfterMerge,
           }),
-    })
-  })
+    });
+  });
 
-  const mergeImpact = formulateMergeImpact({ pullRequestHead, pullRequestBase })
+  const mergeImpact = formulateMergeImpact({
+    pullRequestHead,
+    pullRequestBase,
+  });
   if (groupMessages.length === 0) {
-    return mergeImpact
+    return mergeImpact;
   }
 
   return `${mergeImpact}
 ${groupMessages.join(`
 
-`)}`
-}
+`)}`;
+};
 
 const renderEmptyGroupContent = ({ groupName, groupConfig }) => {
   return `<p>No file in ${groupName} group (see config below).</p>
@@ -187,12 +193,12 @@ const renderEmptyGroupContent = ({ groupName, groupConfig }) => {
 \`\`\`json
 ${JSON.stringify(groupConfig, null, "  ")}
 \`\`\`
-`
-}
+`;
+};
 
 const formulateMergeImpact = ({ pullRequestBase, pullRequestHead }) => {
-  return `<p>Impact on file sizes when merging <em>${pullRequestHead}</em> into <em>${pullRequestBase}</em>.</p>`
-}
+  return `<p>Impact on file sizes when merging <em>${pullRequestHead}</em> into <em>${pullRequestBase}</em>.</p>`;
+};
 
 const metaToData = (
   meta,
@@ -201,7 +207,7 @@ const metaToData = (
   if (typeof meta === "boolean") {
     return {
       showSizeImpact: true,
-    }
+    };
   }
 
   if (typeof meta === "object") {
@@ -210,34 +216,34 @@ const metaToData = (
       sizeBeforeMerge,
       sizeAfterMerge,
       sizeImpactMap,
-    })
-    const { formatFileRelativeUrl } = meta
+    });
+    const { formatFileRelativeUrl } = meta;
     return {
       showSizeImpact,
       formatFileRelativeUrl,
-    }
+    };
   }
 
   console.warn(
     `meta must be a boolean or an object, received ${meta} for ${fileRelativeUrl}`,
-  )
+  );
   return {
     showSizeImpact: Boolean(meta),
-  }
-}
+  };
+};
 
 const showSizeImpactGetter = (
   meta,
   { fileRelativeUrl, sizeBeforeMerge, sizeAfterMerge, sizeImpactMap },
 ) => {
-  const { showSizeImpact } = meta
+  const { showSizeImpact } = meta;
 
   if (typeof showSizeImpact === "undefined") {
-    return true
+    return true;
   }
 
   if (typeof showSizeImpact === "boolean") {
-    return showSizeImpact
+    return showSizeImpact;
   }
 
   if (typeof showSizeImpact === "function") {
@@ -246,18 +252,18 @@ const showSizeImpactGetter = (
       sizeBeforeMerge,
       sizeAfterMerge,
       sizeImpactMap,
-    })
+    });
   }
 
   console.warn(
     `showSizeImpact must be a boolean or a function, received ${showSizeImpact} for ${fileRelativeUrl}`,
-  )
-  return true
-}
+  );
+  return true;
+};
 
 const renderDetails = ({ summary, content, open = false, indent = 0 }) => {
   return `${" ".repeat(indent)}<details${open ? " open" : ""}>
 ${" ".repeat(indent + 2)}<summary>${summary}</summary>
 ${" ".repeat(indent + 2)}${content}
-${" ".repeat(indent)}</details>`
-}
+${" ".repeat(indent)}</details>`;
+};

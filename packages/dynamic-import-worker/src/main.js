@@ -4,4 +4,4 @@
  * Ideally this file should be kept simple to help discovering codebase progressively.
  */
 
-export { importOneExportFromFile } from "./importOneExportFromFile.js"
+export { importOneExportFromFile } from "./importOneExportFromFile.js";

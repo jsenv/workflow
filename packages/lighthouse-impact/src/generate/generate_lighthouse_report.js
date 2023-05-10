@@ -1,8 +1,8 @@
 // https://github.com/GoogleChrome/lighthouse/blob/5a14deb5c4e0ec4e8e58f50ff72b53851b021bcf/docs/readme.md#using-programmatically
 
-import { assertAndNormalizeFileUrl, writeFileSync } from "@jsenv/filesystem"
-import { createLogger } from "@jsenv/log"
-import { Abort, raceProcessTeardownEvents } from "@jsenv/abort"
+import { assertAndNormalizeFileUrl, writeFileSync } from "@jsenv/filesystem";
+import { createLogger } from "@jsenv/log";
+import { Abort, raceProcessTeardownEvents } from "@jsenv/abort";
 
 import {
   runLighthouse,
@@ -10,7 +10,7 @@ import {
   formatReportAsSummaryText,
   formatReportAsJson,
   formatReportAsHtml,
-} from "./lighthouse_api.js"
+} from "./lighthouse_api.js";
 
 export const generateLighthouseReport = async (
   url,
@@ -49,11 +49,11 @@ export const generateLighthouseReport = async (
   if (chromiumDebuggingPort === undefined) {
     throw new Error(
       `"chromiumDebuggingPort" is required, got ${chromiumDebuggingPort}`,
-    )
+    );
   }
 
-  const generateReportOperation = Abort.startOperation()
-  generateReportOperation.addAbortSignal(signal)
+  const generateReportOperation = Abort.startOperation();
+  generateReportOperation.addAbortSignal(signal);
   if (handleSIGINT) {
     generateReportOperation.addAbortSource((abort) => {
       return raceProcessTeardownEvents(
@@ -61,14 +61,14 @@ export const generateLighthouseReport = async (
           SIGINT: true,
         },
         abort,
-      )
-    })
+      );
+    });
   }
 
   const jsenvGenerateLighthouseReport = async () => {
-    const logger = createLogger({ logLevel })
+    const logger = createLogger({ logLevel });
     if (generateReportOperation.signal.aborted) {
-      return { aborted: true }
+      return { aborted: true };
     }
     const lighthouseOptions = {
       extends: "lighthouse:default",
@@ -86,56 +86,56 @@ export const generateLighthouseReport = async (
         emulatedUserAgent,
         ...lighthouseSettings,
       },
-    }
-    const reports = []
+    };
+    const reports = [];
     try {
       await Array(runCount)
         .fill()
         .reduce(async (previous, _, index) => {
-          generateReportOperation.throwIfAborted()
-          await previous
+          generateReportOperation.throwIfAborted();
+          await previous;
           if (index > 0 && delayBetweenEachRun) {
             await new Promise((resolve) =>
               setTimeout(resolve, delayBetweenEachRun),
-            )
+            );
           }
-          generateReportOperation.throwIfAborted()
-          const report = await runLighthouse(url, lighthouseOptions)
-          reports.push(report)
-        }, Promise.resolve())
+          generateReportOperation.throwIfAborted();
+          const report = await runLighthouse(url, lighthouseOptions);
+          reports.push(report);
+        }, Promise.resolve());
     } catch (e) {
       if (Abort.isAbortError(e)) {
-        return { aborted: true }
+        return { aborted: true };
       }
-      throw e
+      throw e;
     }
 
-    const lighthouseReport = await reduceToMedianReport(reports)
+    const lighthouseReport = await reduceToMedianReport(reports);
     if (log) {
-      logger.info(formatReportAsSummaryText(lighthouseReport))
+      logger.info(formatReportAsSummaryText(lighthouseReport));
     }
     if (jsonFileUrl) {
-      assertAndNormalizeFileUrl(jsonFileUrl)
-      const json = formatReportAsJson(lighthouseReport)
-      writeFileSync(jsonFileUrl, json)
+      assertAndNormalizeFileUrl(jsonFileUrl);
+      const json = formatReportAsJson(lighthouseReport);
+      writeFileSync(jsonFileUrl, json);
       if (jsonFileLog) {
-        logger.info(`-> ${jsonFileUrl}`)
+        logger.info(`-> ${jsonFileUrl}`);
       }
     }
     if (htmlFileUrl) {
-      assertAndNormalizeFileUrl(htmlFileUrl)
-      const html = await formatReportAsHtml(lighthouseReport)
-      writeFileSync(htmlFileUrl, html)
+      assertAndNormalizeFileUrl(htmlFileUrl);
+      const html = await formatReportAsHtml(lighthouseReport);
+      writeFileSync(htmlFileUrl, html);
       if (htmlFileLog) {
-        logger.info(`-> ${htmlFileUrl}`)
+        logger.info(`-> ${htmlFileUrl}`);
       }
     }
-    return lighthouseReport
-  }
+    return lighthouseReport;
+  };
 
   try {
-    return await jsenvGenerateLighthouseReport()
+    return await jsenvGenerateLighthouseReport();
   } finally {
-    await generateReportOperation.end()
+    await generateReportOperation.end();
   }
-}
+};

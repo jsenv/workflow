@@ -1,4 +1,4 @@
-import { formatRatioAsPercentage } from "../formatRatio.js"
+import { formatRatioAsPercentage } from "../formatRatio.js";
 
 export const jsenvFormatGroupSummary = ({
   groupName,
@@ -6,38 +6,38 @@ export const jsenvFormatGroupSummary = ({
   afterMergeMetrics,
 }) => {
   if (!beforeMergeMetrics) {
-    return `${groupName} (new)`
+    return `${groupName} (new)`;
   }
 
   const allRatios = getAllImpactRatios({
     beforeMergeMetrics,
     afterMergeMetrics,
-  })
-  const ratiosCount = allRatios.length
+  });
+  const ratiosCount = allRatios.length;
   if (ratiosCount === 0) {
-    return `${groupName} (no impact)`
+    return `${groupName} (no impact)`;
   }
 
-  const ratioSum = allRatios.reduce((previous, ratio) => previous + ratio, 0)
+  const ratioSum = allRatios.reduce((previous, ratio) => previous + ratio, 0);
   if (ratioSum === 0) {
-    return `${groupName} (no impact)`
+    return `${groupName} (no impact)`;
   }
 
-  return `${groupName} (${formatRatioAsPercentage(ratioSum / ratiosCount)})`
-}
+  return `${groupName} (${formatRatioAsPercentage(ratioSum / ratiosCount)})`;
+};
 
 const getAllImpactRatios = ({ afterMergeMetrics, beforeMergeMetrics }) => {
-  let allRatios = []
+  let allRatios = [];
   Object.keys(afterMergeMetrics).forEach((metricName) => {
-    const metricBeforeMerge = beforeMergeMetrics[metricName]
+    const metricBeforeMerge = beforeMergeMetrics[metricName];
     if (!metricBeforeMerge) {
       // it's new, let's ignore
-      return
+      return;
     }
-    const metricAfterMerge = afterMergeMetrics[metricName]
-    const metricValueBeforeMerge = metricBeforeMerge.value
-    const metricValueAfterMerge = metricAfterMerge.value
-    const metricDiff = metricValueAfterMerge - metricValueBeforeMerge
+    const metricAfterMerge = afterMergeMetrics[metricName];
+    const metricValueBeforeMerge = metricBeforeMerge.value;
+    const metricValueAfterMerge = metricAfterMerge.value;
+    const metricDiff = metricValueAfterMerge - metricValueBeforeMerge;
     if (
       metricDiff === 0 &&
       metricValueAfterMerge === 0 &&
@@ -45,7 +45,7 @@ const getAllImpactRatios = ({ afterMergeMetrics, beforeMergeMetrics }) => {
     ) {
       // there is no impact on a metric that is 0
       // we can ignore this metric
-      return
+      return;
     }
 
     const metricDiffRatio =
@@ -55,8 +55,8 @@ const getAllImpactRatios = ({ afterMergeMetrics, beforeMergeMetrics }) => {
         ? 1
         : metricValueAfterMerge === 0
         ? -1
-        : metricDiff / metricValueBeforeMerge
-    allRatios.push(metricDiffRatio)
-  })
-  return allRatios
-}
+        : metricDiff / metricValueBeforeMerge;
+    allRatios.push(metricDiffRatio);
+  });
+  return allRatios;
+};

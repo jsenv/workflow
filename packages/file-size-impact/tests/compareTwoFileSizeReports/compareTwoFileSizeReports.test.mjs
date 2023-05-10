@@ -1,6 +1,6 @@
-import { assert } from "@jsenv/assert"
+import { assert } from "@jsenv/assert";
 
-import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/compareTwoFileSizeReports.js"
+import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/compareTwoFileSizeReports.js";
 
 {
   const actual = compareTwoFileSizeReports({
@@ -39,7 +39,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
         },
       },
     },
-  })
+  });
   const expected = {
     transformationKeys: ["raw"],
     groups: {
@@ -63,8 +63,8 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
         },
       },
     },
-  }
-  assert({ actual, expected })
+  };
+  assert({ actual, expected });
 }
 
 {
@@ -110,7 +110,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
         },
       },
     },
-  })
+  });
   const expected = {
     transformationKeys: ["raw"],
     groups: {
@@ -162,8 +162,8 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
         },
       },
     },
-  }
-  assert({ actual, expected })
+  };
+  assert({ actual, expected });
 }
 
 // mapped + ignored file
@@ -204,7 +204,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
         },
       },
     },
-  })
+  });
   const expected = {
     transformationKeys: ["raw"],
     groups: {
@@ -228,8 +228,8 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
         },
       },
     },
-  }
-  assert({ actual, expected })
+  };
+  assert({ actual, expected });
 }
 
 // a mapping after merge refer to the same file before merge
@@ -278,7 +278,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
         },
       },
     },
-  })
+  });
   const expected = {
     transformationKeys: ["raw"],
     groups: {
@@ -308,6 +308,6 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
         },
       },
     },
-  }
-  assert({ actual, expected })
+  };
+  assert({ actual, expected });
 }

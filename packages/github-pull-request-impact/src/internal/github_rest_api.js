@@ -1,4 +1,4 @@
-import { fetchUrl } from "@jsenv/fetch"
+import { fetchUrl } from "@jsenv/fetch";
 
 export const GET = async ({ url, githubToken, headers }) => {
   return sendHttpRequest({
@@ -10,13 +10,13 @@ export const GET = async ({ url, githubToken, headers }) => {
     },
     responseStatusHandlers: {
       200: async (response) => {
-        const json = await response.json()
-        return json
+        const json = await response.json();
+        return json;
       },
       404: () => null,
     },
-  })
-}
+  });
+};
 
 export const POST = ({ url, body, githubToken, headers }) => {
   return sendHttpRequest({
@@ -29,12 +29,12 @@ export const POST = ({ url, body, githubToken, headers }) => {
     body: JSON.stringify(body),
     responseStatusHandlers: {
       201: async (response) => {
-        const json = await response.json()
-        return json
+        const json = await response.json();
+        return json;
       },
     },
-  })
-}
+  });
+};
 
 export const PATCH = async ({ url, body, githubToken, headers }) => {
   return sendHttpRequest({
@@ -47,21 +47,21 @@ export const PATCH = async ({ url, body, githubToken, headers }) => {
     body: JSON.stringify(body),
     responseStatusHandlers: {
       200: async (response) => {
-        const json = await response.json()
-        return json
+        const json = await response.json();
+        return json;
       },
     },
-  })
-}
+  });
+};
 
 const tokenToHeaders = (token) => {
   if (!token) {
-    throw new Error(`missing token, request will not be authorized.`)
+    throw new Error(`missing token, request will not be authorized.`);
   }
   return {
     authorization: `token ${token}`,
-  }
-}
+  };
+};
 
 const sendHttpRequest = async ({
   url,
@@ -70,7 +70,7 @@ const sendHttpRequest = async ({
   body,
   responseStatusHandlers = {},
 }) => {
-  let response
+  let response;
   try {
     response = await fetchUrl(url, {
       method,
@@ -81,7 +81,7 @@ const sendHttpRequest = async ({
         ...headers,
       },
       body,
-    })
+    });
   } catch (error) {
     throw new Error(`network error during request.
 --- request method ---
@@ -89,15 +89,15 @@ ${method}
 --- request url ---
 ${url}
 --- error stack ---
-${error.stack}`)
+${error.stack}`);
   }
 
-  const { status } = response
-  const responseStatusHandler = responseStatusHandlers[status]
+  const { status } = response;
+  const responseStatusHandler = responseStatusHandlers[status];
   if (responseStatusHandler) {
-    return responseStatusHandler(response)
+    return responseStatusHandler(response);
   }
-  const responseBodyAsJson = await response.json()
+  const responseBodyAsJson = await response.json();
   const error = new Error(`unexpected response status.
 --- response status ---
 ${response.status}
@@ -108,7 +108,7 @@ ${method}
 --- request url ---
 ${url}
 --- response json ---
-${(JSON.stringify(responseBodyAsJson), null, "  ")}`)
-  error.responseStatus = status
-  throw error
-}
+${(JSON.stringify(responseBodyAsJson), null, "  ")}`);
+  error.responseStatus = status;
+  throw error;
+};

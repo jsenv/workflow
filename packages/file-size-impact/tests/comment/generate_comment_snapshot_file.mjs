@@ -1,8 +1,8 @@
-import { writeFileSync } from "node:fs"
-import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact"
+import { writeFileSync } from "node:fs";
+import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-impact";
 
-import { jsenvCommentParameters } from "@jsenv/file-size-impact/src/internal/jsenvCommentParameters.js"
-import { formatComment } from "@jsenv/file-size-impact/src/internal/formatComment.js"
+import { jsenvCommentParameters } from "@jsenv/file-size-impact/src/internal/jsenvCommentParameters.js";
+import { formatComment } from "@jsenv/file-size-impact/src/internal/formatComment.js";
 
 const generateComment = ({
   beforeMergeFileSizeReport,
@@ -22,25 +22,25 @@ const generateComment = ({
       ...afterMergeFileSizeReport,
     },
     ...rest,
-  }
-  const prComment = formatComment(formatCommentParams)
-  return createGitHubPullRequestCommentText(prComment)
-}
+  };
+  const prComment = formatComment(formatCommentParams);
+  return createGitHubPullRequestCommentText(prComment);
+};
 
 const deduceTransformationKeys = (fileSizeReport) => {
-  const groups = fileSizeReport.groups
-  const groupNames = Object.keys(groups)
+  const groups = fileSizeReport.groups;
+  const groupNames = Object.keys(groups);
   if (groupNames.length) {
-    const firstGroup = groups[groupNames[0]]
-    const fileMap = firstGroup.fileMap
-    const files = Object.keys(fileMap)
+    const firstGroup = groups[groupNames[0]];
+    const fileMap = firstGroup.fileMap;
+    const files = Object.keys(fileMap);
     if (files.length) {
-      return Object.keys(fileMap[files[0]].sizeMap)
+      return Object.keys(fileMap[files[0]].sizeMap);
     }
   }
 
-  return []
-}
+  return [];
+};
 
 const examples = {
   "basic example": generateComment({
@@ -589,12 +589,12 @@ const examples = {
       groups: {},
     },
   }),
-}
+};
 
 {
-  const fileMap = {}
+  const fileMap = {};
   new Array(100).fill("").forEach((_, index) => {
-    const fileName = `${index}.js`
+    const fileName = `${index}.js`;
     fileMap[fileName] = {
       hash: index,
       sizeMap: {
@@ -602,8 +602,8 @@ const examples = {
         gzip: index * 20,
       },
       meta: true,
-    }
-  })
+    };
+  });
 
   examples["lot of files"] = generateComment({
     beforeMergeFileSizeReport: {
@@ -646,19 +646,19 @@ const examples = {
         },
       },
     },
-  })
+  });
 }
 
-const snapshotFileUrl = new URL("./comment_snapshot.md", import.meta.url)
+const snapshotFileUrl = new URL("./comment_snapshot.md", import.meta.url);
 const snapshotFileContent = Object.keys(examples).map((exampleName) => {
   return `# ${exampleName}
 
-${examples[exampleName]}`
+${examples[exampleName]}`;
 }).join(`
 
-`)
+`);
 writeFileSync(
   snapshotFileUrl,
   `${snapshotFileContent}
 `,
-)
+);

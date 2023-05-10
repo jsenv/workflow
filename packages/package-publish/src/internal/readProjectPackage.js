@@ -1,22 +1,22 @@
-import { fileURLToPath } from "node:url"
-import { readFileSync } from "node:fs"
+import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
 
 export const readProjectPackage = ({ rootDirectoryUrl }) => {
-  const packageFileUrlObject = new URL("./package.json", rootDirectoryUrl)
-  let packageInProject
+  const packageFileUrlObject = new URL("./package.json", rootDirectoryUrl);
+  let packageInProject;
   try {
-    const packageString = String(readFileSync(packageFileUrlObject))
+    const packageString = String(readFileSync(packageFileUrlObject));
     try {
-      packageInProject = JSON.parse(packageString)
+      packageInProject = JSON.parse(packageString);
     } catch (e) {
       if (e.name === "SyntaxError") {
         throw new Error(`syntax error while parsing project package.json
 --- syntax error stack ---
 ${e.stack}
 --- package.json path ---
-${fileURLToPath(packageFileUrlObject)}`)
+${fileURLToPath(packageFileUrlObject)}`);
       }
-      throw e
+      throw e;
     }
   } catch (e) {
     if (e.code === "ENOENT") {
@@ -24,9 +24,9 @@ ${fileURLToPath(packageFileUrlObject)}`)
         `cannot find project package.json
 --- package.json path ---
 ${fileURLToPath(packageFileUrlObject)}`,
-      )
+      );
     }
-    throw e
+    throw e;
   }
-  return packageInProject
-}
+  return packageInProject;
+};

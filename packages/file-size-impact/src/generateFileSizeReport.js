@@ -1,15 +1,15 @@
-import { fileURLToPath } from "node:url"
+import { fileURLToPath } from "node:url";
 import {
   assertAndNormalizeDirectoryUrl,
   bufferToEtag,
   readFile,
-} from "@jsenv/filesystem"
-import { createDetailedMessage, createLogger } from "@jsenv/log"
+} from "@jsenv/filesystem";
+import { createDetailedMessage, createLogger } from "@jsenv/log";
 
-import { transform as rawTransform } from "./rawTransformation.js"
-import { jsenvTrackingConfig } from "./jsenvTrackingConfig.js"
-import { applyTrackingConfig } from "./internal/applyTrackingConfig.js"
-import { formatFileSizeReportForLog } from "./internal/formatFileSizeReportForLog.js"
+import { transform as rawTransform } from "./rawTransformation.js";
+import { jsenvTrackingConfig } from "./jsenvTrackingConfig.js";
+import { applyTrackingConfig } from "./internal/applyTrackingConfig.js";
+import { formatFileSizeReportForLog } from "./internal/formatFileSizeReportForLog.js";
 
 export const generateFileSizeReport = async ({
   cancellationToken,
@@ -22,30 +22,30 @@ export const generateFileSizeReport = async ({
   },
   transformations = { raw: rawTransform },
 }) => {
-  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl)
+  rootDirectoryUrl = assertAndNormalizeDirectoryUrl(rootDirectoryUrl);
 
-  const logger = createLogger({ logLevel })
+  const logger = createLogger({ logLevel });
 
-  const trackingNames = Object.keys(trackingConfig)
+  const trackingNames = Object.keys(trackingConfig);
   if (trackingNames.length === 0) {
-    logger.warn(`trackingConfig is empty`)
+    logger.warn(`trackingConfig is empty`);
   }
 
   const groupTrackingResults = await applyTrackingConfig(trackingConfig, {
     cancellationToken,
     rootDirectoryUrl,
     manifestConfig,
-  })
-  const groupNames = Object.keys(groupTrackingResults)
-  const groups = {}
+  });
+  const groupNames = Object.keys(groupTrackingResults);
+  const groups = {};
 
   // ensure keys order is the same as trackingConfig (despite Promise.all below)
   groupNames.forEach((groupName) => {
-    groups[groupName] = null
-  })
+    groups[groupName] = null;
+  });
   await Promise.all(
     groupNames.map(async (groupName) => {
-      const groupTrackingResult = groupTrackingResults[groupName]
+      const groupTrackingResult = groupTrackingResults[groupName];
       const groupReport = await groupTrackingResultToGroupReport(
         groupTrackingResult,
         {
@@ -54,40 +54,40 @@ export const generateFileSizeReport = async ({
           tracking: trackingConfig[groupName],
           transformations,
         },
-      )
-      groups[groupName] = groupReport
+      );
+      groups[groupName] = groupReport;
     }),
-  )
+  );
 
   const fileSizeReport = {
     transformationKeys: Object.keys(transformations),
     groups,
-  }
+  };
 
   if (log) {
-    logger.info(formatFileSizeReportForLog(fileSizeReport))
+    logger.info(formatFileSizeReportForLog(fileSizeReport));
   }
 
-  return fileSizeReport
-}
+  return fileSizeReport;
+};
 
 const groupTrackingResultToGroupReport = async (
   groupTrackingResult,
   { logger, rootDirectoryUrl, tracking, transformations },
 ) => {
-  const manifestMap = {}
-  const { manifestMetaMap } = groupTrackingResult
-  const manifestRelativeUrls = Object.keys(manifestMetaMap)
+  const manifestMap = {};
+  const { manifestMetaMap } = groupTrackingResult;
+  const manifestRelativeUrls = Object.keys(manifestMetaMap);
   await Promise.all(
     manifestRelativeUrls.map(async (manifestRelativeUrl) => {
       const manifestFileUrl = new URL(manifestRelativeUrl, rootDirectoryUrl)
-        .href
+        .href;
       const manifestFileContent = await readFile(manifestFileUrl, {
         as: "string",
-      })
-      let manifest
+      });
+      let manifest;
       try {
-        manifest = JSON.parse(manifestFileContent)
+        manifest = JSON.parse(manifestFileContent);
       } catch (e) {
         if (e.name === "SyntaxError") {
           logger.error(
@@ -98,55 +98,55 @@ const groupTrackingResultToGroupReport = async (
                 "manifest file": fileURLToPath(manifestFileUrl),
               },
             ),
-          )
-          return
+          );
+          return;
         }
-        throw e
+        throw e;
       }
-      manifestMap[manifestRelativeUrl] = manifest
+      manifestMap[manifestRelativeUrl] = manifest;
     }),
-  )
+  );
 
-  const fileMap = {}
-  const { trackedMetaMap } = groupTrackingResult
-  const trackedRelativeUrls = Object.keys(trackedMetaMap)
+  const fileMap = {};
+  const { trackedMetaMap } = groupTrackingResult;
+  const trackedRelativeUrls = Object.keys(trackedMetaMap);
   // we use reduce and not Promise.all() because transformation can be expensive (gzip, brotli)
   // so we won't benefit from concurrency (it might even make things worse)
   await trackedRelativeUrls.reduce(async (previous, fileRelativeUrl) => {
-    await previous
-    const fileUrl = new URL(fileRelativeUrl, rootDirectoryUrl).href
-    const fileBuffer = await readFile(fileUrl, { as: "buffer" })
+    await previous;
+    const fileUrl = new URL(fileRelativeUrl, rootDirectoryUrl).href;
+    const fileBuffer = await readFile(fileUrl, { as: "buffer" });
     const sizeMap = await getFileSizeMap(fileBuffer, {
       transformations,
       logger,
       fileUrl,
-    })
-    const hash = bufferToEtag(fileBuffer)
+    });
+    const hash = bufferToEtag(fileBuffer);
     fileMap[fileRelativeUrl] = {
       sizeMap,
       hash,
       meta: trackedMetaMap[fileRelativeUrl],
-    }
-  }, Promise.resolve())
+    };
+  }, Promise.resolve());
 
   return {
     tracking,
     manifestMap,
     fileMap,
-  }
-}
+  };
+};
 
 const getFileSizeMap = async (
   fileBuffer,
   { transformations, logger, fileUrl },
 ) => {
-  const sizeMap = {}
+  const sizeMap = {};
   await Object.keys(transformations).reduce(async (previous, sizeName) => {
-    await previous
-    const transform = transformations[sizeName]
+    await previous;
+    const transform = transformations[sizeName];
     try {
-      const transformResult = await transform(fileBuffer)
-      sizeMap[sizeName] = Buffer.from(transformResult).length
+      const transformResult = await transform(fileBuffer);
+      sizeMap[sizeName] = Buffer.from(transformResult).length;
     } catch (e) {
       logger.error(
         createDetailedMessage(
@@ -155,9 +155,9 @@ const getFileSizeMap = async (
             "error stack": e.stack,
           },
         ),
-      )
-      sizeMap[sizeName] = "error"
+      );
+      sizeMap[sizeName] = "error";
     }
-  }, Promise.resolve())
-  return sizeMap
-}
+  }, Promise.resolve());
+  return sizeMap;
+};

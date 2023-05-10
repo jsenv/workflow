@@ -2,14 +2,14 @@
 // https://github.com/npm/registry-issue-archive/issues/34
 // https://stackoverflow.com/questions/53212849/querying-information-about-specific-version-of-scoped-npm-package
 
-import { fetchUrl } from "@jsenv/fetch"
+import { fetchUrl } from "@jsenv/fetch";
 
 export const fetchLatestInRegistry = async ({
   registryUrl,
   packageName,
   token,
 }) => {
-  const requestUrl = `${registryUrl}/${packageName}`
+  const requestUrl = `${registryUrl}/${packageName}`;
   const response = await fetchUrl(requestUrl, {
     method: "GET",
     headers: {
@@ -22,10 +22,10 @@ export const fetchLatestInRegistry = async ({
           }
         : {}),
     },
-  })
-  const responseStatus = response.status
+  });
+  const responseStatus = response.status;
   if (responseStatus === 404) {
-    return null
+    return null;
   }
   if (responseStatus !== 200) {
     throw new Error(
@@ -34,11 +34,11 @@ export const fetchLatestInRegistry = async ({
         responseStatus,
         responseText: await response.text(),
       }),
-    )
+    );
   }
-  const packageObject = await response.json()
-  return packageObject.versions[packageObject["dist-tags"].latest]
-}
+  const packageObject = await response.json();
+  return packageObject.versions[packageObject["dist-tags"].latest];
+};
 
 const writeUnexpectedResponseStatus = ({
   requestUrl,
@@ -50,4 +50,4 @@ ${requestUrl}
 --- response status ---
 ${responseStatus}
 --- response text ---
-${responseText}`
+${responseText}`;

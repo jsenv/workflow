@@ -1,9 +1,9 @@
-import { assert } from "@jsenv/assert"
+import { assert } from "@jsenv/assert";
 
-import { formatSize } from "@jsenv/file-size-impact/src/internal/formatSize.js"
+import { formatSize } from "@jsenv/file-size-impact/src/internal/formatSize.js";
 
 {
-  const actual = formatSize(1048074.24)
-  const expected = `1 MB`
-  assert({ actual, expected })
+  const actual = formatSize(1048074.24);
+  const expected = `1 MB`;
+  assert({ actual, expected });
 }
