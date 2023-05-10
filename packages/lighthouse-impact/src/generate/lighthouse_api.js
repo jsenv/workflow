@@ -1,9 +1,5 @@
-import { createRequire } from "node:module"
-
-const require = createRequire(import.meta.url)
-
 export const runLighthouse = async (url, lighthouseOptions) => {
-  const lighthouse = require("lighthouse")
+  const { default: lighthouse } = await import("lighthouse")
   const results = await lighthouse(url, undefined, lighthouseOptions)
   // use results.lhr for the JS-consumeable output
   // https://github.com/GoogleChrome/lighthouse/blob/master/types/lhr.d.ts
@@ -19,10 +15,8 @@ export const runLighthouse = async (url, lighthouseOptions) => {
   return lhr
 }
 
-export const reduceToMedianReport = (lighthouseReports) => {
-  const {
-    computeMedianRun,
-  } = require("lighthouse/lighthouse-core/lib/median-run.js")
+export const reduceToMedianReport = async (lighthouseReports) => {
+  const { computeMedianRun } = await import("lighthouse/core/lib/median-run.js")
   return computeMedianRun(lighthouseReports)
 }
 
@@ -39,8 +33,10 @@ export const formatReportAsJson = (lighthouseReport) => {
   return json
 }
 
-export const formatReportAsHtml = (lighthouseReport) => {
-  const ReportGenerator = require("lighthouse/report/generator/report-generator.js")
+export const formatReportAsHtml = async (lighthouseReport) => {
+  const { ReportGenerator } = await import(
+    "lighthouse/report/generator/report-generator.js"
+  )
   const html = ReportGenerator.generateReportHtml(lighthouseReport)
   return html
 }

@@ -110,7 +110,7 @@ export const generateLighthouseReport = async (
       throw e
     }
 
-    const lighthouseReport = reduceToMedianReport(reports)
+    const lighthouseReport = await reduceToMedianReport(reports)
     if (log) {
       logger.info(formatReportAsSummaryText(lighthouseReport))
     }
@@ -124,7 +124,7 @@ export const generateLighthouseReport = async (
     }
     if (htmlFileUrl) {
       assertAndNormalizeFileUrl(htmlFileUrl)
-      const html = formatReportAsHtml(lighthouseReport)
+      const html = await formatReportAsHtml(lighthouseReport)
       writeFileSync(htmlFileUrl, html)
       if (htmlFileLog) {
         logger.info(`-> ${htmlFileUrl}`)
