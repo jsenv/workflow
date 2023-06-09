@@ -17,8 +17,8 @@ Screenshot + explanation on pull request comment.
 | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
 | "remaining files (+4.71%)"     | There is a group of files named "remaining files" and pull request has an overall impact of _+4.71%_ on these files.          |
 | "21.6 kB (+4.11 kB / +23.55%)" | The size after merge is _21.6 kB_. Pull request adds _4.11 kB_ representing an increase of _23.55%_ of the size before merge. |
-| "_Unmodified (4)_"             | Sum files in "remaining files" group not impacted by the pull request.                                                        |
-| _Total (5)_                    | Sum files in "remaining files" group.                                                                                         |
+| "_Unmodified (4)_"             | Sum of files in that group that are not impacted by the pull request.                                                        |
+| _Total (5)_                    | Sum of files in that group.                                                                                         |
 
 # Installation
 
