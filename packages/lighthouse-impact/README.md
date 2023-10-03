@@ -79,7 +79,7 @@ export const lighthouseReport = await runLighthouseOnPlaywrightPage(page, {
 _index.html_
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Title</title>

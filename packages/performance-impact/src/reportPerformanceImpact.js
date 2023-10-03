@@ -49,9 +49,8 @@ export const reportPerformanceImpact = async ({
 
     collectInfo: async ({ execCommandInRootDirectory }) => {
       await execCommandInRootDirectory(installCommand);
-      const performanceReport = await importOneExportFromFile(
-        performanceReportUrl,
-      );
+      const performanceReport =
+        await importOneExportFromFile(performanceReportUrl);
       assertPerformanceReport(performanceReport);
       return { version: 1, data: performanceReport };
     },
