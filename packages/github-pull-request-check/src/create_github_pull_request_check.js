@@ -5,7 +5,7 @@
 
 import { createLogger } from "@jsenv/log";
 
-import { GET, POST, PATCH } from "./internal/github_rest_api.js";
+import { POST, PATCH } from "./internal/github_rest_api.js";
 
 // createGithubPullRequestCheck({
 //   checkName: "jsenv tests",
@@ -30,7 +30,7 @@ export const startGithubPullRequestCheck = async ({
   githubToken,
   repositoryOwner,
   repositoryName,
-  pullRequestNumber,
+  commitSha,
   checkStatus = "in_progress",
   checkName,
   checkTitle,
@@ -51,32 +51,21 @@ export const startGithubPullRequestCheck = async ({
       `repositoryName must be a string but received ${repositoryName}`,
     );
   }
-  pullRequestNumber = String(pullRequestNumber);
-  if (typeof pullRequestNumber !== "string") {
-    throw new TypeError(
-      `pullRequestNumber must be a string but received ${pullRequestNumber}`,
-    );
+  if (typeof commitSha !== "string") {
+    throw new TypeError(`commitSha must be a string but received ${commitSha}`);
   }
   if (typeof checkName !== "string") {
     throw new TypeError(`checkName must be a string but received ${checkName}`);
   }
 
   const logger = createLogger({ logLevel });
-
-  const pullApiUrl = `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/pulls/${pullRequestNumber}`;
-  // https://developer.github.com/v3/pulls/#get-a-pull-request
-  logger.debug(`get pull request ${pullApiUrl}`);
-  const pullRequest = await GET({
-    url: pullApiUrl,
-    githubToken,
-  });
-  const pullRequestHeadSha = pullRequest.head.sha;
+  logger.debug("create check on");
 
   await POST({
     url: `/repos/${repositoryOwner}/${repositoryName}/check-runs`,
     githubToken,
     body: {
-      head_sha: pullRequestHeadSha,
+      head_sha: commitSha,
       status: checkStatus,
       name: checkName,
       output: {
@@ -99,7 +88,7 @@ export const startGithubPullRequestCheck = async ({
       url: `/repos/${repositoryOwner}/${repositoryName}/check-runs`,
       githubToken,
       body: {
-        head_sha: pullRequestHeadSha,
+        head_sha: commitSha,
         ...(status ? { status } : {}),
         ...(conclusion ? { conclusion } : {}),
         output: {
@@ -126,7 +115,7 @@ export const startGithubPullRequestCheck = async ({
         url: `/repos/${repositoryOwner}/${repositoryName}/check-runs`,
         githubToken,
         body: {
-          head_sha: pullRequestHeadSha,
+          head_sha: commitSha,
           output: {
             annotations: annotationsBatch,
           },

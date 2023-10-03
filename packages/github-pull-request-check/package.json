@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/github-pull-request-check",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Interact with GitHub pull request check rest API",
   "license": "MIT",
   "author": {
