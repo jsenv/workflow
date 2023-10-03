@@ -19,6 +19,7 @@
     "test": "npm run test --workspaces --if-present",
     "workspace:versions": "node ./scripts/workspace_versions.mjs",
     "workspace:publish": "node ./scripts/workspace_publish.mjs",
+    "playwright:install": "npx playwright install-deps && npx playwright install",
     "prettier": "prettier --write ."
   },
   "devDependencies": {
@@ -31,6 +32,7 @@
     "eslint": "8.50.0",
     "eslint-plugin-html": "7.1.0",
     "eslint-plugin-import": "2.28.1",
-    "prettier": "3.0.3"
+    "prettier": "3.0.3",
+    "playwright": "1.38.1"
   }
 }
