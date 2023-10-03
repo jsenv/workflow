@@ -33,8 +33,8 @@
     "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/filesystem": "4.2.3",
-    "@jsenv/log": "3.3.4",
+    "@jsenv/filesystem": "4.3.2",
+    "@jsenv/log": "3.4.0",
     "@jsenv/github-pull-request-impact": "1.7.2"
   }
 }
