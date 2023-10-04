@@ -36,8 +36,9 @@ export const POST = ({ url, body, githubToken, headers }) => {
   });
 };
 
-export const PATCH = ({ url, body, githubToken, headers }) => {
+export const PATCH = ({ signal, url, body, githubToken, headers }) => {
   return sendHttpRequest({
+    signal,
     url,
     method: "PATCH",
     headers: {
@@ -64,6 +65,7 @@ const tokenToHeaders = (token) => {
 };
 
 const sendHttpRequest = async ({
+  signal,
   url,
   method,
   headers,
@@ -73,6 +75,7 @@ const sendHttpRequest = async ({
   let response;
   try {
     response = await fetchUrl(url, {
+      signal,
       method,
       headers: {
         ...(typeof body === "undefined"

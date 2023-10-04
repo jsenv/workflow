@@ -1,7 +1,7 @@
 {
-  "name": "@jsenv/github-pull-request-check",
-  "version": "0.0.2",
-  "description": "Interact with GitHub pull request check rest API",
+  "name": "@jsenv/github-check-run",
+  "version": "0.0.1",
+  "description": "Interact with GitHub check rest API",
   "license": "MIT",
   "author": {
     "name": "dmail",
@@ -11,7 +11,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jsenv/workflow",
-    "directory": "packages/github-pull-request-check"
+    "directory": "packages/github-check-run"
   },
   "engines": {
     "node": ">=18.1.0"
