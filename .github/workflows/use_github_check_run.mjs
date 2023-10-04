@@ -17,6 +17,23 @@ await new Promise((resolve) => {
 await progress({
   title: "PROGRESS AFTER 2s",
   summary: "SUMMARY AFTER 2s",
+  annotations: [
+    {
+      path: "file.js",
+      title: "✖ execution 1 of 2 failed",
+      start_line: 10,
+      end_line: 10,
+      annotation_level: "failure",
+      message: `AssertionError: unequal values
+--- found ---
+false
+--- expected ---
+true
+--- path ---
+actual.foo
+  at node_modules/@jsenv/assert/src/main.js:10:3`,
+    },
+  ],
 });
 
 await new Promise((resolve) => {

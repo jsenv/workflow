@@ -1,23 +1,13 @@
 /**
  *
  * https://github.com/IgnusG/jest-report-action/blob/c006b890ba3c3b650e6c55916a643ca82b64133b/tasks/github-api.js#L12
+ * https://docs.github.com/fr/rest/checks/runs?apiVersion=2022-11-28#create-a-check-run
  */
 
 import { createLogger, UNICODE, createDetailedMessage } from "@jsenv/log";
 
 import { POST, PATCH } from "./internal/github_rest_api.js";
 
-/*
-annotation object contains the following:
-{path: filePath,
-title: `${ describe } > ${ test }`,
-start_line: location.start.line,
-end_line: location.end.line,
-annotation_level: 'failure',
-message: `${ title }\n${ expectations }\n\n${ stacktrace }`
-*/
-
-// https://docs.github.com/fr/rest/checks/runs?apiVersion=2022-11-28#create-a-check-run
 export const startGithubCheckRun = async ({
   logLevel,
   githubToken,
