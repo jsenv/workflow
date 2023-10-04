@@ -6,9 +6,6 @@ export const readGitHubWorkflowEnv = () => {
       `missing process.env.GITHUB_EVENT_NAME, we are not in a github workflow`,
     );
   }
-  if (eventName !== "pull_request" && eventName !== "pull_request_target") {
-    throw new Error(`must be called only in a pull request`);
-  }
   const githubToken = process.env.GITHUB_TOKEN;
   if (!githubToken) {
     throw new Error(`missing githubToken`);
