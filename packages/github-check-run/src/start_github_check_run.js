@@ -55,7 +55,7 @@ export const startGithubCheckRun = async ({
   logger.debug("create check on");
 
   const check = await POST({
-    url: `/repos/${repositoryOwner}/${repositoryName}/check-runs`,
+    url: `https://github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
     githubToken,
     body: {
       head_sha: commitSha,
@@ -83,7 +83,7 @@ export const startGithubCheckRun = async ({
       let annotationsSent = 0;
       const annotationsBatch = annotations.slice(annotationsSent, 50);
       await PATCH({
-        url: `/repos/${repositoryOwner}/${repositoryName}/check-runs`,
+        url: `https://github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
         githubToken,
         body: {
           head_sha: commitSha,
@@ -111,7 +111,7 @@ export const startGithubCheckRun = async ({
       while (annotationsSent < annotations.length) {
         const annotationsBatch = annotations.slice(annotationsSent, 50);
         await PATCH({
-          url: `/repos/${repositoryOwner}/${repositoryName}/check-runs`,
+          url: `https://github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
           githubToken,
           body: {
             head_sha: commitSha,
