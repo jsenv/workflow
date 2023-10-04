@@ -6,7 +6,7 @@ export const GET = ({ url, githubToken, headers }) => {
     method: "GET",
     headers: {
       ...tokenToHeaders(githubToken),
-      headers,
+      ...headers,
     },
     responseStatusHandlers: {
       200: async (response) => {
@@ -24,7 +24,7 @@ export const POST = ({ url, body, githubToken, headers }) => {
     method: "POST",
     headers: {
       ...tokenToHeaders(githubToken),
-      headers,
+      ...headers,
     },
     body: JSON.stringify(body),
     responseStatusHandlers: {
@@ -43,7 +43,7 @@ export const PATCH = ({ signal, url, body, githubToken, headers }) => {
     method: "PATCH",
     headers: {
       ...tokenToHeaders(githubToken),
-      headers,
+      ...headers,
     },
     body: JSON.stringify(body),
     responseStatusHandlers: {
