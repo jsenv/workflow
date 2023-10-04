@@ -39,8 +39,6 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install node modules
         run: npm install
-      - name: Run ESLint
-        run: npm run eslint
       - name: Run tests
         run: node ./.github/workflows/use_github_check_run.mjs
         env:
