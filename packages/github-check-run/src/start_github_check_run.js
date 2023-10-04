@@ -83,7 +83,6 @@ export const startGithubCheckRun = async ({
     return { progress: () => {}, fail: () => {}, pass: () => {} };
   }
 
-  let previousUpdatePromise;
   const update = async ({
     status,
     conclusion,
@@ -91,18 +90,15 @@ export const startGithubCheckRun = async ({
     summary,
     annotations = [],
   }) => {
-    if (previousUpdatePromise) {
-      await previousUpdatePromise;
-    }
-    previousUpdatePromise = (async () => {
-      let annotationsSent = 0;
-      const annotationsBatch = annotations.slice(annotationsSent, 50);
+    let annotationsSent = 0;
+    const annotationsBatch = annotations.slice(annotationsSent, 50);
+    logger.debug(`update check run ${check.id}`);
+    try {
       await PATCH({
-        url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
+        url: check.url,
         githubToken,
         body: {
           head_sha: commitSha,
-          check_run_id: check.id,
           ...(status ? { status } : {}),
           ...(conclusion ? { conclusion } : {}),
           output: {
@@ -112,36 +108,40 @@ export const startGithubCheckRun = async ({
           },
         },
       });
-      if (status) {
-        checkStatus = status;
-      }
-      if (title) {
-        checkTitle = title;
-      }
-      if (summary) {
-        checkSummary = summary;
-      }
+      logger.debug(`${UNICODE.OK} check updated`);
+    } catch (e) {
+      logger.error(
+        createDetailedMessage(`${UNICODE.FAILURE} failed to update check`, {
+          "error stack": e.stack,
+        }),
+      );
+      return;
+    }
+    if (status) {
+      checkStatus = status;
+    }
+    if (title) {
+      checkTitle = title;
+    }
+    if (summary) {
+      checkSummary = summary;
+    }
 
-      annotationsSent += annotationsBatch.length;
-      while (annotationsSent < annotations.length) {
-        const annotationsBatch = annotations.slice(annotationsSent, 50);
-        await PATCH({
-          url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
-          githubToken,
-          body: {
-            head_sha: commitSha,
-            check_run_id: check.id,
-            output: {
-              annotations: annotationsBatch,
-            },
+    annotationsSent += annotationsBatch.length;
+    while (annotationsSent < annotations.length) {
+      const annotationsBatch = annotations.slice(annotationsSent, 50);
+      await PATCH({
+        url: check.url,
+        githubToken,
+        body: {
+          head_sha: commitSha,
+          output: {
+            annotations: annotationsBatch,
           },
-        });
-        annotationsSent += annotationsBatch.length;
-      }
-
-      previousUpdatePromise = null;
-    })();
-    return previousUpdatePromise;
+        },
+      });
+      annotationsSent += annotationsBatch.length;
+    }
   };
 
   let lastProgressCall;
