@@ -3,7 +3,7 @@
  * https://github.com/IgnusG/jest-report-action/blob/c006b890ba3c3b650e6c55916a643ca82b64133b/tasks/github-api.js#L12
  */
 
-import { createLogger, createTaskLog } from "@jsenv/log";
+import { createLogger, UNICODE, createDetailedMessage } from "@jsenv/log";
 
 import { POST, PATCH } from "./internal/github_rest_api.js";
 
@@ -53,9 +53,7 @@ export const startGithubCheckRun = async ({
 
   const logger = createLogger({ logLevel });
 
-  const createTask = createTaskLog(`create check for commit ${commitSha}`, {
-    disabled: !logger.levels.debug,
-  });
+  logger.debug(`create check for commit ${commitSha}`);
   let check;
   try {
     check = await POST({
@@ -75,11 +73,13 @@ export const startGithubCheckRun = async ({
         },
       },
     });
-
-    createTask.done();
+    logger.debug(`${UNICODE.OK} check created (id: ${check.id})`);
   } catch (e) {
-    createTask.fail(e);
-    console.error(e.stack);
+    logger.error(
+      createDetailedMessage(`${UNICODE.FAILURE} failed to create check`, {
+        "error stack": e.stack,
+      }),
+    );
     return { progress: () => {}, fail: () => {}, pass: () => {} };
   }
 
