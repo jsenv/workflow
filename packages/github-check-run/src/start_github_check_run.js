@@ -57,7 +57,7 @@ export const startGithubCheckRun = async ({
   let check;
   try {
     check = await POST({
-      url: `https://github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
+      url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
       githubToken,
       headers: {
         "accept": "application/vnd.github+json",
@@ -98,7 +98,7 @@ export const startGithubCheckRun = async ({
       let annotationsSent = 0;
       const annotationsBatch = annotations.slice(annotationsSent, 50);
       await PATCH({
-        url: `https://github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
+        url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
         githubToken,
         body: {
           head_sha: commitSha,
@@ -126,7 +126,7 @@ export const startGithubCheckRun = async ({
       while (annotationsSent < annotations.length) {
         const annotationsBatch = annotations.slice(annotationsSent, 50);
         await PATCH({
-          url: `https://github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
+          url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
           githubToken,
           body: {
             head_sha: commitSha,
