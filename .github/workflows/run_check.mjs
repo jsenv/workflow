@@ -5,6 +5,7 @@ import {
 
 const { progress, pass } = await startGithubCheckRun({
   ...readGitHubWorkflowEnv(),
+  logLevel: "debug",
   checkName: "MY_CHECK_NAME",
   checkTitle: "MY_CHECK_TITLE",
   checkSummary: "MY_CHECK_SUMMARY",

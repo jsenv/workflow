@@ -3,7 +3,7 @@
  * https://github.com/IgnusG/jest-report-action/blob/c006b890ba3c3b650e6c55916a643ca82b64133b/tasks/github-api.js#L12
  */
 
-import { createLogger } from "@jsenv/log";
+import { createLogger, createTaskLog } from "@jsenv/log";
 
 import { POST, PATCH } from "./internal/github_rest_api.js";
 
@@ -52,21 +52,36 @@ export const startGithubCheckRun = async ({
   }
 
   const logger = createLogger({ logLevel });
-  logger.debug("create check on");
 
-  const check = await POST({
-    url: `https://github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
-    githubToken,
-    body: {
-      head_sha: commitSha,
-      status: checkStatus,
-      name: checkName,
-      output: {
-        title: checkTitle,
-        summary: checkSummary,
-      },
-    },
+  const createTask = createTaskLog(`create check for commit ${commitSha}`, {
+    disabled: !logger.levels.debug,
   });
+  let check;
+  try {
+    check = await POST({
+      url: `https://github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
+      githubToken,
+      headers: {
+        "accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+      body: {
+        head_sha: commitSha,
+        status: checkStatus,
+        name: checkName,
+        output: {
+          title: checkTitle,
+          summary: checkSummary,
+        },
+      },
+    });
+
+    createTask.done();
+  } catch (e) {
+    createTask.fail(e);
+    console.error(e.stack);
+    return { progress: () => {}, fail: () => {}, pass: () => {} };
+  }
 
   let previousUpdatePromise;
   const update = async ({
