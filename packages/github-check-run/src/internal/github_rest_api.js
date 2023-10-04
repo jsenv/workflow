@@ -6,6 +6,8 @@ export const GET = ({ url, githubToken, headers }) => {
     method: "GET",
     headers: {
       ...tokenToHeaders(githubToken),
+      "accept": "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
       ...headers,
     },
     responseStatusHandlers: {
@@ -24,6 +26,8 @@ export const POST = ({ url, body, githubToken, headers }) => {
     method: "POST",
     headers: {
       ...tokenToHeaders(githubToken),
+      "accept": "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
       ...headers,
     },
     body: JSON.stringify(body),
@@ -43,6 +47,8 @@ export const PATCH = ({ signal, url, body, githubToken, headers }) => {
     method: "PATCH",
     headers: {
       ...tokenToHeaders(githubToken),
+      "accept": "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
       ...headers,
     },
     body: JSON.stringify(body),
