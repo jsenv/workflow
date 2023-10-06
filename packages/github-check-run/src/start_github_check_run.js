@@ -81,6 +81,13 @@ export const startGithubCheckRun = async ({
     summary,
     annotations = [],
   }) => {
+    if (typeof title !== "string") {
+      throw new TypeError(`title must be a string, got ${title}`);
+    }
+    if (typeof summary !== "string") {
+      throw new TypeError(`summary must be a string, got ${summary}`);
+    }
+
     let annotationsSent = 0;
     const annotationsBatch = annotations.slice(annotationsSent, 50);
 
@@ -89,9 +96,9 @@ export const startGithubCheckRun = async ({
         ...(status ? { status } : {}),
         ...(conclusion ? { conclusion } : {}),
         output: {
-          ...(title ? { title } : {}),
-          ...(summary ? { summary } : {}),
-          annotations: annotationsBatch,
+          title,
+          summary,
+          ...(annotationsBatch.length ? { annotations: annotationsBatch } : {}),
         },
       };
       logger.debug(`PATCH check ${check.html_url}
