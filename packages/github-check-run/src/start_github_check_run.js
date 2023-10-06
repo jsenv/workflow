@@ -64,7 +64,7 @@ export const startGithubCheckRun = async ({
         },
       },
     });
-    logger.debug(`${UNICODE.OK} check created (id: ${check.id})`);
+    logger.debug(`${UNICODE.OK} check created ${check.html_url}`);
   } catch (e) {
     logger.error(
       createDetailedMessage(`${UNICODE.FAILURE} failed to create check`, {
