@@ -196,6 +196,9 @@ ${JSON.stringify(body, null, "  ")}`);
       });
     },
     fail: ({ title, summary, annotations } = {}) => {
+      if (pendingAbortController) {
+        pendingAbortController.abort();
+      }
       return update({
         status: "completed",
         conclusion: "failure",
@@ -205,6 +208,9 @@ ${JSON.stringify(body, null, "  ")}`);
       });
     },
     pass: ({ title, summary, annotations } = {}) => {
+      if (pendingAbortController) {
+        pendingAbortController.abort();
+      }
       return update({
         status: "completed",
         conclusion: "success",
