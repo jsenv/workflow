@@ -110,6 +110,8 @@ ${error.stack}`);
   const error = new Error(`unexpected response status.
 --- response status ---
 ${response.status}
+--- response statusText ---
+${response.statusText}
 --- expected response status ---
 ${Object.keys(responseStatusHandlers).join(", ")}
 --- request method ---
