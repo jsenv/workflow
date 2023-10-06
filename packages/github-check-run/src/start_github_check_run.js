@@ -43,11 +43,12 @@ export const startGithubCheckRun = async ({
 
   const logger = createLogger({ logLevel });
 
-  logger.debug(`create check for commit ${commitSha}`);
+  const checkApiURL = `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`;
+  logger.debug(`POST ${checkApiURL} (for commit ${commitSha})`);
   let check;
   try {
     check = await POST({
-      url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/check-runs`,
+      url: checkApiURL,
       githubToken,
       headers: {
         "accept": "application/vnd.github+json",
