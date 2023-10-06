@@ -185,7 +185,7 @@ ${JSON.stringify(body, null, "  ")}`);
         pendingAbortController.signal.onabort = resolve;
         setTimeout(resolve, msBetweenProgressCalls);
       });
-      if (pendingAbortController.signal.aborted) {
+      if (pendingAbortController && pendingAbortController.signal.aborted) {
         return;
       }
       pendingAbortController = null;
