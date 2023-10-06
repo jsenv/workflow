@@ -83,21 +83,24 @@ export const startGithubCheckRun = async ({
   }) => {
     let annotationsSent = 0;
     const annotationsBatch = annotations.slice(annotationsSent, 50);
-    logger.debug(`update check run ${check.id}`);
+
     try {
+      const body = {
+        ...(status ? { status } : {}),
+        ...(conclusion ? { conclusion } : {}),
+        output: {
+          ...(title ? { title } : {}),
+          ...(summary ? { summary } : {}),
+          annotations: annotationsBatch,
+        },
+      };
+      logger.debug(`PATCH check ${check.html_url}
+--- body ---
+${JSON.stringify(body, null, "  ")}`);
       await PATCH({
         url: check.url,
         githubToken,
-        body: {
-          head_sha: commitSha,
-          ...(status ? { status } : {}),
-          ...(conclusion ? { conclusion } : {}),
-          output: {
-            ...(title ? { title } : {}),
-            ...(summary ? { summary } : {}),
-            annotations: annotationsBatch,
-          },
-        },
+        body,
       });
       logger.debug(`${UNICODE.OK} check updated`);
     } catch (e) {
