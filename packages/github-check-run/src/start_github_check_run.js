@@ -74,6 +74,8 @@ export const startGithubCheckRun = async ({
     return { progress: () => {}, fail: () => {}, pass: () => {} };
   }
 
+  let checkConclusion;
+
   const update = async ({
     status,
     conclusion,
@@ -86,6 +88,9 @@ export const startGithubCheckRun = async ({
     }
     if (typeof summary !== "string") {
       throw new TypeError(`summary must be a string, got ${summary}`);
+    }
+    if (conclusion) {
+      checkConclusion = conclusion;
     }
 
     let annotationsSent = 0;
@@ -152,6 +157,12 @@ ${JSON.stringify(body, null, "  ")}`);
 
   return {
     progress: async ({ title, summary, annotations = [] }) => {
+      if (checkConclusion === "failure") {
+        throw new Error(`cannot progress() after fail()`);
+      }
+      if (checkConclusion === "success") {
+        throw new Error(`cannot progress() after pass()`);
+      }
       const nowMs = Date.now();
       const isFirstCall = !lastProgressCall;
       lastProgressCall = nowMs;
@@ -196,10 +207,11 @@ ${JSON.stringify(body, null, "  ")}`);
       });
     },
     fail: ({ title, summary, annotations } = {}) => {
-      if (checkStatus !== "in_progress") {
-        throw new Error(
-          `fail() must be called while checkStatus is "in_progress", got ${checkStatus}`,
-        );
+      if (checkConclusion === "failure") {
+        throw new Error(`already failed`);
+      }
+      if (checkConclusion === "success") {
+        throw new Error(`cannot fail() after pass()`);
       }
 
       if (pendingAbortController) {
@@ -215,11 +227,13 @@ ${JSON.stringify(body, null, "  ")}`);
       });
     },
     pass: ({ title, summary, annotations } = {}) => {
-      if (checkStatus !== "in_progress") {
-        throw new Error(
-          `pass() must be called while checkStatus is "in_progress", got ${checkStatus}`,
-        );
+      if (checkConclusion === "success") {
+        throw new Error(`already passed`);
       }
+      if (checkConclusion === "failure") {
+        throw new Error(`cannot pass() after fail()`);
+      }
+
       if (pendingAbortController) {
         pendingAbortController.abort();
       }
