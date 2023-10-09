@@ -196,9 +196,16 @@ ${JSON.stringify(body, null, "  ")}`);
       });
     },
     fail: ({ title, summary, annotations } = {}) => {
+      if (checkStatus !== "in_progress") {
+        throw new Error(
+          `fail() must be called while checkStatus is "in_progress", got ${checkStatus}`,
+        );
+      }
+
       if (pendingAbortController) {
         pendingAbortController.abort();
       }
+      // TODO: wait to any update before PATCH
       return update({
         status: "completed",
         conclusion: "failure",
@@ -208,9 +215,15 @@ ${JSON.stringify(body, null, "  ")}`);
       });
     },
     pass: ({ title, summary, annotations } = {}) => {
+      if (checkStatus !== "in_progress") {
+        throw new Error(
+          `pass() must be called while checkStatus is "in_progress", got ${checkStatus}`,
+        );
+      }
       if (pendingAbortController) {
         pendingAbortController.abort();
       }
+      // TODO: wait to any pending update before PATCH
       return update({
         status: "completed",
         conclusion: "success",
