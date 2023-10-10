@@ -37,7 +37,7 @@
     "@jsenv/urls": "2.2.1",
     "@jsenv/filesystem": "4.3.2",
     "@jsenv/package-publish": "1.10.3",
-    "@jsenv/log": "3.4.0",
+    "@jsenv/log": "3.4.1",
     "semver": "7.5.4"
   }
 }

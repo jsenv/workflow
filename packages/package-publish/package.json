@@ -34,9 +34,9 @@
     "test": "node --experimental-json-modules ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/fetch": "1.1.40",
+    "@jsenv/fetch": "1.1.41",
     "@jsenv/filesystem": "4.3.2",
-    "@jsenv/log": "3.4.0",
+    "@jsenv/log": "3.4.1",
     "semver": "7.5.4"
   }
 }
