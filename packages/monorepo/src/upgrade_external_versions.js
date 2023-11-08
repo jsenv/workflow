@@ -26,6 +26,11 @@ export const upgradeExternalVersions = async ({ directoryUrl }) => {
       ) {
         return;
       }
+      // "*" means package accept anything
+      // so there is no need to update it, it's always matching the latest version
+      if (version === "*") {
+        return;
+      }
       const existing = externalPackages[name];
       if (existing) {
         externalPackages[name].push({
@@ -151,11 +156,13 @@ export const upgradeExternalVersions = async ({ directoryUrl }) => {
     internalPackage.updateFile(internalPackage.packageObject);
   });
   if (updates.length === 0) {
-    console.log(`${UNICODE.OK} all versions in package.json files are in sync`);
+    console.log(
+      `${UNICODE.OK} all versions declared in package.json files are in up-to-date with registry`,
+    );
   } else {
     console.log(
       `${UNICODE.INFO} ${updates.length} versions modified in package.json files
-  Use a tool like "git diff" to review these changes then run "npm install"`,
+Use a tool like "git diff" to review these changes then run "npm install"`,
     );
   }
   return updates;
