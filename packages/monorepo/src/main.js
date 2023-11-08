@@ -1,2 +1,2 @@
-export { updateWorkspaceVersions } from "./workspace_versions.js";
-export { publishWorkspace } from "./workspace_publish.js";
+export { syncPackagesVersions } from "./sync_packages_versions.js";
+export { publishPackages } from "./publish_packages.js";

@@ -12,7 +12,7 @@ import {
 } from "./internal/compare_two_package_versions.js";
 import { increaseVersion } from "./internal/increase_version.js";
 
-export const updateWorkspaceVersions = async ({
+export const syncPackagesVersions = async ({
   directoryUrl,
   packagesRelations = {},
 }) => {

@@ -8,7 +8,7 @@ import {
   VERSION_COMPARE_RESULTS,
 } from "./internal/compare_two_package_versions.js";
 
-export const publishWorkspace = async ({ directoryUrl }) => {
+export const publishPackages = async ({ directoryUrl }) => {
   const workspacePackages = await collectWorkspacePackages({ directoryUrl });
   const registryLatestVersions = await fetchWorkspaceLatests(workspacePackages);
   const toPublishPackageNames = Object.keys(workspacePackages).filter(
