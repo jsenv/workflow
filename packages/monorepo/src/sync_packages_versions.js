@@ -17,7 +17,6 @@ export const syncPackagesVersions = async ({
   packagesRelations = {},
 }) => {
   const workspacePackages = await collectWorkspacePackages({ directoryUrl });
-  const dependencyGraph = buildDependencyGraph(workspacePackages);
   const registryLatestVersions = await fetchWorkspaceLatests(workspacePackages);
 
   const outdatedPackageNames = [];
@@ -57,7 +56,7 @@ export const syncPackagesVersions = async ({
       workspacePackage.updateFile(workspacePackage.packageObject);
     });
     console.warn(
-      `${UNICODE.WARNING} ${outdatedPackageNames.length} packages updated because they where outdated.
+      `${UNICODE.WARNING} ${outdatedPackageNames.length} packages modified because they where outdated.
 Use a tool like "git diff" to see the new versions and ensure this is what you want`,
     );
     return {
@@ -118,6 +117,7 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
     packageFilesToUpdate[packageName] = true;
   };
 
+  const dependencyGraph = buildDependencyGraph(workspacePackages);
   const packageNamesOrderedByDependency = orderByDependencies(dependencyGraph);
   packageNamesOrderedByDependency.forEach((packageName) => {
     const workspacePackage = workspacePackages[packageName];
@@ -210,7 +210,7 @@ Use a tool like "git diff" to see the new versions and ensure this is what you w
     console.log(`${UNICODE.OK} all versions in package.json files are in sync`);
   } else {
     console.log(
-      `${UNICODE.INFO} ${updateCount} versions updated in package.json files
+      `${UNICODE.INFO} ${updateCount} versions modified in package.json files
   Use a tool like "git diff" to review these changes`,
     );
   }

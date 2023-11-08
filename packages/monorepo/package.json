@@ -1,7 +1,7 @@
 {
   "name": "@jsenv/monorepo",
   "version": "0.0.1",
-  "description": "TODO",
+  "description": "Helpers to manage packages in a monorepo",
   "license": "MIT",
   "author": {
     "name": "dmail",
