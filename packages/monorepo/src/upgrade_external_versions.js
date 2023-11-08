@@ -4,7 +4,7 @@
  * - "upgrade" means check if there is a more recent version on NPM registry
  * and if yes, update the version in the package.json
  *
- * Versions declared in "dependencies", "devDependencies" and "peerDependencies" are updated
+ * Versions declared in "dependencies", "devDependencies"
  *
  * Be sure to check ../readme.md#upgrade-dependencies
  */
@@ -61,11 +61,7 @@ export const upgradeExternalVersions = async ({ directoryUrl }) => {
     for (const internalPackageName of Object.keys(internalPackages)) {
       const internalPackage = internalPackages[internalPackageName];
       const internalPackageObject = internalPackage.packageObject;
-      const {
-        dependencies = {},
-        devDependencies = {},
-        peerDependencies = {},
-      } = internalPackageObject;
+      const { dependencies = {}, devDependencies = {} } = internalPackageObject;
       const dependencyNames = Object.keys(dependencies);
       dependencyNames.forEach((dependencyName) => {
         addExternalPackage({
@@ -81,16 +77,7 @@ export const upgradeExternalVersions = async ({ directoryUrl }) => {
           internalPackageName,
           type: "devDependencies",
           name: devDependencyName,
-          version: dependencies[devDependencyName],
-        });
-      });
-      const peerDependencyNames = Object.keys(peerDependencies);
-      peerDependencyNames.forEach((peerDependencyName) => {
-        addExternalPackage({
-          internalPackageName,
-          type: "peerDependencies",
-          name: peerDependencyName,
-          version: dependencies[peerDependencyName],
+          version: devDependencies[devDependencyName],
         });
       });
     }
@@ -131,7 +118,7 @@ export const upgradeExternalVersions = async ({ directoryUrl }) => {
   const packageFilesToUpdate = {};
   const updates = [];
   for (const externalPackageName of externalPackageNames) {
-    const externalPackageRefs = externalPackageNames[externalPackageName];
+    const externalPackageRefs = externalPackages[externalPackageName];
     for (const externalPackageRef of externalPackageRefs) {
       const internalPackageName = externalPackageRef.internalPackageName;
       const internalPackageDeps =
