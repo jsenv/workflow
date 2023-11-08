@@ -1,4 +1,4 @@
-# Package workspace
+# @jsenv/monorepo
 
 Helpers to manage multiple packages from a single repository. For example when using [NPM workspaces](https://docs.npmjs.com/cli/v8/using-npm/workspaces).
 
@@ -53,36 +53,36 @@ At this point you are supposed to update "packages/main/package.json" like this:
 
 In a workspace with many packages this is hard to do correctly and time consuming. You can automate the painful part as follows:
 
-1. Run _updateWorkspaceVersions_
+1. Run _syncPackagesVersions_
 2. Review changes with a tool like "git diff"
-3. Run _publishWorkspace_
+3. Run _publishPackages_
 
-### updateWorkspaceVersions
+### syncPackagesVersions
 
-_updateWorkspaceVersions_ is an async function ensuring versions in all package.json are in sync for the workspace. It update versions in "dependencies", "devDependencies" and increase "version" if needed. This ensure all versions are in sync before publishing.
+_syncPackagesVersions_ is an async function ensuring versions in all package.json are in sync for all packages in the workspace. It update versions in "dependencies", "devDependencies" and increase "version" if needed. This ensure all versions are in sync before publishing.
 
 ```js
-import { updateWorkspaceVersions } from "@jsenv/package-workspace";
+import { syncPackagesVersions } from "@jsenv/package-workspace";
 
-await updateWorkspaceVersions({
+await syncPackagesVersions({
   directoryUrl: new URL("./", import.meta.url),
 });
 ```
 
 ### Review changes
 
-Each package might need to increase their package.json "version" differently. When it's required _updateWorkspaceVersions_ increases PATCH number ("1.0.3" becomes "1.0.4"). After that it's up to you to review these changes to decide if you actually need to increase MINOR or MAJOR number.
+Each package might need to increase their package.json "version" differently. When it's required _syncPackagesVersions_ increases PATCH number ("1.0.3" becomes "1.0.4"). After that it's up to you to review these changes to decide if you keep PATCH increment or want to increment MINOR or MAJOR instead.
 
-## publishWorkspace
+## publishPackages
 
-_publishWorkspace_ is an async function that will publish all packages in the workspace on NPM. But only the packages that are not already published.
+_publishPackages_ is an async function that will publish all packages in the workspace on NPM. But only the packages that are not already published.
 
 ```js
-import { publishWorkspace } from "@jsenv/package-workspace";
+import { publishPackages } from "@jsenv/package-workspace";
 
 process.env.NPM_TOKEN = "token_auhtorized_to_publish_on_npm";
 
-await publishWorkspace({
+await publishPackages({
   directoryUrl: new URL("./", import.meta.url),
 });
 ```

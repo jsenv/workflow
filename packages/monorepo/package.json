@@ -1,7 +1,7 @@
 {
-  "name": "@jsenv/package-workspace",
-  "version": "0.5.3",
-  "description": "TODO",
+  "name": "@jsenv/monorepo",
+  "version": "0.0.3",
+  "description": "Helpers to manage packages in a monorepo",
   "license": "MIT",
   "author": {
     "name": "dmail",
@@ -11,7 +11,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jsenv/workflow",
-    "directory": "packages/package-workspace"
+    "directory": "packages/monorepo"
   },
   "engines": {
     "node": ">=16.13.0"
