@@ -17,9 +17,9 @@
   "scripts": {
     "eslint": "npx eslint . --ext=.js,.mjs,.cjs",
     "test": "npm run test --workspaces --if-present",
-    "monorepo:upgrade_versions": "node ./scripts/monorepo/upgrade_external_versions.mjs",
-    "monorepo:sync_packages_versions": "node ./scripts/monorepo/sync_packages_versions.mjs",
-    "monorepo:publish": "node ./scripts/monorepo/publish_packages.mjs",
+    "monorepo:upgrade_versions": "node ./scripts/upgrade_external_versions.mjs",
+    "monorepo:sync_packages_versions": "node ./scripts/sync_packages_versions.mjs",
+    "monorepo:publish": "node ./scripts/publish_packages.mjs",
     "playwright:install": "npx playwright install-deps && npx playwright install",
     "prettier": "prettier --write ."
   },

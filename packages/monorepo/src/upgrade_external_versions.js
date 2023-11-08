@@ -1,3 +1,14 @@
+/*
+ * Try to upgrade all packages that are external to a monorepo.
+ * - "external" means a package that is not part of the monorepo
+ * - "upgrade" means check if there is a more recent version on NPM registry
+ * and if yes, update the version in the package.json
+ *
+ * Versions declared in "dependencies", "devDependencies" and "peerDependencies" are updated
+ *
+ * Be sure to check ../readme.md#upgrade-dependencies
+ */
+
 import { UNICODE, createTaskLog } from "@jsenv/log";
 import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js";
 
