@@ -2,8 +2,8 @@
  * Update all package versions to prepare for publishing a new version
  */
 
-import { updateWorkspaceVersions } from "@jsenv/package-workspace";
+import { upgradeExternalVersions } from "@jsenv/monorepo";
 
-await updateWorkspaceVersions({
+await upgradeExternalVersions({
   directoryUrl: new URL("../", import.meta.url),
 });

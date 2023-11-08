@@ -1,10 +1,9 @@
 /*
- * Publish all package if needed (the local package version must not be published)
+ * Publish all package if needed (when version found in package file is not already published)
  */
 
 import { readFileSync } from "node:fs";
-
-import { publishWorkspace } from "@jsenv/package-workspace";
+import { publishPackages } from "@jsenv/monorepo";
 
 if (!process.env.CI) {
   const secrets = JSON.parse(
@@ -12,6 +11,6 @@ if (!process.env.CI) {
   );
   Object.assign(process.env, secrets);
 }
-await publishWorkspace({
+await publishPackages({
   directoryUrl: new URL("../", import.meta.url),
 });

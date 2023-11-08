@@ -17,8 +17,9 @@
   "scripts": {
     "eslint": "npx eslint . --ext=.js,.mjs,.cjs",
     "test": "npm run test --workspaces --if-present",
-    "workspace:versions": "node ./scripts/workspace_versions.mjs",
-    "workspace:publish": "node ./scripts/workspace_publish.mjs",
+    "monorepo:upgrade_versions": "node ./scripts/monorepo/upgrade_external_versions.mjs",
+    "monorepo:sync_packages_versions": "node ./scripts/monorepo/sync_packages_versions.mjs",
+    "monorepo:publish": "node ./scripts/monorepo/publish_packages.mjs",
     "playwright:install": "npx playwright install-deps && npx playwright install",
     "prettier": "prettier --write ."
   },
@@ -27,7 +28,7 @@
     "@jsenv/eslint-config": "16.4.4",
     "@jsenv/eslint-import-resolver": "8.0.4",
     "@jsenv/log": "3.4.1",
-    "@jsenv/package-workspace": "./packages/packages-workspace",
+    "@jsenv/monorepo": "./packages/monorepo",
     "@jsenv/github-check-run": "./packages/github-check-run",
     "@jsenv/test": "1.7.2",
     "eslint": "8.51.0",

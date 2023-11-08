@@ -62,7 +62,7 @@ In a workspace with many packages this is hard to do correctly and time consumin
 _syncPackagesVersions_ is an async function ensuring versions in all package.json are in sync for all packages in the workspace. It update versions in "dependencies", "devDependencies" and increase "version" if needed. This ensure all versions are in sync before publishing.
 
 ```js
-import { syncPackagesVersions } from "@jsenv/package-workspace";
+import { syncPackagesVersions } from "@jsenv/monorepo";
 
 await syncPackagesVersions({
   directoryUrl: new URL("./", import.meta.url),
@@ -78,7 +78,7 @@ Each package might need to increase their package.json "version" differently. Wh
 _publishPackages_ is an async function that will publish all packages in the workspace on NPM. But only the packages that are not already published.
 
 ```js
-import { publishPackages } from "@jsenv/package-workspace";
+import { publishPackages } from "@jsenv/monorepo";
 
 process.env.NPM_TOKEN = "token_auhtorized_to_publish_on_npm";
 
