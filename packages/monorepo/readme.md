@@ -134,7 +134,8 @@ Most of the time you don't want to update your deps. The 2 most common scenarios
 
 "I want to update all my deps" happens from time to time but is usually not what you had in mind before executing "npm install"
 
-Moreover the usage of _package-lock.json_ remains optional.
+Moreover the usage of _package-lock.json_ remains optional.  
+And _package-lock.json_ can be problematic https://github.com/npm/cli/issues/4828, some project disable package-lock to avoid these kind of issues until the situation becomes better.
 
 ## How to avoid the problem
 
