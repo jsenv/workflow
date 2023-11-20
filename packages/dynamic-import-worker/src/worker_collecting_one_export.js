@@ -1,6 +1,6 @@
 import { parentPort, workerData } from "node:worker_threads";
 
-const { url, exportName } = workerData;
+const { url, exportName, params } = workerData;
 const namespace = await import(url);
 
 if (!Object.prototype.hasOwnProperty.call(namespace, exportName)) {
@@ -9,7 +9,7 @@ if (!Object.prototype.hasOwnProperty.call(namespace, exportName)) {
 
 const exportValue = namespace[exportName];
 if (typeof exportValue === "function") {
-  const metrics = await exportValue();
+  const metrics = await exportValue(params);
   parentPort.postMessage(metrics);
 } else {
   const metrics = exportValue;

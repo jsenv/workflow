@@ -24,13 +24,15 @@ export const importMetricFromFiles = async ({
       const metricsDescription = metricsDescriptions[metricName];
       const {
         file,
+        env,
+        params,
         iterations,
         msToWaitBetweenEachIteration = 100,
       } = metricsDescription;
       const url = new URL(file, directoryUrl).href;
 
       const measure = async () => {
-        const metrics = await importOneExportFromFile(url);
+        const metrics = await importOneExportFromFile(url, { env, params });
         assertMetrics(metrics, `in ${file}`);
         return metrics;
       };
