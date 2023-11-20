@@ -8,7 +8,10 @@ const WORKER_COLLECTING_ONE_EXPORT_FILE_URL = new URL(
   import.meta.url,
 );
 
-export const importOneExportFromFile = async (fileUrl) => {
+export const importOneExportFromFile = async (
+  fileUrl,
+  { env = process.env, params } = {},
+) => {
   const { hash, urlWithoutHash } = extractHashFromUrl(fileUrl);
   if (!hash) {
     throw new Error(`no hash found in fileUrl ${fileUrl}`);
@@ -23,9 +26,11 @@ export const importOneExportFromFile = async (fileUrl) => {
   }
 
   const worker = new Worker(WORKER_COLLECTING_ONE_EXPORT_FILE_URL, {
+    env,
     workerData: {
       url,
       exportName,
+      params,
     },
   });
 
