@@ -35,5 +35,5 @@ In any case it means you have to wait before knowing the real performance impact
 ## Recommended approach to catch performance impacts
 
 1. measure some performance metrics
-2. Use `@jsenv/performance-impact` to anticipate big variations
+2. Big variations can be anticipated and catched by `@jsenv/performance-impact`
 3. For small variations, upload performance metrics to a dashboard. Then, periodically watch the dashboard to check performance metrics tendency over time
