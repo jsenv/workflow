@@ -1,5 +1,3 @@
-import { fetchUrl } from "@jsenv/fetch";
-
 export const GET = async ({ url, githubToken, headers }) => {
   return sendHttpRequest({
     url,
@@ -72,7 +70,7 @@ const sendHttpRequest = async ({
 }) => {
   let response;
   try {
-    response = await fetchUrl(url, {
+    response = await fetch(url, {
       method,
       headers: {
         ...(typeof body === "undefined"

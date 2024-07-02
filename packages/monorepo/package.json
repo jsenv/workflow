@@ -34,10 +34,10 @@
     "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/urls": "2.2.1",
-    "@jsenv/filesystem": "4.3.2",
+    "@jsenv/urls": "2.2.3",
+    "@jsenv/filesystem": "4.6.5",
     "@jsenv/package-publish": "1.10.4",
-    "@jsenv/log": "3.4.2",
-    "semver": "7.5.4"
+    "@jsenv/log": "3.5.2",
+    "semver": "7.6.2"
   }
 }
