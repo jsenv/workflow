@@ -34,8 +34,8 @@
     "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/urls": "2.2.3",
-    "@jsenv/filesystem": "4.6.5",
+    "@jsenv/urls": "2.2.4",
+    "@jsenv/filesystem": "4.6.6",
     "@jsenv/package-publish": "1.10.4",
     "@jsenv/log": "3.5.2",
     "semver": "7.6.2"

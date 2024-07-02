@@ -16,6 +16,6 @@ import { orderBySizeImpact } from "@jsenv/file-size-impact/src/internal/orderByS
   };
   const fileByFileImpactOrdered = orderBySizeImpact(fileByFileImpact, ["raw"]);
   const actual = Object.keys(fileByFileImpactOrdered);
-  const expected = ["size_increases.js", "size_decreases.js", "size_same.js"];
-  assert({ actual, expected });
+  const expect = ["size_increases.js", "size_decreases.js", "size_same.js"];
+  assert({ actual, expect });
 }

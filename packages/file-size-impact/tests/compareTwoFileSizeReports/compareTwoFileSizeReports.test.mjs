@@ -40,7 +40,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
       },
     },
   });
-  const expected = {
+  const expect = {
     transformationKeys: ["raw"],
     groups: {
       dist: {
@@ -64,7 +64,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
       },
     },
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }
 
 {
@@ -111,7 +111,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
       },
     },
   });
-  const expected = {
+  const expect = {
     transformationKeys: ["raw"],
     groups: {
       dist: {
@@ -163,7 +163,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
       },
     },
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }
 
 // mapped + ignored file
@@ -205,7 +205,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
       },
     },
   });
-  const expected = {
+  const expect = {
     transformationKeys: ["raw"],
     groups: {
       dist: {
@@ -229,7 +229,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
       },
     },
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }
 
 // a mapping after merge refer to the same file before merge
@@ -279,7 +279,7 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
       },
     },
   });
-  const expected = {
+  const expect = {
     transformationKeys: ["raw"],
     groups: {
       dist: {
@@ -309,5 +309,5 @@ import { compareTwoFileSizeReports } from "@jsenv/file-size-impact/src/internal/
       },
     },
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }

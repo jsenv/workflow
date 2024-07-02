@@ -4,6 +4,6 @@ import { formatSize } from "@jsenv/file-size-impact/src/internal/formatSize.js";
 
 {
   const actual = formatSize(1048074.24);
-  const expected = `1 MB`;
-  assert({ actual, expected });
+  const expect = `1 MB`;
+  assert({ actual, expect });
 }

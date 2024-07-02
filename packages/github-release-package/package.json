@@ -33,7 +33,7 @@
     "test": "node ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/filesystem": "4.6.5",
+    "@jsenv/filesystem": "4.6.6",
     "@jsenv/log": "3.5.2",
     "@jsenv/github-pull-request-impact": "1.7.4"
   }

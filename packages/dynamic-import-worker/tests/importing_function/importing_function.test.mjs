@@ -16,9 +16,9 @@ import { importOneExportFromFile } from "@jsenv/dynamic-import-worker";
     withoutParams,
     withParam42,
   };
-  const expected = {
+  const expect = {
     withoutParams: undefined,
     withParam42: 42,
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }

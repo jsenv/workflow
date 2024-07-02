@@ -34,7 +34,7 @@
     "test": "node --experimental-json-modules ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/filesystem": "4.6.5",
+    "@jsenv/filesystem": "4.6.6",
     "@jsenv/log": "3.5.2",
     "semver": "7.6.2"
   }

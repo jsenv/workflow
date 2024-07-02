@@ -24,8 +24,8 @@ const readCommentSnapshotFile = () => {
 
 // disable on windows because it would fails due to line endings (CRLF)
 if (process.platform !== "win32") {
-  const expected = readCommentSnapshotFile();
+  const expect = readCommentSnapshotFile();
   await import("./generate_comment_snapshot_file.mjs");
   const actual = readCommentSnapshotFile();
-  assert({ actual, expected });
+  assert({ actual, expect });
 }

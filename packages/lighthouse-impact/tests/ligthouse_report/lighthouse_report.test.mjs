@@ -58,8 +58,8 @@ if (process.platform !== "win32") {
       // htmlFileUrl: new URL("./report.html", import.meta.url),
       // jsonFileUrl: new URL("./report.json", import.meta.url),
     });
-    const expected = actual;
-    assert({ actual, expected });
+    const expect = actual;
+    assert({ actual, expect });
   } finally {
     await context.close();
     await browser.close();

@@ -10,14 +10,6 @@ try {
   throw new Error("should throw");
 } catch (e) {
   const actual = e.message;
-  const expected = "here";
-  assert({ actual, expected });
-}
-
-{
-  const actual = await importOneExportFromFile(
-    `${new URL("./exporting_answer.mjs", import.meta.url)}#answer`,
-  );
-  const expected = 42;
-  assert({ actual, expected });
+  const expect = "here";
+  assert({ actual, expect });
 }

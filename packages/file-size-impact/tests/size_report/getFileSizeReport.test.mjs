@@ -33,7 +33,7 @@ const test = (params) => {
     },
     transformations,
   });
-  const expected = {
+  const expect = {
     transformationKeys: ["raw"],
     groups: {
       dist: {
@@ -51,7 +51,7 @@ const test = (params) => {
       },
     },
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }
 
 // file hashed + manifest
@@ -78,7 +78,7 @@ const test = (params) => {
       "./**/manifest.json": true,
     },
   });
-  const expected = {
+  const expect = {
     transformationKeys: ["raw"],
     groups: {
       dist: {
@@ -100,7 +100,7 @@ const test = (params) => {
       },
     },
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }
 
 // an empty directory
@@ -119,7 +119,7 @@ const test = (params) => {
     },
     transformations,
   });
-  const expected = {
+  const expect = {
     transformationKeys: ["raw"],
     groups: {
       dist: {
@@ -131,5 +131,5 @@ const test = (params) => {
       },
     },
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }

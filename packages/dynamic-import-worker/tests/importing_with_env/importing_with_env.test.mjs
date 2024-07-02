@@ -18,9 +18,9 @@ import { importOneExportFromFile } from "@jsenv/dynamic-import-worker";
     withoutEnv,
     withTotoEnv,
   };
-  const expected = {
+  const expect = {
     withoutEnv: 43,
     withTotoEnv: 42,
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }

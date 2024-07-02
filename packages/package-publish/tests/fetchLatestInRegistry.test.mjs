@@ -6,8 +6,8 @@ const actual = await fetchLatestInRegistry({
   registryUrl: "https://registry.npmjs.org",
   packageName: "@jsenv/toto",
 });
-const expected = null;
-assert({ actual, expected });
+const expect = null;
+assert({ actual, expect });
 
 // if (!process.env.CI) {
 //   const { resolveUrl } = await import("@jsenv/util")
@@ -19,6 +19,6 @@ assert({ actual, expected });
 //     packageName: "@jsenv/perf-impact",
 //     token: process.env.NPM_TOKEN,
 //   })
-//   const expected = null
-//   assert({ actual, expected })
+//   const expect = null
+//   assert({ actual, expect })
 // }

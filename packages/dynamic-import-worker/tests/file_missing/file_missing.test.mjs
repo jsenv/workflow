@@ -10,8 +10,8 @@ try {
   throw new Error("should throw");
 } catch (e) {
   const actual = e;
-  const expected = new Error(
+  const expect = new Error(
     `File not found at ${new URL("./toto.mjs", import.meta.url)}`,
   );
-  assert({ actual, expected });
+  assert({ actual, expect });
 }

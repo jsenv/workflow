@@ -9,7 +9,7 @@ import { createGitHubPullRequestCommentText } from "@jsenv/github-pull-request-i
     body: "body",
     footer: "footer",
   });
-  const expected = `header
+  const expect = `header
 
 ---
 
@@ -20,7 +20,7 @@ warning message
 body
 
 footer`;
-  assert({ actual, expected });
+  assert({ actual, expect });
 }
 
 {
@@ -35,7 +35,7 @@ footer`;
     message,
     messageLength: Buffer.byteLength(message),
   };
-  const expected = {
+  const expect = {
     message: `header
 
 ---
@@ -53,5 +53,5 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit,…
 footer`,
     messageLength: 300,
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }

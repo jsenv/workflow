@@ -69,7 +69,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub();
       },
     },
   });
-  const expected = {
+  const expect = {
     "https://npm.pkg.github.com": {
       packageName,
       packageVersion,
@@ -82,7 +82,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub();
       },
     },
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
 }
 
 // publish new minor on github
@@ -115,7 +115,7 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub();
       },
     },
   });
-  const expected = {
+  const expect = {
     "https://npm.pkg.github.com": {
       packageName,
       packageVersion,
@@ -128,6 +128,6 @@ let latestVersionOnGithub = await fetchLatestVersionOnGithub();
       },
     },
   };
-  assert({ actual, expected });
+  assert({ actual, expect });
   latestVersionOnGithub = packageVersion;
 }

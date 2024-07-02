@@ -10,9 +10,9 @@ try {
   throw new Error("should throw");
 } catch (e) {
   const actual = e.message;
-  const expected = `No export named "answer" in ${new URL(
+  const expect = `No export named "answer" in ${new URL(
     "./exporting_toto.mjs",
     import.meta.url,
   )}`;
-  assert({ actual, expected });
+  assert({ actual, expect });
 }

@@ -14,8 +14,8 @@ import {
     packageVersion: "1.0.0",
     registryLatestVersion: null,
   });
-  const expected = PUBLISH_BECAUSE_NEVER_PUBLISHED;
-  assert({ actual, expected });
+  const expect = PUBLISH_BECAUSE_NEVER_PUBLISHED;
+  assert({ actual, expect });
 }
 
 {
@@ -23,8 +23,8 @@ import {
     packageVersion: "1.0.0",
     registryLatestVersion: "1.0.0",
   });
-  const expected = NOTHING_BECAUSE_ALREADY_PUBLISHED;
-  assert({ actual, expected });
+  const expect = NOTHING_BECAUSE_ALREADY_PUBLISHED;
+  assert({ actual, expect });
 }
 
 {
@@ -32,8 +32,8 @@ import {
     packageVersion: "1.0.0",
     registryLatestVersion: "2.0.0",
   });
-  const expected = NOTHING_BECAUSE_LATEST_HIGHER;
-  assert({ actual, expected });
+  const expect = NOTHING_BECAUSE_LATEST_HIGHER;
+  assert({ actual, expect });
 }
 
 {
@@ -41,8 +41,8 @@ import {
     packageVersion: "2.0.0",
     registryLatestVersion: "1.0.0",
   });
-  const expected = PUBLISH_BECAUSE_LATEST_LOWER;
-  assert({ actual, expected });
+  const expect = PUBLISH_BECAUSE_LATEST_LOWER;
+  assert({ actual, expect });
 }
 
 {
@@ -50,8 +50,8 @@ import {
     packageVersion: "1.0.0-beta.0",
     registryLatestVersion: "1.0.0-alpha.0",
   });
-  const expected = PUBLISH_BECAUSE_TAG_DIFFERS;
-  assert({ actual, expected });
+  const expect = PUBLISH_BECAUSE_TAG_DIFFERS;
+  assert({ actual, expect });
 }
 
 {
@@ -59,8 +59,8 @@ import {
     packageVersion: "1.0.0-alpha.0",
     registryLatestVersion: "1.0.0-alpha.1",
   });
-  const expected = NOTHING_BECAUSE_LATEST_HIGHER;
-  assert({ actual, expected });
+  const expect = NOTHING_BECAUSE_LATEST_HIGHER;
+  assert({ actual, expect });
 }
 
 {
@@ -68,8 +68,8 @@ import {
     packageVersion: "1.0.0-alpha.1",
     registryLatestVersion: "1.0.0-alpha.0",
   });
-  const expected = PUBLISH_BECAUSE_LATEST_LOWER;
-  assert({ actual, expected });
+  const expect = PUBLISH_BECAUSE_LATEST_LOWER;
+  assert({ actual, expect });
 }
 
 {
@@ -77,6 +77,6 @@ import {
     packageVersion: "1.0.0-alpha.0",
     registryLatestVersion: "1.0.0-alpha.0",
   });
-  const expected = NOTHING_BECAUSE_ALREADY_PUBLISHED;
-  assert({ actual, expected });
+  const expect = NOTHING_BECAUSE_ALREADY_PUBLISHED;
+  assert({ actual, expect });
 }
