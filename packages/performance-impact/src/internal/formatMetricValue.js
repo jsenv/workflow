@@ -1,11 +1,11 @@
-import { byteAsFileSize, msAsDuration } from "@jsenv/log";
+import { humanizeFileSize, humanizeDuration } from "@jsenv/humanize";
 
 export const formatMetricValue = ({ value, unit }) => {
   return formatters[unit](value);
 };
 
 const formatters = {
-  ms: msAsDuration,
-  byte: byteAsFileSize,
+  ms: humanizeDuration,
+  byte: humanizeFileSize,
   undefined: (value) => value,
 };

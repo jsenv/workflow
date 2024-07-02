@@ -1,4 +1,4 @@
-import { setRoundedPrecision } from "@jsenv/log";
+import { setRoundedPrecision } from "@jsenv/humanize/src/utils/decimals.js";
 
 export const formatRatioAsPercentage = (ratio) => {
   const percentage = ratio * 100;
