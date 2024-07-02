@@ -9,5 +9,4 @@ await executeTestPlan({
       },
     },
   },
-  logShortForCompletedExecutions: true,
 });
