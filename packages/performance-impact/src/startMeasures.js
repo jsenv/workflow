@@ -29,13 +29,52 @@ export const startMeasures = ({
     });
   }
   if (filesystem) {
+    const _internalFs = process.binding("fs");
+    const restoreCallbackSet = new Set();
+    let fsOpenCall = 0;
+    let fsStatCall = 0;
+    const methodEffects = {
+      open: () => {
+        fsOpenCall++;
+      },
+      openFileHandle: () => {
+        fsOpenCall++;
+      },
+      stat: () => {
+        fsStatCall++;
+      },
+      lstat: () => {
+        fsStatCall++;
+      },
+      access: () => {
+        fsStatCall++;
+      },
+    };
+    for (const method of Object.keys(methodEffects)) {
+      const previous = _internalFs[method];
+      if (typeof previous !== "function") {
+        continue;
+      }
+      _internalFs[method] = function (...args) {
+        methodEffects[method](...args);
+        return previous.call(this, ...args);
+      };
+      restoreCallbackSet.add(() => {
+        _internalFs[method] = previous;
+      });
+    }
     const beforeRessourceUsage = resourceUsage();
     measures.push(() => {
+      for (const restoreCallback of restoreCallbackSet) {
+        restoreCallback();
+      }
       const afterRessourceUsage = resourceUsage();
       const fsRead = afterRessourceUsage.fsRead - beforeRessourceUsage.fsRead;
       const fsWrite =
         afterRessourceUsage.fsWrite - beforeRessourceUsage.fsWrite;
       return {
+        fsOpenCall,
+        fsStatCall,
         fsRead,
         fsWrite,
       };
