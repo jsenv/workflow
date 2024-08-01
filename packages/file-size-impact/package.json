@@ -36,7 +36,7 @@
   "dependencies": {
     "@jsenv/dynamic-import-worker": "1.2.1",
     "@jsenv/filesystem": "4.9.8",
-    "@jsenv/github-pull-request-impact": "1.7.5",
+    "@jsenv/github-pull-request-impact": "1.7.6",
     "@jsenv/log": "3.5.2",
     "@jsenv/urls": "2.5.1",
     "@jsenv/humanize": "1.2.7"
