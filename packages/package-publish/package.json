@@ -1,6 +1,6 @@
 {
   "name": "@jsenv/package-publish",
-  "version": "1.10.6",
+  "version": "1.10.7",
   "description": "Publish package to one or many registry.",
   "license": "MIT",
   "author": {
@@ -34,7 +34,7 @@
     "test": "node --experimental-json-modules ./scripts/test.mjs"
   },
   "dependencies": {
-    "@jsenv/filesystem": "4.9.8",
+    "@jsenv/filesystem": "4.10.2",
     "@jsenv/log": "3.5.2",
     "semver": "7.6.3"
   }
