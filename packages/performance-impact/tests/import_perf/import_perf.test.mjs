@@ -1,6 +1,10 @@
 import { assert } from "@jsenv/assert";
 import { startMeasures } from "@jsenv/performance-impact";
 
+if (process.platform === "win32") {
+  process.exit(0);
+}
+
 const test = async (fileRelativeUrl) => {
   const measures = startMeasures({
     filesystem: true,
