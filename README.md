@@ -1,5 +1,7 @@
 # Jsenv workflow
 
+Moved to https://github.com/jsenv/core/tree/main/packages/independent/workflow/
+
 Home for jsenv packages involved in automated workflow such as:
 
 - [file size impact](./packages/file-size-impact)
