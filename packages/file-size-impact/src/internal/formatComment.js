@@ -84,10 +84,10 @@ const renderCommentBody = ({
       const event = isAdded({ beforeMerge, afterMerge })
         ? "added"
         : isDeleted({ beforeMerge, afterMerge })
-        ? "deleted"
-        : isModified({ beforeMerge, afterMerge })
-        ? "modified"
-        : "none";
+          ? "deleted"
+          : isModified({ beforeMerge, afterMerge })
+            ? "modified"
+            : "none";
       const meta = event === "deleted" ? beforeMerge.meta : afterMerge.meta;
 
       const { sizeMapBeforeMerge, sizeMapAfterMerge, sizeImpactMap } =

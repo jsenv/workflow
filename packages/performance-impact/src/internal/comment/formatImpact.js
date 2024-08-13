@@ -29,7 +29,7 @@ export const formatImpactAsPercentage = ({
     metricValueBeforeMerge === 0
       ? 1
       : metricValueAfterMerge === 0
-      ? -1
-      : diff / metricValueBeforeMerge;
+        ? -1
+        : diff / metricValueBeforeMerge;
   return formatRatioAsPercentage(diffRatio);
 };

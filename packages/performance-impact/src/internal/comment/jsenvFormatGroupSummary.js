@@ -52,10 +52,10 @@ const getAllImpactRatios = ({ afterMergeMetrics, beforeMergeMetrics }) => {
       metricDiff === 0
         ? 0
         : metricValueBeforeMerge === 0
-        ? 1
-        : metricValueAfterMerge === 0
-        ? -1
-        : metricDiff / metricValueBeforeMerge;
+          ? 1
+          : metricValueAfterMerge === 0
+            ? -1
+            : metricDiff / metricValueBeforeMerge;
     allRatios.push(metricDiffRatio);
   });
   return allRatios;

@@ -24,7 +24,7 @@ With time you'll be capable to recognize unusual variation in your performance m
 
 ## How to catch small performance impacts?
 
-Catching (very) small performance impacts with confidence requires repetition and time. You need to: 
+Catching (very) small performance impacts with confidence requires repetition and time. You need to:
 
 1. Let your code be used a lot of times in a lot of scenarios and see the results. This could be scripts, real users or both.
 

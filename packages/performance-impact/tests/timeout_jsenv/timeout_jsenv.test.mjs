@@ -1,5 +1,4 @@
 import { execute, nodeWorkerThread } from "@jsenv/test";
-
 import { measureMultipleTimes } from "@jsenv/performance-impact/src/internal/measureMultipleTimes.js";
 import { computeMetricsMedian } from "@jsenv/performance-impact/src/internal/computeMetricsMedian.js";
 

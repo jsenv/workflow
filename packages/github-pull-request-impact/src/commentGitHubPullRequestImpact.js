@@ -7,7 +7,6 @@
 import { fileURLToPath } from "node:url";
 import { assertAndNormalizeDirectoryUrl } from "@jsenv/filesystem";
 import { createLogger } from "@jsenv/log";
-
 import * as githubRESTAPI from "./internal/github_rest_api.js";
 import { exec } from "./internal/exec.js";
 import { renderGeneratedByText } from "./internal/renderGeneratedByText.js";

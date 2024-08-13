@@ -18,7 +18,7 @@
     "node": "22.3.0"
   },
   "scripts": {
-    "eslint": "npx eslint . --ext=.js,.mjs,.cjs",
+    "eslint": "npx eslint .",
     "test": "npm run test --workspaces --if-present",
     "monorepo:sync_packages_versions": "node ./scripts/sync_packages_versions.mjs",
     "monorepo:publish": "node ./scripts/publish_packages.mjs",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@jsenv/assert": "4.4.0",
-    "@jsenv/eslint-config-relax": "1.0.2",
+    "@jsenv/eslint-config-relax": "1.1.1",
     "@jsenv/github-check-run": "./packages/github-check-run",
     "@jsenv/log": "3.5.2",
     "@jsenv/monorepo": "./packages/monorepo",

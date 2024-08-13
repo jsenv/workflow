@@ -112,10 +112,10 @@ const formatSizeImpactAsPercentage = ({ sizeBeforeMerge, sizeAfterMerge }) => {
     sizeDiff === 0
       ? 0
       : sizeBeforeMerge === 0
-      ? 1
-      : sizeAfterMerge === 0
-      ? -1
-      : sizeDiff / sizeBeforeMerge;
+        ? 1
+        : sizeAfterMerge === 0
+          ? -1
+          : sizeDiff / sizeBeforeMerge;
   const sizeDiffAsPercentage = sizeDiffRatio * 100;
   const sizeDiffAsPercentageFormatted = formatPercentage(sizeDiffAsPercentage);
   return sizeDiffAsPercentageFormatted;
