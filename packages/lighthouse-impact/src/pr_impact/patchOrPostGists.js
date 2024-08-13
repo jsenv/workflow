@@ -126,12 +126,8 @@ const createGistBody = (
   };
 };
 
-const beforeMergeGistIdRegex = new RegExp(
-  "<!-- before_merge_gist_id=([a-zA-Z0-9_]+) -->",
-);
-const afterMergeGistIdRegex = new RegExp(
-  "<!-- after_merge_gist_id=([a-zA-Z0-9_]+) -->",
-);
+const beforeMergeGistIdRegex = /<!-- before_merge_gist_id=([a-zA-Z0-9_]+) -->/;
+const afterMergeGistIdRegex = /<!-- after_merge_gist_id=([a-zA-Z0-9_]+) -->/;
 
 const gistIdsFromComment = (comment) => {
   const beforeMergeGistIdMatch = comment.body.match(beforeMergeGistIdRegex);

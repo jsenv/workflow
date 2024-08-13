@@ -1,4 +1,3 @@
-/* eslint-disable new-cap */
 /**
  * This function is generic and is meant to be reused by
  * @jsenv/file-size-impact, @jsenv/performance-impact and @jsenv/lighthouse-score-impact
@@ -307,7 +306,7 @@ const commentPrImpact = async ({
       await execCommandInRootDirectory(
         `git merge FETCH_HEAD --allow-unrelated-histories --no-ff --no-commit`,
       );
-    } catch (e) {
+    } catch {
       throw new Error(`git merge command failed (is there a merge conflict?)`);
     }
     await restoreGitUserEmail();
@@ -366,7 +365,7 @@ const ensureGitConfig = async (
   try {
     await execCommandInRootDirectory(`git config ${name}`);
     return () => {};
-  } catch (e) {
+  } catch {
     await execCommandInRootDirectory(`git config ${name} "${valueIfMissing}"`);
     return async () => {
       await execCommandInRootDirectory(`git config --unset ${name}`);
