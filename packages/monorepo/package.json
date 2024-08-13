@@ -36,7 +36,7 @@
   "dependencies": {
     "@jsenv/urls": "2.5.2",
     "@jsenv/filesystem": "4.10.2",
-    "@jsenv/package-publish": "1.10.6",
+    "@jsenv/package-publish": "1.10.7",
     "@jsenv/humanize": "1.2.8",
     "semver": "7.6.3"
   }

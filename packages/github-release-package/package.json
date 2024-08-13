@@ -35,6 +35,6 @@
   "dependencies": {
     "@jsenv/filesystem": "4.10.2",
     "@jsenv/log": "3.5.2",
-    "@jsenv/github-pull-request-impact": "1.7.6"
+    "@jsenv/github-pull-request-impact": "1.7.7"
   }
 }
