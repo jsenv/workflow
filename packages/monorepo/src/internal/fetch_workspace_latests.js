@@ -1,4 +1,4 @@
-import { createTaskLog } from "@jsenv/log";
+import { createTaskLog } from "@jsenv/humanize";
 import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js";
 
 export const fetchWorkspaceLatests = async (workspacePackages) => {

@@ -9,11 +9,9 @@
  * Be sure to check ../readme.md#upgrade-dependencies
  */
 
-import { UNICODE, createTaskLog } from "@jsenv/log";
+import { UNICODE, createTaskLog } from "@jsenv/humanize";
 import { fetchLatestInRegistry } from "@jsenv/package-publish/src/internal/fetchLatestInRegistry.js";
-
 import { collectWorkspacePackages } from "./internal/collect_workspace_packages.js";
-
 import {
   compareTwoPackageVersions,
   VERSION_COMPARE_RESULTS,
@@ -21,6 +19,7 @@ import {
 
 export const upgradeExternalVersions = async ({ directoryUrl }) => {
   const internalPackages = await collectWorkspacePackages({ directoryUrl });
+  const internalPackageNames = Object.keys(internalPackages);
   let externalPackages = {};
   collect_external_packages: {
     const addExternalPackage = ({
@@ -58,7 +57,7 @@ export const upgradeExternalVersions = async ({ directoryUrl }) => {
         version,
       });
     };
-    for (const internalPackageName of Object.keys(internalPackages)) {
+    for (const internalPackageName of internalPackageNames) {
       const internalPackage = internalPackages[internalPackageName];
       const internalPackageObject = internalPackage.packageObject;
       const { dependencies = {}, devDependencies = {} } = internalPackageObject;
@@ -100,10 +99,14 @@ export const upgradeExternalVersions = async ({ directoryUrl }) => {
             packageName: externalPackageName,
           });
           if (latestPackageInRegistry === null) {
-            throw new Error(`${externalPackageName} not found on NPM registry`);
+            latestVersions[externalPackageName] = null;
+            console.warn(
+              `${UNICODE.WARN} "${externalPackageName}" not published on NPM`,
+            );
+          } else {
+            const registryLatestVersion = latestPackageInRegistry.version;
+            latestVersions[externalPackageName] = registryLatestVersion;
           }
-          const registryLatestVersion = latestPackageInRegistry.version;
-          latestVersions[externalPackageName] = registryLatestVersion;
           done++;
           fetchTask.setRightText(`${done}/${total}`);
         }),
@@ -127,6 +130,9 @@ export const upgradeExternalVersions = async ({ directoryUrl }) => {
         ];
       const versionDeclared = internalPackageDeps[externalPackageName];
       const registryLatestVersion = latestVersions[externalPackageName];
+      if (registryLatestVersion === null) {
+        continue;
+      }
       const comparisonResult = compareTwoPackageVersions(
         versionDeclared,
         registryLatestVersion,

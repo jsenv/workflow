@@ -1,5 +1,4 @@
-import { createLogger, UNICODE } from "@jsenv/log";
-
+import { createLogger, UNICODE } from "@jsenv/humanize";
 import { publish } from "@jsenv/package-publish/src/internal/publish.js";
 import { collectWorkspacePackages } from "./internal/collect_workspace_packages.js";
 import { fetchWorkspaceLatests } from "./internal/fetch_workspace_latests.js";
